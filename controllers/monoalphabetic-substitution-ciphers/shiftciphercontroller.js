@@ -3,6 +3,7 @@ import { makeCharacterSetUnique, createShiftedCharacterSet } from "../../helperc
 const _sltShiftKey = document.getElementById("sltShiftKey");
 const _txtCharSet = document.getElementById('txtCharSet');
 const _txtPlaintext = document.getElementById("txtPlaintext");
+const _txtCiphertext = document.getElementById("txtCiphertext");
 
 let _plaintextCharacterSet = "";
 let typingTimer;
@@ -10,10 +11,9 @@ let typingTimer;
 _txtPlaintext.addEventListener('input', () => {
     clearTimeout(typingTimer);
     typingTimer = setTimeout(() => {
-        // Return encoded value
-        //_txtEncoded.value = transcodeShift(_txtPlaintext.value, _sltShiftKey.value);
         const ciphertextCharacterSet = createShiftedCharacterSet(_plaintextCharacterSet, _sltShiftKey.value);
-        console.log(ciphertextCharacterSet);
+
+        _txtCiphertext.value = transcodeText(_txtPlaintext.value, _plaintextCharacterSet, ciphertextCharacterSet);
 
     }, 500); // 1000 milliseconds = 1 second
 });
@@ -49,7 +49,43 @@ function populateShiftDropdown()
     }
 }
 
-function encodePlaintext()
+function transcodeText(text, sourceCharSet, targetCharSet)
 {
-    // const ciphertextCharacterSet = 
+    const textArray = [...text];
+
+    let transcodedText = "";
+
+        // Transcode the text by looping through all chracters in it
+        textArray.forEach(character => {
+            // Check if the character is in the source character set
+            if(sourceCharSet.includes(character)){
+
+                // Get the character at the same index in the target character set
+                const characterIndex = sourceCharSet.indexOf(character);
+                let transcodedCharacter = targetCharSet[characterIndex];
+
+                transcodedText += transcodedCharacter;
+            }
+            //Make character upper/lower case and check again
+            else{
+                //Invert the casing of the letter
+                const isUppercase = character == character.toUpperCase();
+                const char = isUppercase ? character.toLowerCase() : character.toUpperCase();
+
+                if(sourceCharSet.includes(char)){
+                    // Get the character at the same index in the target character set
+                    const characterIndex = sourceCharSet.indexOf(char);
+                    let transcodedCharacter = targetCharSet[characterIndex];
+
+                    //Change the casing of the letter back
+                    if(!isUppercase) transcodedCharacter = transcodedCharacter.toLowerCase();
+                    transcodedText += transcodedCharacter;
+                }
+                else{
+                    transcodedText += character;
+                }
+            }
+        });
+
+        return transcodedText;
 }
