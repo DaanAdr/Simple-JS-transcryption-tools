@@ -1,8 +1,8 @@
-const _txtCharSet = document.getElementById('txtCharSet');
-const _charSetOptions = document.getElementsByName('charSetOptions');
 let _plaintextCharacterSet = "";
 
-//TODO: trigger setCharSet on page load
+window.addEventListener("load", function() { 
+    setCharSet();
+});
 
 function setCharSet()
 {
@@ -11,24 +11,23 @@ function setCharSet()
     switch(selectedOption.value)
     {
         case "alphabet":
-            _plaintextCharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            _plaintextCharacterSet = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
             break;
 
         case "numalpha":
-            _plaintextCharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            _plaintextCharacterSet = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"];
             break;
         
         case "indienumalpha":
-            _plaintextCharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            _plaintextCharacterSet = [[..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"],[..."0123456789"]];
             break;
         
         case "doublealphabet":
-            _plaintextCharacterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            _plaintextCharacterSet = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"];
             break;
         
         case "customcharset":
-            //TODO: _txtCharSet is null
-            _plaintextCharacterSet = _txtCharSet.value;
+            _plaintextCharacterSet = [...document.getElementById('txtCharSet').value];
             break;
     }
 
