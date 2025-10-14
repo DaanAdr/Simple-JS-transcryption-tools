@@ -37,7 +37,7 @@ function setCharSet()
 function populateShiftDropdown()
 {
     const _sltShiftKey = document.getElementById("sltShiftKey");
-    
+
     // Remove all options from sltShiftKey
     _sltShiftKey.length = 0;
 
@@ -52,4 +52,14 @@ function populateShiftDropdown()
     }
 }
 
-//TODO: Allow user to change custom char set after selecting the radio button
+function customCharSetChanged()
+{
+    const selectedOption = document.querySelector('input[name="charSetOptions"]:checked');
+
+    if(selectedOption.value === "customcharset")
+    {
+        _plaintextCharacterSet = [...document.getElementById('txtCharSet').value];
+
+        populateShiftDropdown();
+    }
+}

@@ -40,7 +40,7 @@
                     <label>
                         <input type="radio" name="charSetOptions" value="customcharset" onchange="setCharSet()">
                         Custom character set:
-                        <textarea id="txtCharSet">ABCDEFNOPQRSTUVWXYZGHIJKLM</textarea>
+                        <textarea id="txtCharSet" onkeyup="customCharSetChanged()" >ABCDEFNOPQRSTUVWXYZGHIJKLM</textarea>
                     </label>
                 </div>
             </td>
