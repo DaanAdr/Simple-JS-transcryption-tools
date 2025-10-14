@@ -1,8 +1,23 @@
-let _plaintextCharacterSet = "";
+const _sltShiftKey = document.getElementById("sltShiftKey");
+const _txtCharSet = document.getElementById('txtCharSet');
+const _txtPlaintext = document.getElementById("txtPlaintext");
 
-window.addEventListener("load", function() { 
-    setCharSet();
+let _plaintextCharacterSet = "";
+let typingTimer;
+
+_txtPlaintext.addEventListener('input', () => {
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(() => {
+        // Return encoded value
+        //_txtEncoded.value = transcodeShift(_txtPlaintext.value, _sltShiftKey.value);
+
+        console.log("Uploading");
+
+    }, 500); // 1000 milliseconds = 1 second
 });
+
+//#region set plaintext character set
+setCharSet();
 
 function setCharSet()
 {
@@ -27,17 +42,37 @@ function setCharSet()
             break;
         
         case "customcharset":
-            _plaintextCharacterSet = [...document.getElementById('txtCharSet').value];
+            _plaintextCharacterSet = makeCustomCharSetUnique(_txtCharSet.value);
             break;
     }
 
     populateShiftDropdown();
 }
 
+function customCharSetChanged()
+{
+    const selectedOption = document.querySelector('input[name="charSetOptions"]:checked');
+
+    if(selectedOption.value === "customcharset")
+    {
+        console.log(_txtCharSet.value);
+
+        _plaintextCharacterSet = makeCustomCharSetUnique(_txtCharSet.value);
+
+        console.log(_plaintextCharacterSet);
+
+        populateShiftDropdown();
+    }
+}
+
+function makeCustomCharSetUnique(customCharSet)
+{
+    return [...new Set([...customCharSet])];
+}
+//#endregion
+
 function populateShiftDropdown()
 {
-    const _sltShiftKey = document.getElementById("sltShiftKey");
-
     // Remove all options from sltShiftKey
     _sltShiftKey.length = 0;
 
@@ -52,14 +87,7 @@ function populateShiftDropdown()
     }
 }
 
-function customCharSetChanged()
+function encodePlaintext()
 {
-    const selectedOption = document.querySelector('input[name="charSetOptions"]:checked');
-
-    if(selectedOption.value === "customcharset")
-    {
-        _plaintextCharacterSet = [...document.getElementById('txtCharSet').value];
-
-        populateShiftDropdown();
-    }
+    // const ciphertextCharacterSet = 
 }
