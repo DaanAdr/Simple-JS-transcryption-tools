@@ -1,4 +1,4 @@
-import { makeCharacterSetUnique } from "../../helperclasses/charactersethelper.js";
+import { makeCharacterSetUnique, createShiftedCharacterSet } from "../../helperclasses/charactersethelper.js";
 
 const _sltShiftKey = document.getElementById("sltShiftKey");
 const _txtCharSet = document.getElementById('txtCharSet');
@@ -12,8 +12,8 @@ _txtPlaintext.addEventListener('input', () => {
     typingTimer = setTimeout(() => {
         // Return encoded value
         //_txtEncoded.value = transcodeShift(_txtPlaintext.value, _sltShiftKey.value);
-
-        console.log("Uploading");
+        const ciphertextCharacterSet = createShiftedCharacterSet(_plaintextCharacterSet, _sltShiftKey.value);
+        console.log(ciphertextCharacterSet);
 
     }, 500); // 1000 milliseconds = 1 second
 });
@@ -23,13 +23,7 @@ setCharSet();
 
 function setCharSet()
 {
-    if(_txtCharSet.length < 3)
-    {
-        _plaintextCharacterSet = [[..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"],[..."0123456789"]];
-    }
-    else{
-        _plaintextCharacterSet = makeCharacterSetUnique(_txtCharSet.value);
-    }
+    _plaintextCharacterSet = makeCharacterSetUnique(_txtCharSet.value);
 
     populateShiftDropdown();
 }
@@ -44,7 +38,7 @@ function populateShiftDropdown()
     // Remove all options from sltShiftKey
     _sltShiftKey.length = 0;
 
-    const charSetLength = _plaintextCharacterSet.length < 3 ? _plaintextCharacterSet[0].length : _plaintextCharacterSet.length;
+    const charSetLength = _plaintextCharacterSet.length < 3 ? 25 : _plaintextCharacterSet.length;
 
     for(let i = 1; i < charSetLength; i++)
     {
