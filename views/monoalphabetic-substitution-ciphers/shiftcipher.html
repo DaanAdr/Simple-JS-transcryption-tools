@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shift Cipher</title>
+    <script src="../../controllers/monoalphabetic-substitution-ciphers/shiftciphercontroller.js"></script>
+</head>
+<body>
+    <a href="../../index.html"><< Home</a>
+    <table>
+        <tr>
+            <td>Character set to use:</td>
+            <td>
+                <div>
+                    <label>
+                        <input type="radio" name="charSetOptions" value="alphabet" checked  onchange="setCharSet()">
+                        Alphabet (A-Z)
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input type="radio" name="charSetOptions" value="numalpha" onchange="setCharSet()">
+                        Numerical alphabet (A-Z0-9)
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input type="radio" name="charSetOptions" value="indienumalpha" onchange="setCharSet()">
+                        Numerical alphabet (A-Z, 0-9), where the numbers are shifted independently of the letters
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input type="radio" name="charSetOptions" value="doublealphabet" onchange="setCharSet()"">
+                        Upper- and lower case alphabets (A-Z, a-z)
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input type="radio" name="charSetOptions" value="customcharset" onchange="setCharSet()">
+                        Custom character set:
+                        <textarea id="txtCharSet">ABCDEFNOPQRSTUVWXYZGHIJKLM</textarea>
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Shift value:</td>
+            <td>
+                <select id="sltShiftKey"></select>
+                <abbr title="This cipher is easy to bruteforce. In order to do this here, open the developer console with F12 and type bruteForce(). This should be autocomplete. Give this function the text you want to decode. Do note that the text needs to be in double quotes. The text you put in will be cut off, but it gives you an idea of what key to use to decrypt the entire text in the GUI. The bruteForce function will use the character set you provide in the GUI.">(?)</abbr>
+            </td>
+        </tr>
+         <tr>
+            <td>Plaintext:</td>
+            <td>
+                <textarea id="txtPlaintext"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>Encrypted:</td>
+            <td><textarea id="txtEncoded"></textarea></td>
+        </tr>
+    </table>
+</body>
+</html>
