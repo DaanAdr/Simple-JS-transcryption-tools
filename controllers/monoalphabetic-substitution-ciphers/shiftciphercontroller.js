@@ -1,3 +1,5 @@
+import { makeCharacterSetUnique } from "../../helperclasses/charactersethelper.js";
+
 const _sltShiftKey = document.getElementById("sltShiftKey");
 const _txtCharSet = document.getElementById('txtCharSet');
 const _txtPlaintext = document.getElementById("txtPlaintext");
@@ -21,42 +23,20 @@ setCharSet();
 
 function setCharSet()
 {
-    const selectedOption = document.querySelector('input[name="charSetOptions"]:checked');
-
-    switch(selectedOption.value)
+    if(_txtCharSet.length < 3)
     {
-        case "indienumalpha":
-            _plaintextCharacterSet = [[..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"],[..."0123456789"]];
-            break;
-        
-        case "customcharset":
-            _plaintextCharacterSet = makeCustomCharSetUnique(_txtCharSet.value);
-            break;
+        _plaintextCharacterSet = [[..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"],[..."0123456789"]];
+    }
+    else{
+        _plaintextCharacterSet = makeCharacterSetUnique(_txtCharSet.value);
     }
 
     populateShiftDropdown();
 }
 
-function customCharSetChanged()
-{
-    const selectedOption = document.querySelector('input[name="charSetOptions"]:checked');
-
-    if(selectedOption.value === "customcharset")
-    {
-        console.log(_txtCharSet.value);
-
-        _plaintextCharacterSet = makeCustomCharSetUnique(_txtCharSet.value);
-
-        console.log(_plaintextCharacterSet);
-
-        populateShiftDropdown();
-    }
-}
-
-function makeCustomCharSetUnique(customCharSet)
-{
-    return [...new Set([...customCharSet])];
-}
+_txtCharSet.addEventListener('keydown', () => {
+    setCharSet();
+})
 //#endregion
 
 function populateShiftDropdown()

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shift Cipher</title>
-    <script src="../../controllers/monoalphabetic-substitution-ciphers/shiftciphercontroller.js" defer></script>
+    <script src="../../controllers/monoalphabetic-substitution-ciphers/shiftciphercontroller.js" type="module" defer></script>
 </head>
 <body>
     <a href="../../index.html"><< Home</a>
@@ -12,19 +12,8 @@
         <tr>
             <td>Character set to use:</td>
             <td>
-                <div>
-                    <label>
-                        <input type="radio" name="charSetOptions" value="indienumalpha" onchange="setCharSet()">
-                        Numerical alphabet (A-Z, 0-9), where the numbers are shifted independently of the letters
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        <input type="radio" name="charSetOptions" value="customcharset" onchange="setCharSet()" checked>
-                        Custom character set:
-                        <textarea id="txtCharSet" onkeyup="customCharSetChanged()" >ABCDEFGHIJKLMNOPQRSTUVWXYZ</textarea>
-                    </label>
-                </div>
+                <textarea id="txtCharSet" >ABCDEFGHIJKLMNOPQRSTUVWXYZ</textarea>
+                <abbr title="Leave only two characters to use an alphanumeric set of characters, wherein the shift is applied to the numbers independently of the other characters">(?)</abbr>
             </td>
         </tr>
         <tr>
