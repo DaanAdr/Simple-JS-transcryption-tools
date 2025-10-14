@@ -14,33 +14,15 @@
             <td>
                 <div>
                     <label>
-                        <input type="radio" name="charSetOptions" value="alphabet" checked  onchange="setCharSet()">
-                        Alphabet (A-Z)
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        <input type="radio" name="charSetOptions" value="numalpha" onchange="setCharSet()">
-                        Numerical alphabet (A-Z0-9)
-                    </label>
-                </div>
-                <div>
-                    <label>
                         <input type="radio" name="charSetOptions" value="indienumalpha" onchange="setCharSet()">
                         Numerical alphabet (A-Z, 0-9), where the numbers are shifted independently of the letters
                     </label>
                 </div>
                 <div>
                     <label>
-                        <input type="radio" name="charSetOptions" value="doublealphabet" onchange="setCharSet()"">
-                        Upper- and lower case alphabets (A-Z, a-z)
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        <input type="radio" name="charSetOptions" value="customcharset" onchange="setCharSet()">
+                        <input type="radio" name="charSetOptions" value="customcharset" onchange="setCharSet()" checked>
                         Custom character set:
-                        <textarea id="txtCharSet" onkeyup="customCharSetChanged()" >ABCDEFNOPQRSTUVWXYZGHIJKLM</textarea>
+                        <textarea id="txtCharSet" onkeyup="customCharSetChanged()" >ABCDEFGHIJKLMNOPQRSTUVWXYZ</textarea>
                     </label>
                 </div>
             </td>

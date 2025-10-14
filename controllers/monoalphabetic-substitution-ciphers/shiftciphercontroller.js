@@ -25,20 +25,8 @@ function setCharSet()
 
     switch(selectedOption.value)
     {
-        case "alphabet":
-            _plaintextCharacterSet = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
-            break;
-
-        case "numalpha":
-            _plaintextCharacterSet = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"];
-            break;
-        
         case "indienumalpha":
             _plaintextCharacterSet = [[..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"],[..."0123456789"]];
-            break;
-        
-        case "doublealphabet":
-            _plaintextCharacterSet = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"];
             break;
         
         case "customcharset":
