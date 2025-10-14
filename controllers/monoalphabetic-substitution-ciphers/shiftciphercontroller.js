@@ -1,4 +1,5 @@
 import { makeCharacterSetUnique, createShiftedCharacterSet } from "../../helperclasses/charactersethelper.js";
+import { transcodeText } from "../../helperclasses/substitutioncipherhelper.js";
 
 const _sltShiftKey = document.getElementById("sltShiftKey");
 const _txtCharSet = document.getElementById('txtCharSet');
@@ -47,45 +48,4 @@ function populateShiftDropdown()
         option.textContent = i;
         _sltShiftKey.appendChild(option);
     }
-}
-
-function transcodeText(text, sourceCharSet, targetCharSet)
-{
-    const textArray = [...text];
-
-    let transcodedText = "";
-
-        // Transcode the text by looping through all chracters in it
-        textArray.forEach(character => {
-            // Check if the character is in the source character set
-            if(sourceCharSet.includes(character)){
-
-                // Get the character at the same index in the target character set
-                const characterIndex = sourceCharSet.indexOf(character);
-                let transcodedCharacter = targetCharSet[characterIndex];
-
-                transcodedText += transcodedCharacter;
-            }
-            //Make character upper/lower case and check again
-            else{
-                //Invert the casing of the letter
-                const isUppercase = character == character.toUpperCase();
-                const char = isUppercase ? character.toLowerCase() : character.toUpperCase();
-
-                if(sourceCharSet.includes(char)){
-                    // Get the character at the same index in the target character set
-                    const characterIndex = sourceCharSet.indexOf(char);
-                    let transcodedCharacter = targetCharSet[characterIndex];
-
-                    //Change the casing of the letter back
-                    if(!isUppercase) transcodedCharacter = transcodedCharacter.toLowerCase();
-                    transcodedText += transcodedCharacter;
-                }
-                else{
-                    transcodedText += character;
-                }
-            }
-        });
-
-        return transcodedText;
 }
