@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyword Cipher</title><script src="../../controllers/monoalphabetic-substitution-ciphers/keywordciphercontroller.js" type="module" defer></script>
+</head>
+<body>
+    <a href="../../index.html"><< Home</a>
+    <table>
+        <tr>
+            <td>Keyword:</td>
+            <td>
+                <input type="text" id="inpKeyword" value="KEYWORD">
+            </td>
+        </tr>
+        <tr>
+            <td>Character set to use:</td>
+            <td>
+                <textarea id="txtCharSet" >ABCDEFGHIJKLMNOPQRSTUVWXYZ</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>Shift value:</td>
+            <td>
+                <select id="sltShiftKey"></select>
+            </td>
+        </tr>
+         <tr>
+            <td>Plaintext:</td>
+            <td>
+                <textarea id="txtPlaintext"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>Encrypted:</td>
+            <td><textarea id="txtCiphertext"></textarea></td>
+        </tr>
+    </table>
+</body>
+</html>

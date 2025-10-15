@@ -48,7 +48,7 @@ function decodeText()
 }
 //#endregion
 
-//#region set plaintext character set
+//#region set character sets
 setPlaintextCharSet();
 
 function setPlaintextCharSet()

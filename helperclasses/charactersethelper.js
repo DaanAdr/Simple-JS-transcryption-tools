@@ -43,3 +43,21 @@ export function createShiftedCharacterSet(characterSet, shift)
 
     return shiftedCharSet;
 }
+
+export function createKeywordCharacterSet(keyword, characterSetString, keywordAtEnd=false)
+{
+    let allChars = [];
+    const charSetArray = [...characterSetString];
+    const keywordArray = [...keyword];
+
+    if(keywordAtEnd){
+        allChars.push(...charSetArray);
+        allChars.push(...keywordArray);
+    }
+    else{
+        allChars.push(...keywordArray);
+        allChars.push(...charSetArray);
+    }
+
+    return [...new Set(allChars)];
+}
