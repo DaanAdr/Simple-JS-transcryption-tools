@@ -1,4 +1,4 @@
-import { createShiftedCharacterSet, createUniqueNestedCharSet } from "../../helperclasses/charactersethelper.js";
+import { createShiftedNestedCharacterSet, createUniqueNestedCharSet } from "../../helperclasses/charactersethelper.js";
 import { transcodeText } from "../../helperclasses/substitutioncipherhelper.js";
 
 const _sltShiftKey = document.getElementById("sltShiftKey");
@@ -65,7 +65,7 @@ function setPlaintextCharSet()
 
 function setCiphertextCharSet()
 {
-    _ciphertextCharacterSet = createShiftedCharacterSet(_plaintextCharacterSet, _sltShiftKey.value);
+    _ciphertextCharacterSet = createShiftedNestedCharacterSet(_plaintextCharacterSet, _sltShiftKey.value);
 }
 
 _txtCharSet.addEventListener('keyup', () => {

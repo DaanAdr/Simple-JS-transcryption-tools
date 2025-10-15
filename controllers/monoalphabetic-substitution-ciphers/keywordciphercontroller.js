@@ -1,4 +1,4 @@
-import { createKeywordCharacterSet } from "../../helperclasses/charactersethelper.js";
+import { createKeywordCharacterSet, makeCharacterSetUnique } from "../../helperclasses/charactersethelper.js";
 
 const _sltShiftKey = document.getElementById("sltShiftKey");
 const _txtCharSet = document.getElementById('txtCharSet');
@@ -16,22 +16,31 @@ setPlaintextCharSet();
 
 function setPlaintextCharSet()
 {
-    const keyword = _inpKeyword.value;
     const charSetString = _txtCharSet.value;
-    const appendKeyword = _inpAppendKeyword.checked;
     
-    _plaintextCharacterSet = createKeywordCharacterSet(keyword, charSetString, appendKeyword);
-
-    console.log(_plaintextCharacterSet);
+    _plaintextCharacterSet = makeCharacterSetUnique(charSetString);
 
     populateShiftDropdown();
 
-    //setCiphertextCharSet();
+    setCiphertextCharSet();
 }
 
 function setCiphertextCharSet()
 {
-    _ciphertextCharacterSet = createShiftedCharacterSet(_plaintextCharacterSet, _sltShiftKey.value);
+    const keyword = _inpKeyword.value;
+    const appendKeyword = _inpAppendKeyword.checked;
+    const shiftValue = _sltShiftKey.value;
+
+    let ciphertextCharacterSet = createKeywordCharacterSet(keyword, _plaintextCharacterSet, appendKeyword);
+
+    if(shiftValue > 0) ciphertextCharacterSet = createShiftedCharacterSet(ciphertextCharacterSet, shiftValue);
+
+    _ciphertextCharacterSet = ciphertextCharacterSet;
+
+    console.log('plaintext')
+    console.log(_plaintextCharacterSet)
+    console.log('ciphertext')
+    console.log(_ciphertextCharacterSet)
 }
 
 _txtCharSet.addEventListener('keyup', () => {
@@ -46,7 +55,7 @@ function populateShiftDropdown()
 
     const charSetLength = _plaintextCharacterSet.length;
 
-    for(let i = 1; i < charSetLength; i++)
+    for(let i = 0; i < charSetLength; i++)
     {
         const option = document.createElement('option');
         option.value = i;
