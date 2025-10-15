@@ -49,13 +49,14 @@ export function createShiftedNestedCharacterSet(characterSet, shift)
 export function createKeywordCharacterSet(keyword, characterSetArray, keywordAtEnd=false)
 {
     let uniqueKeyCharacters = [...new Set(keyword)];
+    let charSetArray = [...characterSetArray];
 
-    const filteredCharacterSet = characterSetArray.filter(character => !uniqueKeyCharacters.includes(character));
+    const filteredCharacterSet = charSetArray.filter(character => !uniqueKeyCharacters.includes(character));
 
     uniqueKeyCharacters.forEach(character => {
         // Remove character from alphabet to modify
-        let indexOfCharacterToRemove = characterSetArray.indexOf(character);
-        characterSetArray.splice(indexOfCharacterToRemove, 1);
+        let indexOfCharacterToRemove = charSetArray.indexOf(character);
+        charSetArray.splice(indexOfCharacterToRemove, 1);
     });
 
     return keywordAtEnd
@@ -78,7 +79,7 @@ export function createShiftedCharacterSet(characterSet, shift)
         //Apply shift
         const shiftedIndex = (Number(index) + Number(shift)) % Number(characterSet.length);
         const shiftedCharacter = characterSet[shiftedIndex];
-        shiftedCharSet[rowIndex][index] = shiftedCharacter;
+        shiftedCharSet[index] = shiftedCharacter;
     });
 
     return shiftedCharSet;
