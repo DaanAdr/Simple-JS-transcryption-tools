@@ -22,7 +22,7 @@ function setPlaintextCharSet()
 
     console.log(_plaintextCharacterSet);
 
-    //populateShiftDropdown();
+    populateShiftDropdown();
 
     //setCiphertextCharSet();
 }
@@ -42,7 +42,7 @@ function populateShiftDropdown()
     // Remove all options from sltShiftKey
     _sltShiftKey.length = 0;
 
-    const charSetLength = Math.max(..._plaintextCharacterSet.map(row => row.length));
+    const charSetLength = _plaintextCharacterSet.length;
 
     for(let i = 1; i < charSetLength; i++)
     {
@@ -56,10 +56,10 @@ function populateShiftDropdown()
 _sltShiftKey.addEventListener('change', () => {
     if(enteredPlaintext && !enteredCipherText){
         setCiphertextCharSet();
-        encodeText();
+        //encodeText();
     }
     else if(!enteredPlaintext && enteredCipherText){
         setCiphertextCharSet();
-        decodeText()
+        //decodeText()
     }
 })
