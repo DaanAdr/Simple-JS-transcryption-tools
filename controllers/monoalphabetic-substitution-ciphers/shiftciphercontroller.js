@@ -99,6 +99,5 @@ _sltShiftKey.addEventListener('change', () => {
 
 
 
-//TODO: Leaving plaintext char set at 2 means that the mapping doesn't work
 //TODO: Check if using map hinders using A-Za-z
 //TODO: Use modulo operation to determine char sets
