@@ -1,4 +1,4 @@
-import { createShiftedCharacterSet } from "../../helperclasses/charactersethelper.js";
+import { createShiftedCharacterSet, createUniqueNestedCharSet } from "../../helperclasses/charactersethelper.js";
 import { transcodeText } from "../../helperclasses/substitutioncipherhelper.js";
 
 const _sltShiftKey = document.getElementById("sltShiftKey");
@@ -61,13 +61,13 @@ function setCharSet()
 {
     //Split at space
     const charSetString = _txtCharSet.value;
-    const charSetsStringSubSets = charSetString.split(' ');
-    _plaintextCharacterSet = charSetsStringSubSets.map(str => Array.from(new Set(str.split(''))));
+    
+    _plaintextCharacterSet = createUniqueNestedCharSet(charSetString);
 
     populateShiftDropdown();
 }
 
-_txtCharSet.addEventListener('keydown', () => {
+_txtCharSet.addEventListener('keyup', () => {
     setCharSet();
 })
 //#endregion
