@@ -3,6 +3,7 @@ import { createKeywordCharacterSet } from "../../helperclasses/charactersethelpe
 const _sltShiftKey = document.getElementById("sltShiftKey");
 const _txtCharSet = document.getElementById('txtCharSet');
 const _inpKeyword = document.getElementById('inpKeyword');
+const _inpAppendKeyword = document.getElementById('inpAppendKeyword');
 
 let _plaintextCharacterSet = "";
 let _ciphertextCharacterSet = "";
@@ -17,8 +18,9 @@ function setPlaintextCharSet()
 {
     const keyword = _inpKeyword.value;
     const charSetString = _txtCharSet.value;
+    const appendKeyword = _inpAppendKeyword.checked;
     
-    _plaintextCharacterSet = createKeywordCharacterSet(keyword, charSetString);
+    _plaintextCharacterSet = createKeywordCharacterSet(keyword, charSetString, appendKeyword);
 
     console.log(_plaintextCharacterSet);
 
@@ -62,4 +64,8 @@ _sltShiftKey.addEventListener('change', () => {
         setCiphertextCharSet();
         //decodeText()
     }
+})
+
+_inpAppendKeyword.addEventListener('change', () => {
+    setPlaintextCharSet();
 })
