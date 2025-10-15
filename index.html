@@ -4,10 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Transcryption tools</title>
+    <style>
+    details{
+        width: 50%;
+    }
+
+    img{
+        width: 100%;
+        height: auto;
+    }
+</style>
 </head>
 <body>
     <h2>Substitution Ciphers</h2>
     <h3>Monoalphabetic Substitution Ciphers</h3>
+    <ul>
+        <!-- Shift Cipher -->
+        <li>
+            <details>
+                <summary>
+                    Shift Cipher --
+                    <a href="./views/monoalphabetic-substitution-ciphers/shiftcipher.html">Transcode Shift Cipher</a>
+                </summary>
+                <img src="./img/ShiftCipher.png">
+                <p>A shift cipher, also known as a Caesar cipher, is a type of substitution cipher where each letter in the plaintext is 'shifted' a certain number of places down or up the alphabet. The shift value is a key that determines how many positions each letter is moved.</p>
+                <p>For example, with a shift of 3:</p>
+                <ul>
+                    <li>A becomes D</li>
+                    <li>B becomes E</li>
+                    <li>...</li>
+                    <li>Y becomes B</li>
+                    <li>Z becomes C</li>
+                </ul>
+                <p>Because there is only a limited number of shifts possible, this encryption is quite easy to bruteforce.</p>
+                <br><br><br>
+            </details> 
+        </li>
+    </ul>
     <h3>Polyalphabetic Substitution Ciphers</h3>
 
     <h2>Transposition Ciphers</h2>
