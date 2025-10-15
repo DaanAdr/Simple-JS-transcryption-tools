@@ -7,6 +7,7 @@ const _txtPlaintext = document.getElementById("txtPlaintext");
 const _txtCiphertext = document.getElementById("txtCiphertext");
 
 let _plaintextCharacterSet = "";
+let _ciphertextCharacterSet = "";
 let typingTimer;
 let enteredPlaintext = false;
 let enteredCipherText = false;
@@ -25,12 +26,7 @@ _txtPlaintext.addEventListener('input', () => {
 
 function encodeText()
 {
-    const ciphertextCharacterSet = createShiftedCharacterSet(_plaintextCharacterSet, _sltShiftKey.value);
-
-    console.log(_plaintextCharacterSet);
-    console.log(ciphertextCharacterSet);
-
-    _txtCiphertext.value = transcodeText(_txtPlaintext.value, _plaintextCharacterSet, ciphertextCharacterSet);
+    _txtCiphertext.value = transcodeText(_txtPlaintext.value, _plaintextCharacterSet, _ciphertextCharacterSet);
 }
 //#endregion
 
@@ -48,16 +44,14 @@ _txtCiphertext.addEventListener('input', () => {
 
 function decodeText()
 {
-    const ciphertextCharacterSet = createShiftedCharacterSet(_plaintextCharacterSet, _sltShiftKey.value);
-
-        _txtPlaintext.value = transcodeText(_txtCiphertext.value, ciphertextCharacterSet, _plaintextCharacterSet);
+    _txtPlaintext.value = transcodeText(_txtCiphertext.value, _ciphertextCharacterSet, _plaintextCharacterSet);
 }
 //#endregion
 
 //#region set plaintext character set
-setCharSet();
+setPlaintextCharSet();
 
-function setCharSet()
+function setPlaintextCharSet()
 {
     //Split at space
     const charSetString = _txtCharSet.value;
@@ -65,10 +59,21 @@ function setCharSet()
     _plaintextCharacterSet = createUniqueNestedCharSet(charSetString);
 
     populateShiftDropdown();
+
+    setCiphertextCharSet();
+}
+
+function setCiphertextCharSet()
+{
+    _ciphertextCharacterSet = createShiftedCharacterSet(_plaintextCharacterSet, _sltShiftKey.value);
+
+    //Console log character sets
+    console.log(_plaintextCharacterSet.map(wordArray => wordArray.join('')).join(' '));
+    console.log(_ciphertextCharacterSet.map(wordArray => wordArray.join('')).join(' '));
 }
 
 _txtCharSet.addEventListener('keyup', () => {
-    setCharSet();
+    setPlaintextCharSet();
 })
 //#endregion
 
@@ -90,9 +95,11 @@ function populateShiftDropdown()
 
 _sltShiftKey.addEventListener('change', () => {
     if(enteredPlaintext && !enteredCipherText){
+        setCiphertextCharSet();
         encodeText();
     }
     else if(!enteredPlaintext && enteredCipherText){
+        setCiphertextCharSet();
         decodeText()
     }
 })
@@ -100,4 +107,3 @@ _sltShiftKey.addEventListener('change', () => {
 
 
 //TODO: Check if using map hinders using A-Za-z
-//TODO: Use modulo operation to determine char sets
