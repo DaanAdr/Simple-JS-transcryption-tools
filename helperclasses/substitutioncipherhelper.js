@@ -17,6 +17,8 @@ export function transcodeText(text, sourceCharSet, targetCharSet)
         // Use the character map to transcode
         const transcodedCharacter = charSetMap.get(character) || character;
         transcodedTextArray.push(transcodedCharacter);
+
+        console.log(`${character} => ${transcodedCharacter}`);
     }
 
     // Join the array into a single string for the final transcoded text

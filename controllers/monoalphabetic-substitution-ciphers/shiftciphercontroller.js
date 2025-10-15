@@ -1,4 +1,4 @@
-import { makeCharacterSetUnique, createShiftedCharacterSet } from "../../helperclasses/charactersethelper.js";
+import { createShiftedCharacterSet } from "../../helperclasses/charactersethelper.js";
 import { transcodeText } from "../../helperclasses/substitutioncipherhelper.js";
 
 const _sltShiftKey = document.getElementById("sltShiftKey");
@@ -26,6 +26,9 @@ _txtPlaintext.addEventListener('input', () => {
 function encodeText()
 {
     const ciphertextCharacterSet = createShiftedCharacterSet(_plaintextCharacterSet, _sltShiftKey.value);
+
+    console.log(_plaintextCharacterSet);
+    console.log(ciphertextCharacterSet);
 
     _txtCiphertext.value = transcodeText(_txtPlaintext.value, _plaintextCharacterSet, ciphertextCharacterSet);
 }
@@ -56,7 +59,10 @@ setCharSet();
 
 function setCharSet()
 {
-    _plaintextCharacterSet = makeCharacterSetUnique(_txtCharSet.value);
+    //Split at space
+    const charSetString = _txtCharSet.value;
+    const charSetsStringSubSets = charSetString.split(' ');
+    _plaintextCharacterSet = charSetsStringSubSets.map(str => Array.from(new Set(str.split(''))));
 
     populateShiftDropdown();
 }
@@ -71,7 +77,7 @@ function populateShiftDropdown()
     // Remove all options from sltShiftKey
     _sltShiftKey.length = 0;
 
-    const charSetLength = _plaintextCharacterSet.length < 3 ? 25 : _plaintextCharacterSet.length;
+    const charSetLength = Math.max(..._plaintextCharacterSet.map(row => row.length));
 
     for(let i = 1; i < charSetLength; i++)
     {
@@ -83,13 +89,16 @@ function populateShiftDropdown()
 }
 
 _sltShiftKey.addEventListener('change', () => {
-    console.log("Change")
     if(enteredPlaintext && !enteredCipherText){
-        console.log(" A")
         encodeText();
     }
     else if(!enteredPlaintext && enteredCipherText){
-        console.log("B")
         decodeText()
     }
 })
+
+
+
+//TODO: Leaving plaintext char set at 2 means that the mapping doesn't work
+//TODO: Check if using map hinders using A-Za-z
+//TODO: Use modulo operation to determine char sets

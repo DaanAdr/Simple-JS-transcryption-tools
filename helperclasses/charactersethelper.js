@@ -1,7 +1,7 @@
-export function makeCharacterSetUnique(characterSet)
-{
-    return [...new Set([...characterSet])];
-}
+// export function makeCharacterSetUnique(characterSet)
+// {
+//     return [...new Set([...characterSet])];
+// }
 
 //#region Create shifted character set
 export function createShiftedCharacterSet(characterSet, shift)
