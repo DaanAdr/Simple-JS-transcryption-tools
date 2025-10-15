@@ -66,10 +66,6 @@ function setPlaintextCharSet()
 function setCiphertextCharSet()
 {
     _ciphertextCharacterSet = createShiftedCharacterSet(_plaintextCharacterSet, _sltShiftKey.value);
-
-    //Console log character sets
-    console.log(_plaintextCharacterSet.map(wordArray => wordArray.join('')).join(' '));
-    console.log(_ciphertextCharacterSet.map(wordArray => wordArray.join('')).join(' '));
 }
 
 _txtCharSet.addEventListener('keyup', () => {
@@ -103,7 +99,3 @@ _sltShiftKey.addEventListener('change', () => {
         decodeText()
     }
 })
-
-
-
-//TODO: Check if using map hinders using A-Za-z
