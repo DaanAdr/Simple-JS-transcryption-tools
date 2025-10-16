@@ -1,13 +1,13 @@
-import { createKeywordCharacterSet, makeCharacterSetUnique, createShiftedCharacterSet } from "../../helperclasses/charactersethelper.js";
-import { transcodeText } from "../../helperclasses/substitutioncipherhelper.js";
+import { createAffineCharacterSet, makeCharacterSetUnique } from "../../helperclasses/charactersethelper.js";
+import { transcodeTextForNestedCharacterSets } from "../../helperclasses/substitutioncipherhelper.js";
 
-const _sltShiftKey = document.getElementById("sltShiftKey");
 const _txtCharSet = document.getElementById('txtCharSet');
-const _inpKeyword = document.getElementById('inpKeyword');
-const _inpAppendKeyword = document.getElementById('inpAppendKeyword');
+const _sltAValue = document.getElementById("sltAValue");
+const _sltBValue = document.getElementById("sltBValue");
 const _txtPlaintext = document.getElementById("txtPlaintext");
 const _txtCiphertext = document.getElementById("txtCiphertext");
 
+const _affineAValues = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25];
 let _plaintextCharacterSet = "";
 let _ciphertextCharacterSet = "";
 let typingTimer;
@@ -28,7 +28,7 @@ _txtPlaintext.addEventListener('input', () => {
 
 function encodeText()
 {
-    _txtCiphertext.value = transcodeText(_txtPlaintext.value, _plaintextCharacterSet, _ciphertextCharacterSet);
+    _txtCiphertext.value = transcodeTextForNestedCharacterSets(_txtPlaintext.value, [_plaintextCharacterSet], [_ciphertextCharacterSet]);
 }
 //#endregion
 
@@ -46,9 +46,33 @@ _txtCiphertext.addEventListener('input', () => {
 
 function decodeText()
 {
-    _txtPlaintext.value = transcodeText(_txtCiphertext.value, _ciphertextCharacterSet, _plaintextCharacterSet);
+    _txtPlaintext.value = transcodeTextForNestedCharacterSets(_txtCiphertext.value, [_ciphertextCharacterSet], [_plaintextCharacterSet]);
 }
 //#endregion
+
+// #region Populate selects
+// Populate sltAValue
+_affineAValues.forEach(value => {
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = value;
+    _sltAValue.appendChild(option);
+
+    // Set the default value
+    if (value === 5) option.selected = true; // Mark this option as selected
+});
+
+// Populate sltBValue
+for (let i = 0; i <= 25; i++) {
+    const option = document.createElement('option');
+    option.value = i;
+    option.textContent = i;
+    _sltBValue.appendChild(option);
+
+    // Set the default value
+    if (i === 8) option.selected = true; // Mark this option as selected
+}
+// #endregion
 
 //#region set character sets
 setPlaintextCharSet();
@@ -59,22 +83,15 @@ function setPlaintextCharSet()
     
     _plaintextCharacterSet = makeCharacterSetUnique(charSetString);
 
-    populateShiftDropdown();
-
     setCiphertextCharSet();
 }
 
 function setCiphertextCharSet()
 {
-    const keyword = _inpKeyword.value;
-    const appendKeyword = _inpAppendKeyword.checked;
-    const shiftValue = _sltShiftKey.value;
+    const aValue = _sltAValue.value;
+    const bValue = _sltBValue.value;
 
-    let ciphertextCharacterSet = createKeywordCharacterSet(keyword, _plaintextCharacterSet, appendKeyword);
-
-    if(shiftValue > 0) ciphertextCharacterSet = createShiftedCharacterSet(ciphertextCharacterSet, shiftValue);
-
-    _ciphertextCharacterSet = ciphertextCharacterSet;
+    _ciphertextCharacterSet = createAffineCharacterSet(aValue, bValue, _plaintextCharacterSet);
 }
 
 _txtCharSet.addEventListener('keyup', () => {
@@ -82,34 +99,20 @@ _txtCharSet.addEventListener('keyup', () => {
 });
 //#endregion
 
-function populateShiftDropdown()
-{
-    // Remove all options from sltShiftKey
-    _sltShiftKey.length = 0;
-
-    const charSetLength = _plaintextCharacterSet.length;
-
-    for(let i = 0; i < charSetLength; i++)
-    {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = i;
-        _sltShiftKey.appendChild(option);
-    }
-}
-
-_sltShiftKey.addEventListener('change', () => {
+_sltAValue.addEventListener('change', () => {
     if(enteredPlaintext && !enteredCipherText){
-        setCiphertextCharSet();
+        setPlaintextCharSet();
         encodeText();
     }
     else if(!enteredPlaintext && enteredCipherText){
-        setCiphertextCharSet();
+        setPlaintextCharSet();
         decodeText()
     }
+
+    setPlaintextCharSet();
 });
 
-_inpAppendKeyword.addEventListener('change', () => {
+_sltBValue.addEventListener('change', () => {
     if(enteredPlaintext && !enteredCipherText){
         setPlaintextCharSet();
         encodeText();
