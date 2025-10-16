@@ -92,12 +92,10 @@ export function createAffineCharacterSet(aValue, bValue, characterSet)
     // Loop through each letter in the alphabet
     characterSet.forEach(character => {
         const characterIndex = characterSet.indexOf(character);
-        console.log(`${character} => ${characterIndex}`);
 
         // Perform the formula (a * x + b) mod 26
         // In which x refers to the position of the character in the alphabet
         const cipherCharacterIndex = (Number(aValue) * Number(characterIndex) + Number(bValue)) % 26;
-        console.log(`Ciphercharacterindex: (${aValue} * ${characterIndex} + ${bValue}) % 26 = ${cipherCharacterIndex}`);
 
         //For manual decoding, if I didn't create a cipherAlphabet to perform simple substitutions
         // Perform (26 - a) * (y - b) mod 26

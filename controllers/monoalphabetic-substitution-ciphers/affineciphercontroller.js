@@ -1,4 +1,5 @@
 import { createAffineCharacterSet, makeCharacterSetUnique } from "../../helperclasses/charactersethelper.js";
+import { transcodeTextForNestedCharacterSets } from "../../helperclasses/substitutioncipherhelper.js";
 
 const _txtCharSet = document.getElementById('txtCharSet');
 const _sltAValue = document.getElementById("sltAValue");
@@ -27,7 +28,7 @@ _txtPlaintext.addEventListener('input', () => {
 
 function encodeText()
 {
-    //_txtCiphertext.value = transcodeText(_txtPlaintext.value, _plaintextCharacterSet, _ciphertextCharacterSet);
+    _txtCiphertext.value = transcodeTextForNestedCharacterSets(_txtPlaintext.value, [_plaintextCharacterSet], [_ciphertextCharacterSet]);
 }
 //#endregion
 
@@ -45,7 +46,7 @@ _txtCiphertext.addEventListener('input', () => {
 
 function decodeText()
 {
-    //_txtPlaintext.value = transcodeText(_txtCiphertext.value, _ciphertextCharacterSet, _plaintextCharacterSet);
+    _txtPlaintext.value = transcodeTextForNestedCharacterSets(_txtCiphertext.value, [_ciphertextCharacterSet], [_plaintextCharacterSet]);
 }
 //#endregion
 
@@ -81,7 +82,6 @@ function setPlaintextCharSet()
     const charSetString = _txtCharSet.value;
     
     _plaintextCharacterSet = makeCharacterSetUnique(charSetString);
-    console.log(_plaintextCharacterSet);
 
     setCiphertextCharSet();
 }
@@ -92,9 +92,6 @@ function setCiphertextCharSet()
     const bValue = _sltBValue.value;
 
     _ciphertextCharacterSet = createAffineCharacterSet(aValue, bValue, _plaintextCharacterSet);
-
-    
-    console.log(_ciphertextCharacterSet);
 }
 
 _txtCharSet.addEventListener('keyup', () => {
@@ -102,3 +99,28 @@ _txtCharSet.addEventListener('keyup', () => {
 });
 //#endregion
 
+_sltAValue.addEventListener('change', () => {
+    if(enteredPlaintext && !enteredCipherText){
+        setPlaintextCharSet();
+        encodeText();
+    }
+    else if(!enteredPlaintext && enteredCipherText){
+        setPlaintextCharSet();
+        decodeText()
+    }
+
+    setPlaintextCharSet();
+});
+
+_sltBValue.addEventListener('change', () => {
+    if(enteredPlaintext && !enteredCipherText){
+        setPlaintextCharSet();
+        encodeText();
+    }
+    else if(!enteredPlaintext && enteredCipherText){
+        setPlaintextCharSet();
+        decodeText()
+    }
+
+    setPlaintextCharSet();
+});
