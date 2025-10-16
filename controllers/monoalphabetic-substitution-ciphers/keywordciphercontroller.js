@@ -79,7 +79,7 @@ function setCiphertextCharSet()
 
 _txtCharSet.addEventListener('keyup', () => {
     setPlaintextCharSet();
-})
+});
 //#endregion
 
 function populateShiftDropdown()
@@ -107,7 +107,7 @@ _sltShiftKey.addEventListener('change', () => {
         setCiphertextCharSet();
         decodeText()
     }
-})
+});
 
 _inpAppendKeyword.addEventListener('change', () => {
     if(enteredPlaintext && !enteredCipherText){
@@ -120,4 +120,4 @@ _inpAppendKeyword.addEventListener('change', () => {
     }
 
     setPlaintextCharSet();
-})
+});

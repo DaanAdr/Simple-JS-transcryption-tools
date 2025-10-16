@@ -40,6 +40,7 @@
                 <br><br><br>
             </details> 
         </li>
+        <!-- Keyword Cipher -->
         <li>
             <details>
                 <summary>
@@ -52,6 +53,32 @@
                 <p>To encode a message, you would replace each letter in the original message with the corresponding letter from the cipher alphabet. To decode, you would do the reverse.</p>
                 <br>
                 <p>Ofcourse, you can also place the keyword at the end of the remaining letters in the alphabet. This would then become a reverse keyword cipher. Furthermore, you can also apply a shift like the shift ciphers do, or invert either the plaintext or ciphertext alphabets. Nevertheless, placing the keyword in front of the remaining letters of the alphabet remains the most common application of the keyword cipher.</p>
+                <br><br><br>
+            </details> 
+        </li>
+        <!-- Affine Cipher -->
+         <li>
+            <details>
+                <summary>
+                    Affine Cipher --
+                    <a href="/views/monoalphabetic-substitution-ciphers/affinecipher.html">Transcode Affine Cipher</a>
+                </summary>
+                <p>The affine cipher is a type of monoalphabetic substitution cipher, where each letter in an alphabet is mapped to its numeric equivalent, encrypted using a simple mathematical function, and then converted back to a letter. The encryption function for the affine cipher can be expressed as:</p>
+                <p>E = (A * X + B) mod 26</p>
+                <ul>
+                    <li>X refers to the position of the character in the alphabet</li>
+                    <li>A is a coprime of 26: 1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, and 25</li>
+                    <li>B is in the range of 0-25</li>
+                    <li>E is the position of the cipherCharacter in the alphabet</li>
+                </ul>
+                <p>Decrypting an affine ciphertext can be done as follows (If you don't want to create a cipher alphabet):</p>
+                <p>((26 - A) * (Y - B)) mod 26</p>
+                <ul>
+                    <li>Y refers to the position of the ciphercharacter in the alphabet</li>
+                </ul>
+
+                <br>
+                <p>Due to the requirements set for the A and B values, only a select amount of possible cipheralphabets are possible. As such brute forcing these remains a real possibility.</p>
                 <br><br><br>
             </details> 
         </li>
