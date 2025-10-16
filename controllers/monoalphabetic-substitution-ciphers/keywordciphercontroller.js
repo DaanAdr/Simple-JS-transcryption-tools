@@ -1,8 +1,10 @@
-import { createShiftedNestedCharacterSet, createUniqueNestedCharSet } from "../../helperclasses/charactersethelper.js";
-import { transcodeTextForNestedCharacterSets } from "../../helperclasses/substitutioncipherhelper.js";
+import { createKeywordCharacterSet, makeCharacterSetUnique, createShiftedCharacterSet } from "../../helperclasses/charactersethelper.js";
+import { transcodeText } from "../../helperclasses/substitutioncipherhelper.js";
 
 const _sltShiftKey = document.getElementById("sltShiftKey");
 const _txtCharSet = document.getElementById('txtCharSet');
+const _inpKeyword = document.getElementById('inpKeyword');
+const _inpAppendKeyword = document.getElementById('inpAppendKeyword');
 const _txtPlaintext = document.getElementById("txtPlaintext");
 const _txtCiphertext = document.getElementById("txtCiphertext");
 
@@ -26,7 +28,7 @@ _txtPlaintext.addEventListener('input', () => {
 
 function encodeText()
 {
-    _txtCiphertext.value = transcodeTextForNestedCharacterSets(_txtPlaintext.value, _plaintextCharacterSet, _ciphertextCharacterSet);
+    _txtCiphertext.value = transcodeText(_txtPlaintext.value, _plaintextCharacterSet, _ciphertextCharacterSet);
 }
 //#endregion
 
@@ -44,7 +46,7 @@ _txtCiphertext.addEventListener('input', () => {
 
 function decodeText()
 {
-    _txtPlaintext.value = transcodeTextForNestedCharacterSets(_txtCiphertext.value, _ciphertextCharacterSet, _plaintextCharacterSet);
+    _txtPlaintext.value = transcodeText(_txtCiphertext.value, _ciphertextCharacterSet, _plaintextCharacterSet);
 }
 //#endregion
 
@@ -53,10 +55,9 @@ setPlaintextCharSet();
 
 function setPlaintextCharSet()
 {
-    //Split at space
     const charSetString = _txtCharSet.value;
     
-    _plaintextCharacterSet = createUniqueNestedCharSet(charSetString);
+    _plaintextCharacterSet = makeCharacterSetUnique(charSetString);
 
     populateShiftDropdown();
 
@@ -65,7 +66,15 @@ function setPlaintextCharSet()
 
 function setCiphertextCharSet()
 {
-    _ciphertextCharacterSet = createShiftedNestedCharacterSet(_plaintextCharacterSet, _sltShiftKey.value);
+    const keyword = _inpKeyword.value;
+    const appendKeyword = _inpAppendKeyword.checked;
+    const shiftValue = _sltShiftKey.value;
+
+    let ciphertextCharacterSet = createKeywordCharacterSet(keyword, _plaintextCharacterSet, appendKeyword);
+
+    if(shiftValue > 0) ciphertextCharacterSet = createShiftedCharacterSet(ciphertextCharacterSet, shiftValue);
+
+    _ciphertextCharacterSet = ciphertextCharacterSet;
 }
 
 _txtCharSet.addEventListener('keyup', () => {
@@ -78,9 +87,9 @@ function populateShiftDropdown()
     // Remove all options from sltShiftKey
     _sltShiftKey.length = 0;
 
-    const charSetLength = Math.max(..._plaintextCharacterSet.map(row => row.length));
+    const charSetLength = _plaintextCharacterSet.length;
 
-    for(let i = 1; i < charSetLength; i++)
+    for(let i = 0; i < charSetLength; i++)
     {
         const option = document.createElement('option');
         option.value = i;
@@ -98,4 +107,17 @@ _sltShiftKey.addEventListener('change', () => {
         setCiphertextCharSet();
         decodeText()
     }
+})
+
+_inpAppendKeyword.addEventListener('change', () => {
+    if(enteredPlaintext && !enteredCipherText){
+        setPlaintextCharSet();
+        encodeText();
+    }
+    else if(!enteredPlaintext && enteredCipherText){
+        setPlaintextCharSet();
+        decodeText()
+    }
+
+    setPlaintextCharSet();
 })

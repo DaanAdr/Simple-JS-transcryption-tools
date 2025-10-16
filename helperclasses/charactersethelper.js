@@ -1,3 +1,4 @@
+//#region Nested character sets
 export function createUniqueNestedCharSet(charSetString)
 {
     const charSubSets = charSetString.split(' ');
@@ -23,7 +24,7 @@ export function createUniqueNestedCharSet(charSetString)
     return uniqueCharArrays;
 }
 
-export function createShiftedCharacterSet(characterSet, shift)
+export function createShiftedNestedCharacterSet(characterSet, shift)
 {
     let shiftedCharSet = new Array(characterSet.length);
 
@@ -39,6 +40,46 @@ export function createShiftedCharacterSet(characterSet, shift)
             const shiftedCharacter = nestedCharSet[shiftedIndex];
             shiftedCharSet[rowIndex][index] = shiftedCharacter;
         });
+    });
+
+    return shiftedCharSet;
+}
+//#endregion
+
+export function createKeywordCharacterSet(keyword, characterSetArray, keywordAtEnd=false)
+{
+    let uniqueKeyCharacters = [...new Set(keyword)];
+    let charSetArray = [...characterSetArray];
+
+    const filteredCharacterSet = charSetArray.filter(character => !uniqueKeyCharacters.includes(character));
+
+    uniqueKeyCharacters.forEach(character => {
+        // Remove character from alphabet to modify
+        let indexOfCharacterToRemove = charSetArray.indexOf(character);
+        charSetArray.splice(indexOfCharacterToRemove, 1);
+    });
+
+    return keywordAtEnd
+        ? filteredCharacterSet.concat(uniqueKeyCharacters)
+        : uniqueKeyCharacters.concat(filteredCharacterSet);
+}
+
+export function makeCharacterSetUnique(characterSetString)
+{
+    characterSetString = characterSetString.toUpperCase();
+    const charSetArray = [...characterSetString];
+    return [...new Set(charSetArray)];
+}
+
+export function createShiftedCharacterSet(characterSet, shift)
+{
+    let shiftedCharSet = new Array(characterSet.length);
+
+    characterSet.forEach((character, index) => {
+        //Apply shift
+        const shiftedIndex = (Number(index) + Number(shift)) % Number(characterSet.length);
+        const shiftedCharacter = characterSet[shiftedIndex];
+        shiftedCharSet[index] = shiftedCharacter;
     });
 
     return shiftedCharSet;

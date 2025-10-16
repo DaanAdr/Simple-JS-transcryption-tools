@@ -1,8 +1,8 @@
-export function transcodeText(text, sourceCharSet, targetCharSet)
+export function transcodeTextForNestedCharacterSets(text, sourceCharSet, targetCharSet)
 {
     const transcodedTextArray = [];
 
-    const characterMap = createCharSetMap(sourceCharSet, targetCharSet);
+    const characterMap = createMapForNestedCharacterSets(sourceCharSet, targetCharSet);
 
     //Iterate through each character in the original text
     for (const character of text) {
@@ -15,7 +15,7 @@ export function transcodeText(text, sourceCharSet, targetCharSet)
     return transcodedTextArray.join('');
 }
 
-function createCharSetMap(sourceCharSet, targetCharSet)
+function createMapForNestedCharacterSets(sourceCharSet, targetCharSet)
 {
     const charSetMap = new Map();
 
@@ -38,6 +38,36 @@ function createCharSetMap(sourceCharSet, targetCharSet)
 
             charSetMap.set(character, targetCharSet[rowIndex][index]);
         });
+    });
+
+    return charSetMap;
+}
+
+export function transcodeText(text, sourceCharSet, targetCharSet)
+{
+    const transcodedTextArray = [];
+
+    const characterMap = createMapForCharacterSets(sourceCharSet, targetCharSet);
+
+    //Iterate through each character in the original text
+    for (const character of text) {
+        // Use the character map to transcode
+        const transcodedCharacter = characterMap.get(character) || character;
+        transcodedTextArray.push(transcodedCharacter);
+    }
+
+    //Join the array into a single string for the final transcoded text
+    return transcodedTextArray.join('');
+}
+
+function createMapForCharacterSets(sourceCharSet, targetCharSet)
+{
+    const charSetMap = new Map();
+
+    //Loop through each nested char set
+    sourceCharSet.forEach((character, index) => {
+        charSetMap.set(character.toLowerCase(), targetCharSet[index].toLowerCase());
+        charSetMap.set(character.toUpperCase(), targetCharSet[index].toUpperCase());
     });
 
     return charSetMap;
