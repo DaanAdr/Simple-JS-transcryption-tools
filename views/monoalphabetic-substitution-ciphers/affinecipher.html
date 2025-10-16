@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Keyword Cipher</title><script src="../../controllers/monoalphabetic-substitution-ciphers/keywordciphercontroller.js" type="module" defer></script>
+    <title>Keyword Cipher</title>
+    <script src="../../controllers/monoalphabetic-substitution-ciphers/keywordciphercontroller.js" type="module" defer></script>
+    <link rel="stylesheet" href="../../stylesheets/main.css">
 </head>
 <body>
     <a href="../../index.html"><< Home</a>
-    <table>
+    <!-- <table>
         <tr>
             <td>A value:</td>
             <td>
@@ -36,6 +38,41 @@
             <td>Encrypted:</td>
             <td><textarea id="txtCiphertext"></textarea></td>
         </tr>
-    </table>
+    </table> -->
+    <div class="container">
+        <div class="row">
+            <div class="label">A value:</div>
+            <div>
+                <select id="sltAValue"></select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">B value:</div>
+            <div>
+                <select id="sltBValue"></select>
+            </div>
+        </div>
+        <details class="row">
+            <summary>Optional settings</summary>
+            <div class="row">
+                 <div class="label">Character set to use:</div>
+                <div>
+                    <textarea id="txtCharSet">ABCDEFGHIJKLMNOPQRSTUVWXYZ</textarea>
+                </div>
+            </div>
+        </details>
+        <div class="row">
+            <div class="label">Plaintext:</div>
+            <div>
+                <textarea id="txtPlaintext"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Encrypted:</div>
+            <div>
+                <textarea id="txtCiphertext"></textarea>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

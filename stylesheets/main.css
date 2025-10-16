@@ -1,0 +1,14 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between rows */
+}
+
+.row {
+    display: flex;
+    align-items: flex-start; /* Align items to the top */
+}
+
+.label {
+    width: 20%; /* Fixed width for labels */
+}
