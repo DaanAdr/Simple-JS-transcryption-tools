@@ -22,7 +22,9 @@ function createMapForCharacterSets(sourceCharSets, targetCharSets)
     //Loop through each nested char set
     sourceCharSets.forEach((nestedCharSet, rowIndex) => {
         //Loop through all character in the source set and map them to their target set counterpart
+
         nestedCharSet.forEach((character, index) => {
+
             //Check the casing of the character and see if the source char set contains the alt casing
             const isUpperCase = character == character.toUpperCase();
 
