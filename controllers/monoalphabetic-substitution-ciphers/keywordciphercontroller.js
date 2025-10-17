@@ -57,24 +57,25 @@ function setPlaintextCharSet()
 {
     const charSetString = _txtCharSet.value;
     
-    _plaintextCharacterSet = makeCharacterSetUnique(charSetString);
+    const plaintextCharacterSet = makeCharacterSetUnique(charSetString);
+    _plaintextCharacterSet = [plaintextCharacterSet]
 
     populateShiftDropdown();
 
-    setCiphertextCharSet();
+    setCiphertextCharSet(plaintextCharacterSet);
 }
 
-function setCiphertextCharSet()
+function setCiphertextCharSet(plaintextCharacterSet)
 {
     const keyword = _inpKeyword.value;
     const appendKeyword = _inpAppendKeyword.checked;
     const shiftValue = _sltShiftKey.value;
 
-    let ciphertextCharacterSet = createKeywordCharacterSet(keyword, _plaintextCharacterSet, appendKeyword);
+    let ciphertextCharacterSet = createKeywordCharacterSet(keyword, plaintextCharacterSet, appendKeyword);
 
     if(shiftValue > 0) ciphertextCharacterSet = createShiftedCharacterSet(ciphertextCharacterSet, shiftValue);
 
-    _ciphertextCharacterSet = ciphertextCharacterSet;
+    _ciphertextCharacterSet = [ciphertextCharacterSet];
 }
 
 _txtCharSet.addEventListener('keyup', () => {
@@ -87,7 +88,7 @@ function populateShiftDropdown()
     // Remove all options from sltShiftKey
     _sltShiftKey.length = 0;
 
-    const charSetLength = _plaintextCharacterSet.length;
+    const charSetLength = _plaintextCharacterSet[0].length;
 
     for(let i = 0; i < charSetLength; i++)
     {

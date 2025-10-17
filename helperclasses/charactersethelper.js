@@ -53,12 +53,6 @@ export function createKeywordCharacterSet(keyword, characterSetArray, keywordAtE
 
     const filteredCharacterSet = charSetArray.filter(character => !uniqueKeyCharacters.includes(character));
 
-    uniqueKeyCharacters.forEach(character => {
-        // Remove character from alphabet to modify
-        let indexOfCharacterToRemove = charSetArray.indexOf(character);
-        charSetArray.splice(indexOfCharacterToRemove, 1);
-    });
-
     return keywordAtEnd
         ? filteredCharacterSet.concat(uniqueKeyCharacters)
         : uniqueKeyCharacters.concat(filteredCharacterSet);

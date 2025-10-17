@@ -1,5 +1,5 @@
 import { createAffineCharacterSet, makeCharacterSetUnique } from "../../helperclasses/charactersethelper.js";
-import { transcodeTextForNestedCharacterSets } from "../../helperclasses/substitutioncipherhelper.js";
+import { transcodeText } from "../../helperclasses/substitutioncipherhelper.js";
 
 const _txtCharSet = document.getElementById('txtCharSet');
 const _sltAValue = document.getElementById("sltAValue");
@@ -28,7 +28,7 @@ _txtPlaintext.addEventListener('input', () => {
 
 function encodeText()
 {
-    _txtCiphertext.value = transcodeTextForNestedCharacterSets(_txtPlaintext.value, [_plaintextCharacterSet], [_ciphertextCharacterSet]);
+    _txtCiphertext.value = transcodeText(_txtPlaintext.value, [_plaintextCharacterSet], [_ciphertextCharacterSet]);
 }
 //#endregion
 
@@ -46,7 +46,7 @@ _txtCiphertext.addEventListener('input', () => {
 
 function decodeText()
 {
-    _txtPlaintext.value = transcodeTextForNestedCharacterSets(_txtCiphertext.value, [_ciphertextCharacterSet], [_plaintextCharacterSet]);
+    _txtPlaintext.value = transcodeText(_txtCiphertext.value, [_ciphertextCharacterSet], [_plaintextCharacterSet]);
 }
 //#endregion
 
