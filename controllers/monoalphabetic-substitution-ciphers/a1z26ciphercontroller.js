@@ -4,6 +4,7 @@ import { encodeTextWithSeperator, decodeTextWithSeperator } from "../../helpercl
 const _txtCharSet = document.getElementById('txtCharSet');
 const _txtPlaintext = document.getElementById("txtPlaintext");
 const _txtCiphertext = document.getElementById("txtCiphertext");
+const _inpSeperator = document.getElementById("inpSeperator");
 
 let _plaintextCharacterSet = "";
 let _ciphertextCharacterSet = "";
@@ -25,7 +26,7 @@ _txtPlaintext.addEventListener('input', () => {
 
 function encodeText()
 {
-    _txtCiphertext.value = encodeTextWithSeperator(_txtPlaintext.value, _plaintextCharacterSet, _ciphertextCharacterSet);
+    _txtCiphertext.value = encodeTextWithSeperator(_txtPlaintext.value, _plaintextCharacterSet, _ciphertextCharacterSet, _inpSeperator.value);
 }
 //#endregion
 
@@ -43,7 +44,7 @@ _txtCiphertext.addEventListener('input', () => {
 
 function decodeText()
 {
-    _txtPlaintext.value = decodeTextWithSeperator(_txtCiphertext.value, _plaintextCharacterSet, _ciphertextCharacterSet);
+    _txtPlaintext.value = decodeTextWithSeperator(_txtCiphertext.value, _plaintextCharacterSet, _ciphertextCharacterSet, _inpSeperator.value);
 }
 //#endregion
 
@@ -73,3 +74,12 @@ _txtCharSet.addEventListener('keyup', () => {
     setCharacterSets();
 });
 //#endregion
+
+_inpSeperator.addEventListener('keyup', () => {
+    if(enteredPlaintext && !enteredCipherText){
+        encodeText();
+    }
+    else if(!enteredPlaintext && enteredCipherText){
+        decodeText()
+    }
+});
