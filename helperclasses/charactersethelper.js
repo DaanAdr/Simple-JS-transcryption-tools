@@ -109,3 +109,16 @@ export function createAffineCharacterSet(aValue, bValue, characterSets)
 
     return cipherCharacterSets;
 }
+
+export function createAtbashCharacterSet(characterSets)
+{
+    let cipherCharacterSets = new Array(characterSets.length);
+
+    //Loop through each nested character set
+    characterSets.forEach((characterSet, rowIndex) => {
+        let tmpCharSet = new Array(...characterSet);
+        cipherCharacterSets[rowIndex] = tmpCharSet.reverse();
+    });
+
+    return cipherCharacterSets;
+}
