@@ -122,3 +122,15 @@ export function createAtbashCharacterSet(characterSets)
 
     return cipherCharacterSets;
 }
+
+export function createA1Z26CharacterSet(characterSet){
+    const charSetLength = characterSet.length;
+    let cipherCharacterSet = new Array(charSetLength);
+
+    for(let i = 1; i <= charSetLength; i++)
+    {
+        cipherCharacterSet[i-1] = i.toString();
+    }
+
+    return cipherCharacterSet;
+}
