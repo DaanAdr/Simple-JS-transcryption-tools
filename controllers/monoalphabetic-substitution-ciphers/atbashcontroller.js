@@ -48,15 +48,14 @@ function decodeText()
 //#endregion
 
 //#region set character sets
-setPlaintextCharSet();
+setCharacterSets();
 
-function setPlaintextCharSet()
+function setCharacterSets()
 {
     //Split at space
     const charSetString = _txtCharSet.value;
     
     _plaintextCharacterSet = createUniqueNestedCharSet(charSetString);
-
     _ciphertextCharacterSet = createAtbashCharacterSet(_plaintextCharacterSet);
 
     console.log(_plaintextCharacterSet);
@@ -64,6 +63,13 @@ function setPlaintextCharSet()
 }
 
 _txtCharSet.addEventListener('keyup', () => {
-    setPlaintextCharSet();
+    if(enteredPlaintext && !enteredCipherText){
+        setCharacterSets();
+        encodeText();
+    }
+    else if(!enteredPlaintext && enteredCipherText){
+        setCharacterSets();
+        decodeText()
+    }
 });
 //#endregion
