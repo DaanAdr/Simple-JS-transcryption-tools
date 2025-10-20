@@ -1,4 +1,5 @@
 import {createA1Z26CharacterSet, makeCharacterSetUnique } from "../../helperclasses/charactersethelper.js";
+import { encodeTextWithSeperator } from "../../helperclasses/substitutioncipherhelper.js";
 
 const _txtCharSet = document.getElementById('txtCharSet');
 const _txtPlaintext = document.getElementById("txtPlaintext");
@@ -24,7 +25,7 @@ _txtPlaintext.addEventListener('input', () => {
 
 function encodeText()
 {
-    //_txtCiphertext.value = transcodeText(_txtPlaintext.value, _plaintextCharacterSet, _ciphertextCharacterSet);
+    _txtCiphertext.value = encodeTextWithSeperator(_txtPlaintext.value, _plaintextCharacterSet, _ciphertextCharacterSet);
 }
 //#endregion
 
