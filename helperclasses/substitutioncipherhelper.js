@@ -50,8 +50,6 @@ export function encodeTextWithSeperator(text, plaintextCharacterSet, ciphertextC
     const textArray = [...text];
     let encodedText = "";
 
-    //TODO: change capitalisation if no character is found in the plaintext char set
-
     //Loop through all characters in text
     textArray.forEach(character => {
         if(character == " "){
@@ -81,7 +79,7 @@ export function encodeTextWithSeperator(text, plaintextCharacterSet, ciphertextC
     return encodedText;
 }
 
-function decodeText(text, plaintextCharacterSet, ciphertextCharacterSet)
+export function decodeTextWithSeperator(text, plaintextCharacterSet, ciphertextCharacterSet, seperator="0")
 {
     let decodedText = "";
 
@@ -90,10 +88,15 @@ function decodeText(text, plaintextCharacterSet, ciphertextCharacterSet)
 
     // Loop through each character in the text
     characters.forEach(character => {
-        // Get ciphertextCharacterSet index for character
-        const index = ciphertextCharacterSet.indexOf(character); // Retroactively add whitespace to characters as that is how they're written in the alphabets
+        if(character == seperator){
+            decodedText += " ";
+            return;
+        }
 
-        // Skip characters that aren't in the Alphabets
+        // Get ciphertextCharacterSet index for character
+        const index = ciphertextCharacterSet.indexOf(character);
+
+        // Skip characters that aren't in the character set
         if(index == -1) return;
 
         // Get the plaintext character at index
