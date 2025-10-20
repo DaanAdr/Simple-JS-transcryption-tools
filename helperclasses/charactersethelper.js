@@ -123,14 +123,16 @@ export function createAtbashCharacterSet(characterSets)
     return cipherCharacterSets;
 }
 
-export function createA1Z26CharacterSet(characterSet){
+export function createA1Z26CharacterSet(characterSet, firstCharValue=1){
     const charSetLength = characterSet.length;
     let cipherCharacterSet = new Array(charSetLength);
 
-    for(let i = 1; i <= charSetLength; i++)
+    for(let i = 0; i < charSetLength; i++)
     {
-        cipherCharacterSet[i-1] = i.toString();
+        cipherCharacterSet[i] = (i + Number(firstCharValue)).toString();
     }
+
+    console.log(cipherCharacterSet)
 
     return cipherCharacterSet;
 }

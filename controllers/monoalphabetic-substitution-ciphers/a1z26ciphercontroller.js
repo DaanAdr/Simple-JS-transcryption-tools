@@ -5,6 +5,7 @@ const _txtCharSet = document.getElementById('txtCharSet');
 const _txtPlaintext = document.getElementById("txtPlaintext");
 const _txtCiphertext = document.getElementById("txtCiphertext");
 const _inpSeperator = document.getElementById("inpSeperator");
+const _inpFirstCharValue = document.getElementById("inpFirstCharValue");
 
 let _plaintextCharacterSet = "";
 let _ciphertextCharacterSet = "";
@@ -58,7 +59,11 @@ function setCharacterSets()
     charSetString = charSetString.replace(/\s/g, '');
     
     _plaintextCharacterSet = makeCharacterSetUnique(charSetString);
-    _ciphertextCharacterSet = createA1Z26CharacterSet(_plaintextCharacterSet);
+    setCiphertextCharSet();
+}
+
+function setCiphertextCharSet(){
+    _ciphertextCharacterSet = createA1Z26CharacterSet(_plaintextCharacterSet, _inpFirstCharValue.value);
 }
 
 _txtCharSet.addEventListener('keyup', () => {
@@ -83,3 +88,14 @@ _inpSeperator.addEventListener('keyup', () => {
         decodeText()
     }
 });
+
+_inpFirstCharValue.addEventListener('keyup', () => {
+    if(enteredPlaintext && !enteredCipherText){
+        setCiphertextCharSet();
+        encodeText();
+    }
+    else if(!enteredPlaintext && enteredCipherText){
+        setCiphertextCharSet();
+        decodeText()
+    }
+})
