@@ -44,3 +44,66 @@ function createMapForCharacterSets(sourceCharSets, targetCharSets)
 
     return charSetMap;
 }
+
+export function encodeTextWithSeperator(text, plaintextCharacterSet, ciphertextCharacterSet, seperator="0")
+{
+    const textArray = [...text];
+    let encodedText = "";
+
+    //Loop through all characters in text
+    textArray.forEach(character => {
+        if(character == " "){
+            encodedText += `${seperator} `;
+            return;
+        }
+
+        //Get plaintextCharacterSet index for character
+        let index = plaintextCharacterSet.indexOf(character);
+
+        //Alternate the character's casing if no index is found
+        if(index == -1) {
+            const isUpperCase = character == character.toUpperCase();
+            const altCasedChar = isUpperCase ? character.toLowerCase() : character.toUpperCase();
+
+            index = plaintextCharacterSet.indexOf(altCasedChar);
+        }
+        
+        //Skip characters that aren't in the character set
+        if(index == -1) return;
+
+        //Get non-plaintext character at index and add a space between each letter
+        const encodedCharacter = ciphertextCharacterSet[index];
+        encodedText += encodedCharacter + " ";
+    });
+
+    return encodedText;
+}
+
+export function decodeTextWithSeperator(text, plaintextCharacterSet, ciphertextCharacterSet, seperator="0")
+{
+    let decodedText = "";
+
+    // Split text at whitespace to get the individual characters
+    let characters = text.split(' ');
+
+    // Loop through each character in the text
+    characters.forEach(character => {
+        if(character == seperator){
+            decodedText += " ";
+            return;
+        }
+
+        // Get ciphertextCharacterSet index for character
+        const index = ciphertextCharacterSet.indexOf(character);
+
+        // Skip characters that aren't in the character set
+        if(index == -1) return;
+
+        // Get the plaintext character at index
+        const plaintextCharacter = plaintextCharacterSet[index];
+
+        decodedText += plaintextCharacter;
+    });
+
+    return decodedText;
+}

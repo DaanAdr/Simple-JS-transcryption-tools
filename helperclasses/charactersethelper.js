@@ -60,7 +60,6 @@ export function createKeywordCharacterSet(keyword, characterSetArray, keywordAtE
 
 export function makeCharacterSetUnique(characterSetString)
 {
-    characterSetString = characterSetString.toUpperCase();
     const charSetArray = [...characterSetString];
     return [...new Set(charSetArray)];
 }
@@ -121,4 +120,16 @@ export function createAtbashCharacterSet(characterSets)
     });
 
     return cipherCharacterSets;
+}
+
+export function createA1Z26CharacterSet(characterSet, firstCharValue=1){
+    const charSetLength = characterSet.length;
+    let cipherCharacterSet = new Array(charSetLength);
+
+    for(let i = 0; i < charSetLength; i++)
+    {
+        cipherCharacterSet[i] = (i + Number(firstCharValue)).toString();
+    }
+
+    return cipherCharacterSet;
 }
