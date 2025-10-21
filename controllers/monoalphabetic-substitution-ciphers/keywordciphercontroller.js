@@ -1,7 +1,6 @@
 import { createKeywordCharacterSet, createUniqueCharacterSet, createShiftedCharacterSets } from "../../helperclasses/charactersethelper.js";
 import { transcodeText } from "../../helperclasses/substitutioncipherhelper.js";
 
-const _sltShiftKey = document.getElementById("sltShiftKey");
 const _txtCharSet = document.getElementById('txtCharSet');
 const _inpKeyword = document.getElementById('inpKeyword');
 const _inpAppendKeyword = document.getElementById('inpAppendKeyword');
@@ -68,14 +67,8 @@ function setCiphertextCharSet()
 {
     const keyword = _inpKeyword.value;
     const appendKeyword = _inpAppendKeyword.checked;
-    const shiftValue = _sltShiftKey.value;
 
     let ciphertextCharacterSet = createKeywordCharacterSet(keyword, _plaintextCharacterSet, appendKeyword);
-
-    if(shiftValue > 0) {
-        const shiftedCharacterSets = createShiftedCharacterSets([ciphertextCharacterSet], shiftValue);
-        ciphertextCharacterSet = shiftedCharacterSets[0];
-    }
 
     _ciphertextCharacterSet = ciphertextCharacterSet;
 }
@@ -94,23 +87,7 @@ _txtCharSet.addEventListener('keyup', () => {
 });
 //#endregion
 
-function populateShiftDropdown()
-{
-    // Remove all options from sltShiftKey
-    _sltShiftKey.length = 0;
-
-    const charSetLength = _plaintextCharacterSet.length;
-
-    for(let i = 0; i < charSetLength; i++)
-    {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = i;
-        _sltShiftKey.appendChild(option);
-    }
-}
-
-_sltShiftKey.addEventListener('change', () => {
+_inpAppendKeyword.addEventListener('change', () => {
     if(enteredPlaintext && !enteredCipherText){
         setCiphertextCharSet();
         encodeText();
@@ -121,17 +98,4 @@ _sltShiftKey.addEventListener('change', () => {
     }
 
     setCiphertextCharSet();
-});
-
-_inpAppendKeyword.addEventListener('change', () => {
-    if(enteredPlaintext && !enteredCipherText){
-        setPlaintextCharSet();
-        encodeText();
-    }
-    else if(!enteredPlaintext && enteredCipherText){
-        setPlaintextCharSet();
-        decodeText()
-    }
-
-    setPlaintextCharSet();
 });
