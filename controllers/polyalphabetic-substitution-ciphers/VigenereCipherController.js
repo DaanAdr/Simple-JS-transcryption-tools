@@ -1,5 +1,5 @@
 import { createUniqueCharacterSets } from "../../helperclasses/charactersethelper.js";
-import { createMapForCharacterSets } from "../../helperclasses/substitutioncipherhelper.js";
+import { transcodeVigenere } from "../../helperclasses/PolyalphabeticSubstitutionHelper.js";
 
 const _txtCharSet = document.getElementById('txtCharSet');
 const _inpKeyword = document.getElementById('inpKeyword');
@@ -24,7 +24,7 @@ _txtPlaintext.addEventListener('input', () => {
 });
 
 function encodeText() {
-    _txtCiphertext.value = encodeVig(_txtPlaintext.value, _plaintextCharacterSet, _inpKeyword.value);
+    _txtCiphertext.value = transcodeVigenere(_txtPlaintext.value, _plaintextCharacterSet, _inpKeyword.value);
 }
 //#endregion
 
@@ -41,7 +41,7 @@ _txtCiphertext.addEventListener('input', () => {
 });
 
 function decodeText() {
-    _txtPlaintext.value = transcodeText(_txtCiphertext.value, _ciphertextCharacterSet, _plaintextCharacterSet);
+    _txtPlaintext.value = transcodeVigenere(_txtCiphertext.value, _plaintextCharacterSet, _inpKeyword.value, true);
 }
 //#endregion
 
@@ -67,56 +67,3 @@ _txtCharSet.addEventListener('keyup', () => {
     setPlaintextCharacterSets();
 });
 //#endregion
-
-function encodeVig(text, characterSets, keyword) {
-    const keyCharacters = [...new Set(keyword.split(''))];
-    const keystream = createKeyStream(keyCharacters, text, characterSets);
-    const textCharacters = [...text];
-    let encodedText = "";
-    let keystreamIndex = 0;
-
-    textCharacters.forEach(character => {
-
-        characterSets.forEach((characterSet) => {
-            const characterSetIndex = characterSet.indexOf(character);
-
-            if(characterSetIndex > -1) {
-                const indexEncodedCharacter = (characterSetIndex + keystream[keystreamIndex]) % characterSet.length;
-                keystreamIndex++;
-                const encodedCharacter = characterSet[indexEncodedCharacter];
-                character = encodedCharacter;
-                
-                return;
-            }
-        });
-
-        encodedText += character;
-    });
-    
-    return encodedText;
-}
-
-function createKeyStream(keyCharacters, text, characterSets) {
-    const spacelessText = text.replace(/\s/g, '');
-    const keystreamLength = spacelessText.length;
-    const keyCharacterIndexes = [];
-    const keystream = [];
-
-    keyCharacters.forEach(character => {
-
-        characterSets.forEach(characterSet => {
-            const index = characterSet.indexOf(character);
-
-            if(index > -1) {
-                keyCharacterIndexes.push(index);
-                return;
-            }
-        });
-    });
-
-    while(keystream.length < keystreamLength) {
-        keystream.push(...keyCharacterIndexes);
-    }
-
-    return keystream;
-}
