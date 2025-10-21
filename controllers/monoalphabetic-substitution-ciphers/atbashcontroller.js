@@ -71,5 +71,7 @@ _txtCharSet.addEventListener('keyup', () => {
         setCharacterSets();
         decodeText()
     }
+
+    setCharacterSets();
 });
 //#endregion

@@ -79,6 +79,15 @@ function setCiphertextCharSet(plaintextCharacterSet)
 }
 
 _txtCharSet.addEventListener('keyup', () => {
+    if(enteredPlaintext && !enteredCipherText){
+        setPlaintextCharSet();
+        encodeText();
+    }
+    else if(!enteredPlaintext && enteredCipherText){
+        setPlaintextCharSet();
+        decodeText()
+    }
+    
     setPlaintextCharSet();
 });
 //#endregion

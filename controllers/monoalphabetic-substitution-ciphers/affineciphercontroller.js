@@ -71,8 +71,16 @@ function setCiphertextCharSet()
 }
 
 _txtCharSet.addEventListener('keyup', () => {
+    if(enteredPlaintext && !enteredCipherText){
+        setPlaintextCharSet();
+        encodeText();
+    }
+    else if(!enteredPlaintext && enteredCipherText){
+        setPlaintextCharSet();
+        decodeText()
+    }
+
     setPlaintextCharSet();
-    populateDropdowns();
 });
 //#endregion
 
