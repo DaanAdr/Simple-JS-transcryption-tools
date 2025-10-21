@@ -1,4 +1,4 @@
-import { createKeywordCharacterSet, createUniqueCharacterSet, createShiftedCharacterSet } from "../../helperclasses/charactersethelper.js";
+import { createKeywordCharacterSet, createUniqueCharacterSet, createShiftedCharacterSets } from "../../helperclasses/charactersethelper.js";
 import { transcodeText } from "../../helperclasses/substitutioncipherhelper.js";
 
 const _sltShiftKey = document.getElementById("sltShiftKey");
@@ -57,25 +57,27 @@ function setPlaintextCharSet()
 {
     const charSetString = _txtCharSet.value;
     
-    const plaintextCharacterSet = createUniqueCharacterSet(charSetString);
-    _plaintextCharacterSet = [plaintextCharacterSet]
+    _plaintextCharacterSet = createUniqueCharacterSet(charSetString);
 
     populateShiftDropdown();
 
-    setCiphertextCharSet(plaintextCharacterSet);
+    setCiphertextCharSet();
 }
 
-function setCiphertextCharSet(plaintextCharacterSet)
+function setCiphertextCharSet()
 {
     const keyword = _inpKeyword.value;
     const appendKeyword = _inpAppendKeyword.checked;
     const shiftValue = _sltShiftKey.value;
 
-    let ciphertextCharacterSet = createKeywordCharacterSet(keyword, plaintextCharacterSet, appendKeyword);
+    let ciphertextCharacterSet = createKeywordCharacterSet(keyword, _plaintextCharacterSet, appendKeyword);
 
-    if(shiftValue > 0) ciphertextCharacterSet = createShiftedCharacterSet(ciphertextCharacterSet, shiftValue);
+    if(shiftValue > 0) {
+        const shiftedCharacterSets = createShiftedCharacterSets([ciphertextCharacterSet], shiftValue);
+        ciphertextCharacterSet = shiftedCharacterSets[0];
+    }
 
-    _ciphertextCharacterSet = [ciphertextCharacterSet];
+    _ciphertextCharacterSet = ciphertextCharacterSet;
 }
 
 _txtCharSet.addEventListener('keyup', () => {
@@ -97,7 +99,7 @@ function populateShiftDropdown()
     // Remove all options from sltShiftKey
     _sltShiftKey.length = 0;
 
-    const charSetLength = _plaintextCharacterSet[0].length;
+    const charSetLength = _plaintextCharacterSet.length;
 
     for(let i = 0; i < charSetLength; i++)
     {
@@ -117,6 +119,8 @@ _sltShiftKey.addEventListener('change', () => {
         setCiphertextCharSet();
         decodeText()
     }
+
+    setCiphertextCharSet();
 });
 
 _inpAppendKeyword.addEventListener('change', () => {

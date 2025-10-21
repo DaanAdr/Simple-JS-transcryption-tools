@@ -1,3 +1,4 @@
+//#region Plaintext character set helpers
 /**
  * Takes all the unique characters in characterSetString and returns them as a nested array
  * 
@@ -36,6 +37,21 @@ function isUnique(char, usedCharacters) {
 }
 
 /**
+ * Takes all the unique characters in characterSetString and returns them as an array
+ * 
+ * @param {string} characterSetString A string representing the plaintext character set
+ * @returns an array of unique character sets
+ */
+export function createUniqueCharacterSet(characterSetString)
+{
+    const charSetArray = [...characterSetString];
+    return [...new Set(charSetArray)];
+}
+
+//#endregion
+
+//#region Ciphertext character set helpers
+/**
  * Shift the characters in characterSets by n positions based on the given shift
  * 
  * @param {array} characterSets A nested array of character sets that need to be shifted
@@ -58,36 +74,23 @@ export function createShiftedCharacterSets(characterSets, shift)
     return shiftedCharacterSets;
 }
 
+/**
+ * Add a keyword to the characterSetArray
+ * 
+ * @param {string} keyword The keyword that needs to be used when creating the character set
+ * @param {boolean} keywordAtEnd A boolean to indicate if the letters in the keyword need to be added to the back of front of the character set
+ * @returns an array of the keyword and the remaining letters in the characterSetArray
+ */
 export function createKeywordCharacterSet(keyword, characterSetArray, keywordAtEnd=false)
 {
-    let uniqueKeyCharacters = [...new Set(keyword)];
-    let charSetArray = [...characterSetArray];
+    let keyCharacters = [...new Set(keyword)];
+    const characterSet = new Array(...characterSetArray);
 
-    const filteredCharacterSet = charSetArray.filter(character => !uniqueKeyCharacters.includes(character));
+    const filteredCharacterSet = characterSet.filter(character => !keyCharacters.includes(character));
 
     return keywordAtEnd
-        ? filteredCharacterSet.concat(uniqueKeyCharacters)
-        : uniqueKeyCharacters.concat(filteredCharacterSet);
-}
-
-export function createUniqueCharacterSet(characterSetString)
-{
-    const charSetArray = [...characterSetString];
-    return [...new Set(charSetArray)];
-}
-
-export function createShiftedCharacterSet(characterSet, shift)
-{
-    let shiftedCharSet = new Array(characterSet.length);
-
-    characterSet.forEach((character, index) => {
-        //Apply shift
-        const shiftedIndex = (Number(index) + Number(shift)) % Number(characterSet.length);
-        const shiftedCharacter = characterSet[shiftedIndex];
-        shiftedCharSet[index] = shiftedCharacter;
-    });
-
-    return shiftedCharSet;
+        ? filteredCharacterSet.concat(keyCharacters)
+        : keyCharacters.concat(filteredCharacterSet);
 }
 
 export function createAffineCharacterSet(aValue, bValue, characterSets)
@@ -145,3 +148,5 @@ export function createA1Z26CharacterSet(characterSet, firstCharValue=1){
 
     return cipherCharacterSet;
 }
+
+//#endregion
