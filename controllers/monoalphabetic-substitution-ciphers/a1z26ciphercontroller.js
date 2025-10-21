@@ -54,9 +54,7 @@ setCharacterSets();
 
 function setCharacterSets()
 {
-    //Split at space
     let charSetString = _txtCharSet.value;
-    charSetString = charSetString.replace(/\s/g, '');
     
     _plaintextCharacterSet = createUniqueCharacterSet(charSetString);
     setCiphertextCharSet();

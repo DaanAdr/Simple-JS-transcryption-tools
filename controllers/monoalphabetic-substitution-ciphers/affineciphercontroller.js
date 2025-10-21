@@ -1,4 +1,4 @@
-import { createAffineCharacterSet, createUniqueCharacterSets } from "../../helperclasses/charactersethelper.js";
+import { createAffineCharacterSets, createUniqueCharacterSets } from "../../helperclasses/charactersethelper.js";
 import { transcodeText } from "../../helperclasses/substitutioncipherhelper.js";
 import { getListOfCoprimes } from "../../helperclasses/mathalgorithmhelper.js";
 
@@ -67,7 +67,7 @@ function setCiphertextCharSet()
     const aValue = _sltAValue.value;
     const bValue = _sltBValue.value;
 
-    _ciphertextCharacterSet = createAffineCharacterSet(aValue, bValue, _plaintextCharacterSet);
+    _ciphertextCharacterSet = createAffineCharacterSets(aValue, bValue, _plaintextCharacterSet);
 }
 
 _txtCharSet.addEventListener('keyup', () => {

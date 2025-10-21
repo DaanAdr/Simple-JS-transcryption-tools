@@ -44,6 +44,7 @@ function isUnique(char, usedCharacters) {
  */
 export function createUniqueCharacterSet(characterSetString)
 {
+    charSetString = charSetString.replace(/\s/g, '');
     const charSetArray = [...characterSetString];
     return [...new Set(charSetArray)];
 }
@@ -94,30 +95,30 @@ export function createKeywordCharacterSet(keyword, characterSetArray, keywordAtE
         : keyCharacters.concat(filteredCharacterSet);
 }
 
-export function createAffineCharacterSet(aValue, bValue, characterSets)
+/**
+ * Create character sets for the given character sets, using the affine algorithm
+ * 
+ * @param {number} aValue Value A for the affine algorithm
+ * @param {number} bValue Value B for the affine algorithm
+ * @param {array} characterSets A nested array of character sets that need to be rearranged using the affine algorithm
+ * @returns a nested array of the character sets rearranged using the affine algorithm
+ */
+export function createAffineCharacterSets(aValue, bValue, characterSets)
 {
     let cipherCharacterSets = new Array(characterSets.length);
 
-    //Loop through each nested character set
     characterSets.forEach((characterSet, rowIndex) => {
         const subSetLength = Number(characterSet.length);
         cipherCharacterSets[rowIndex] = new Array(subSetLength);
 
-        //Loop through each charater in the character set
         characterSet.forEach((character, index) => {
-            const characterIndex = characterSet.indexOf(character);
-
-            // Perform the formula (a * x + b) mod 26
-            // In which x refers to the position of the character in the alphabet
-            const cipherCharacterIndex = (Number(aValue) * Number(characterIndex) + Number(bValue)) % (subSetLength);
+            // Perform the formula (a * x + b) mod 26, in which x refers to the position of the character in the alphabet
+            const cipherCharacterIndex = (Number(aValue) * Number(index) + Number(bValue)) % (subSetLength);
 
             //For manual decoding, if I didn't create a cipherAlphabet to perform simple substitutions
-            // Perform (26 - a) * (y - b) mod 26
-            // In which y refers to the position of the character in the alphabet
+            // Perform (26 - a) * (y - b) mod 26, in which y refers to the position of the character in the alphabet
             
-            // Get the character at the cipherIndex
             const cipherCharacter = characterSet[cipherCharacterIndex];
-
             cipherCharacterSets[rowIndex][index] = cipherCharacter;
         });
     });
@@ -131,7 +132,7 @@ export function createAffineCharacterSet(aValue, bValue, characterSets)
  * @param {array} characterSets A nested array of character sets that need to be reversed
  * @returns a nested array of the reversed character sets
  */
-export function createAtbashCharacterSet(characterSets)
+export function createAtbashCharacterSets(characterSets)
 {
     let cipherCharacterSets = new Array(characterSets.length);
 
