@@ -78,6 +78,7 @@ export function createShiftedCharacterSets(characterSets, shift)
  * Add a keyword to the characterSetArray
  * 
  * @param {string} keyword The keyword that needs to be used when creating the character set
+ * @param {array} characterSetArray An array of character set that need to be modified
  * @param {boolean} keywordAtEnd A boolean to indicate if the letters in the keyword need to be added to the back of front of the character set
  * @returns an array of the keyword and the remaining letters in the characterSetArray
  */
@@ -124,26 +125,38 @@ export function createAffineCharacterSet(aValue, bValue, characterSets)
     return cipherCharacterSets;
 }
 
+/**
+ * Create a reserve character set for the given character sets
+ * 
+ * @param {array} characterSets A nested array of character sets that need to be reversed
+ * @returns a nested array of the reversed character sets
+ */
 export function createAtbashCharacterSet(characterSets)
 {
     let cipherCharacterSets = new Array(characterSets.length);
 
-    //Loop through each nested character set
     characterSets.forEach((characterSet, rowIndex) => {
-        let tmpCharSet = new Array(...characterSet);
-        cipherCharacterSets[rowIndex] = tmpCharSet.reverse();
+        let tmpCharacterSet = new Array(...characterSet);
+        cipherCharacterSets[rowIndex] = tmpCharacterSet.reverse();
     });
 
     return cipherCharacterSets;
 }
 
-export function createA1Z26CharacterSet(characterSet, firstCharValue=1){
-    const charSetLength = characterSet.length;
-    let cipherCharacterSet = new Array(charSetLength);
+/**
+ * Create a character set in which each character is replaced by its index + the additionalValue
+ * 
+ * @param {array} characterSet An array of character set that need to be modified
+ * @param {number} additionalValue An additional value each character gets on top of its index. Defaults to 1 so A=1, B=2 as is the standard in the A1Z26 cipher
+ * @returns an array of numbers for each character in the character set
+ */
+export function createA1Z26CharacterSet(characterSet, additionalValue=1){
+    const characterSetLength = characterSet.length;
+    let cipherCharacterSet = new Array(characterSetLength);
 
-    for(let i = 0; i < charSetLength; i++)
+    for(let i = 0; i < characterSetLength; i++)
     {
-        cipherCharacterSet[i] = (i + Number(firstCharValue)).toString();
+        cipherCharacterSet[i] = (i + Number(additionalValue)).toString();
     }
 
     return cipherCharacterSet;
