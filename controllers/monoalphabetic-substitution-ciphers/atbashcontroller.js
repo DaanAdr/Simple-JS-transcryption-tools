@@ -1,4 +1,4 @@
-import { createUniqueNestedCharSet, createAtbashCharacterSet } from "../../helperclasses/charactersethelper.js";
+import { createUniqueCharacterSets, createAtbashCharacterSet } from "../../helperclasses/charactersethelper.js";
 import { transcodeText } from "../../helperclasses/substitutioncipherhelper.js";
 
 const _txtCharSet = document.getElementById('txtCharSet');
@@ -55,7 +55,7 @@ function setCharacterSets()
     //Split at space
     const charSetString = _txtCharSet.value;
     
-    _plaintextCharacterSet = createUniqueNestedCharSet(charSetString);
+    _plaintextCharacterSet = createUniqueCharacterSets(charSetString);
     _ciphertextCharacterSet = createAtbashCharacterSet(_plaintextCharacterSet);
 
     console.log(_plaintextCharacterSet);

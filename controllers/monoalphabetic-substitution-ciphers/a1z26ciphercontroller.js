@@ -1,4 +1,4 @@
-import {createA1Z26CharacterSet, makeCharacterSetUnique } from "../../helperclasses/charactersethelper.js";
+import {createA1Z26CharacterSet, createUniqueCharacterSet } from "../../helperclasses/charactersethelper.js";
 import { encodeTextWithSeperator, decodeTextWithSeperator } from "../../helperclasses/substitutioncipherhelper.js";
 
 const _txtCharSet = document.getElementById('txtCharSet');
@@ -58,7 +58,7 @@ function setCharacterSets()
     let charSetString = _txtCharSet.value;
     charSetString = charSetString.replace(/\s/g, '');
     
-    _plaintextCharacterSet = makeCharacterSetUnique(charSetString);
+    _plaintextCharacterSet = createUniqueCharacterSet(charSetString);
     setCiphertextCharSet();
 }
 

@@ -1,4 +1,4 @@
-import { createAffineCharacterSet, makeCharacterSetUnique, createUniqueNestedCharSet } from "../../helperclasses/charactersethelper.js";
+import { createAffineCharacterSet, createUniqueCharacterSets } from "../../helperclasses/charactersethelper.js";
 import { transcodeText } from "../../helperclasses/substitutioncipherhelper.js";
 import { getListOfCoprimes } from "../../helperclasses/mathalgorithmhelper.js";
 
@@ -56,7 +56,7 @@ setPlaintextCharSet();
 function setPlaintextCharSet()
 {
     const charSetString = _txtCharSet.value;
-    _plaintextCharacterSet = createUniqueNestedCharSet(charSetString);
+    _plaintextCharacterSet = createUniqueCharacterSets(charSetString);
 
     populateDropdowns();
     setCiphertextCharSet();

@@ -1,4 +1,4 @@
-import { createKeywordCharacterSet, makeCharacterSetUnique, createShiftedCharacterSet } from "../../helperclasses/charactersethelper.js";
+import { createKeywordCharacterSet, createUniqueCharacterSet, createShiftedCharacterSet } from "../../helperclasses/charactersethelper.js";
 import { transcodeText } from "../../helperclasses/substitutioncipherhelper.js";
 
 const _sltShiftKey = document.getElementById("sltShiftKey");
@@ -57,7 +57,7 @@ function setPlaintextCharSet()
 {
     const charSetString = _txtCharSet.value;
     
-    const plaintextCharacterSet = makeCharacterSetUnique(charSetString);
+    const plaintextCharacterSet = createUniqueCharacterSet(charSetString);
     _plaintextCharacterSet = [plaintextCharacterSet]
 
     populateShiftDropdown();
