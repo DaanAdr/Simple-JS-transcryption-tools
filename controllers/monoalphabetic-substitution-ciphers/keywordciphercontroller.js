@@ -58,8 +58,6 @@ function setPlaintextCharSet()
     
     _plaintextCharacterSet = createUniqueCharacterSet(charSetString);
 
-    populateShiftDropdown();
-
     setCiphertextCharSet();
 }
 
