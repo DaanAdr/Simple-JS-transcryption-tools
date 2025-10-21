@@ -1,26 +1,31 @@
-export function transcodeText(text, sourceCharSets, targetCharSets)
+/**
+ * Transcode a text from a source character set to a target character set
+ * 
+ * @param {string} text The text to transcode
+ * @param {array} sourceCharacterSets A nested array of the character set that the text is in
+ * @param {array} targetCharacterSets A nested array of the character set that the text needs to be substituted to
+ * @returns a string of the substituted text
+ */
+export function transcodeText(text, sourceCharacterSets, targetCharacterSets)
 {
     const transcodedTextArray = [];
 
-    const characterMap = createMapForCharacterSets(sourceCharSets, targetCharSets);
+    const characterMap = createMapForCharacterSets(sourceCharacterSets, targetCharacterSets);
 
-    //Iterate through each character in the original text
     for (const character of text) {
-        // Use the character map to transcode
         const transcodedCharacter = characterMap.get(character) || character;
         transcodedTextArray.push(transcodedCharacter);
     }
 
-    //Join the array into a single string for the final transcoded text
     return transcodedTextArray.join('');
 }
 
-function createMapForCharacterSets(sourceCharSets, targetCharSets)
+function createMapForCharacterSets(sourceCharacterSets, targetCharacterSets)
 {
     const charSetMap = new Map();
 
     //Loop through each nested char set
-    sourceCharSets.forEach((nestedCharSet, rowIndex) => {
+    sourceCharacterSets.forEach((nestedCharSet, rowIndex) => {
         //Loop through all character in the source set and map them to their target set counterpart
 
         nestedCharSet.forEach((character, index) => {
@@ -29,80 +34,105 @@ function createMapForCharacterSets(sourceCharSets, targetCharSets)
             const isUpperCase = character == character.toUpperCase();
 
             const altCasedChar = isUpperCase ? character.toLowerCase() : character.toUpperCase();
-            const altCasedCharExists = sourceCharSets.flat().includes(altCasedChar);
+            const altCasedCharExists = sourceCharacterSets.flat().includes(altCasedChar);
 
             if(!altCasedCharExists){
-                charSetMap.set(character.toLowerCase(), targetCharSets[rowIndex][index].toLowerCase());
-                charSetMap.set(character.toUpperCase(), targetCharSets[rowIndex][index].toUpperCase());
+                charSetMap.set(character.toLowerCase(), targetCharacterSets[rowIndex][index].toLowerCase());
+                charSetMap.set(character.toUpperCase(), targetCharacterSets[rowIndex][index].toUpperCase());
 
                 return;
             }
 
-            charSetMap.set(character, targetCharSets[rowIndex][index]);
+            charSetMap.set(character, targetCharacterSets[rowIndex][index]);
         });
     });
 
     return charSetMap;
 }
 
+/**
+ * Encode a text from the plaintext character set to the ciphertext character set
+ * 
+ * @param {string} text A text to encode
+ * @param {array} plaintextCharacterSet An array of the character set that the text is in
+ * @param {array} ciphertextCharacterSet An array of the character set that the text needs to be substituted to
+ * @param {char} seperator A character that is inserted between words in the substituted text
+ * @returns a string of the substituted text
+ */
 export function encodeTextWithSeperator(text, plaintextCharacterSet, ciphertextCharacterSet, seperator="0")
 {
     const textArray = [...text];
     let encodedText = "";
 
-    //Loop through all characters in text
     textArray.forEach(character => {
         if(character == " "){
             encodedText += `${seperator} `;
             return;
         }
 
-        //Get plaintextCharacterSet index for character
-        let index = plaintextCharacterSet.indexOf(character);
+        const index = getCharacterIndex(character, plaintextCharacterSet);
 
-        //Alternate the character's casing if no index is found
-        if(index == -1) {
-            const isUpperCase = character == character.toUpperCase();
-            const altCasedChar = isUpperCase ? character.toLowerCase() : character.toUpperCase();
-
-            index = plaintextCharacterSet.indexOf(altCasedChar);
+        if(index > -1) {
+            const encodedCharacter = ciphertextCharacterSet[index];
+            encodedText += encodedCharacter + " ";
+            return;
         }
-        
-        //Skip characters that aren't in the character set
-        if(index == -1) return;
 
-        //Get non-plaintext character at index and add a space between each letter
-        const encodedCharacter = ciphertextCharacterSet[index];
-        encodedText += encodedCharacter + " ";
+        encodedText += character;
     });
 
     return encodedText;
 }
 
+/**
+ * Get the index of a character for the given character set. This also checks the alternate casing of the character
+ * 
+ * @param {char} character 
+ * @param {array} characterSet 
+ * @returns the numerical index of the character in the given character set or -1 if no index is found
+ */
+function getCharacterIndex(character, characterSet) {
+    let index = characterSet.indexOf(character);
+
+    if(index == -1) {
+        const isUpperCase = character == character.toUpperCase();
+        const altCasedChar = isUpperCase ? character.toLowerCase() : character.toUpperCase();
+
+        index = characterSet.indexOf(altCasedChar);
+    }
+
+    return index;
+}
+
+/**
+ * Decode a text from the ciphertext character set to the plaintext character set
+ * 
+ * @param {string} text A text to decode
+ * @param {array} plaintextCharacterSet An array of the character set that the text needs to be substituted to
+ * @param {array} ciphertextCharacterSet An array of the character set that the text is in
+ * @param {char} seperator A character that is inserted between words in the input text
+ * @returns a string of the substituted text
+ */
 export function decodeTextWithSeperator(text, plaintextCharacterSet, ciphertextCharacterSet, seperator="0")
 {
     let decodedText = "";
+    const characters = text.split(' ');
 
-    // Split text at whitespace to get the individual characters
-    let characters = text.split(' ');
-
-    // Loop through each character in the text
     characters.forEach(character => {
         if(character == seperator){
             decodedText += " ";
             return;
         }
 
-        // Get ciphertextCharacterSet index for character
         const index = ciphertextCharacterSet.indexOf(character);
 
-        // Skip characters that aren't in the character set
-        if(index == -1) return;
+        if(index > -1) {
+            const plaintextCharacter = plaintextCharacterSet[index];
+            decodedText += plaintextCharacter;
+            return;
+        }
 
-        // Get the plaintext character at index
-        const plaintextCharacter = plaintextCharacterSet[index];
-
-        decodedText += plaintextCharacter;
+        decodedText += character;
     });
 
     return decodedText;

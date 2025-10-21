@@ -1,5 +1,11 @@
-// Function to calculate GCD using the Euclidean Algorithm
-function gcd(a, b) {
+/**
+ * Calculate the Greatest Common Divider using the Euclidean Algorithm
+ * 
+ * @param {*} a 
+ * @param {*} b 
+ * @returns 
+ */
+function CalculateGreatestCommonDivider(a, b) {
     while (b !== 0) {
         let temp = b;
         b = a % b;
@@ -8,13 +14,18 @@ function gcd(a, b) {
     return a;
 }
 
-// Function to generate a list of coprime numbers for a given number n
+/**
+ * Get a list of all (positive) coprimes for the given number n
+ * 
+ * @param {number} n The number to get all the coprimes for
+ * @returns an array of all coprimes for the given number
+ */
 export function getListOfCoprimes(n) {
     const coprimeList = [];
     
-    for (let i = 1; i < n; i++) {  // Consider numbers less than n
-        if (gcd(n, i) === 1) {      // Check if GCD is 1
-            coprimeList.push(i);    // If coprime, add to the list
+    for (let i = 1; i < n; i++) { 
+        if (CalculateGreatestCommonDivider(n, i) === 1) { 
+            coprimeList.push(i);
         }
     }
     

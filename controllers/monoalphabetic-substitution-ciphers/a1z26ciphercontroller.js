@@ -55,8 +55,8 @@ setCharacterSets();
 function setCharacterSets()
 {
     let charSetString = _txtCharSet.value;
-    
     _plaintextCharacterSet = createUniqueCharacterSet(charSetString);
+    
     setCiphertextCharSet();
 }
 

@@ -44,7 +44,7 @@ function isUnique(char, usedCharacters) {
  */
 export function createUniqueCharacterSet(characterSetString)
 {
-    charSetString = charSetString.replace(/\s/g, '');
+    characterSetString = characterSetString.replace(/\s/g, '');
     const charSetArray = [...characterSetString];
     return [...new Set(charSetArray)];
 }
