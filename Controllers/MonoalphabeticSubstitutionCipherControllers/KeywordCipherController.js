@@ -97,3 +97,14 @@ _inpAppendKeyword.addEventListener('change', () => {
 
     setCiphertextCharSet();
 });
+
+_inpKeyword.addEventListener('keyup', () => {
+    if(enteredPlaintext && !enteredCipherText){
+        setCiphertextCharSet();
+        encodeText();
+    }
+    else if(!enteredPlaintext && enteredCipherText){
+        setCiphertextCharSet();
+        decodeText()
+    }
+});
