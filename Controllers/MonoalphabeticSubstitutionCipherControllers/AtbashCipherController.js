@@ -1,12 +1,12 @@
-import { createUniqueCharacterSets } from "../../helperclasses/charactersethelper.js";
-import { transcodeVigenere } from "../../helperclasses/PolyalphabeticSubstitutionHelper.js";
+import { createUniqueCharacterSets, createAtbashCharacterSets } from "../../Helperclasses/CharacterSetHelper.js";
+import { transcodeText } from "../../Helperclasses/SubstitutionCipherHelper.js";
 
 const _txtCharSet = document.getElementById('txtCharSet');
-const _inpKeyword = document.getElementById('inpKeyword');
 const _txtPlaintext = document.getElementById("txtPlaintext");
 const _txtCiphertext = document.getElementById("txtCiphertext");
 
 let _plaintextCharacterSet = "";
+let _ciphertextCharacterSet = "";
 let typingTimer;
 let enteredPlaintext = false;
 let enteredCipherText = false;
@@ -23,8 +23,9 @@ _txtPlaintext.addEventListener('input', () => {
     }, 500); // 1000 milliseconds = 1 second
 });
 
-function encodeText() {
-    _txtCiphertext.value = transcodeVigenere(_txtPlaintext.value, _plaintextCharacterSet, _inpKeyword.value);
+function encodeText()
+{
+    _txtCiphertext.value = transcodeText(_txtPlaintext.value, _plaintextCharacterSet, _ciphertextCharacterSet);
 }
 //#endregion
 
@@ -40,30 +41,34 @@ _txtCiphertext.addEventListener('input', () => {
     }, 500); // 1000 milliseconds = 1 second
 });
 
-function decodeText() {
-    _txtPlaintext.value = transcodeVigenere(_txtCiphertext.value, _plaintextCharacterSet, _inpKeyword.value, true);
+function decodeText()
+{
+    _txtPlaintext.value = transcodeText(_txtCiphertext.value, _ciphertextCharacterSet, _plaintextCharacterSet);
 }
 //#endregion
 
 //#region set character sets
-setPlaintextCharacterSets();
+setCharacterSets();
 
-function setPlaintextCharacterSets() {
-    const characterSetString = _txtCharSet.value;
+function setCharacterSets()
+{
+    //Split at space
+    const charSetString = _txtCharSet.value;
     
-    _plaintextCharacterSet = createUniqueCharacterSets(characterSetString);
+    _plaintextCharacterSet = createUniqueCharacterSets(charSetString);
+    _ciphertextCharacterSet = createAtbashCharacterSets(_plaintextCharacterSet);
 }
 
 _txtCharSet.addEventListener('keyup', () => {
     if(enteredPlaintext && !enteredCipherText){
-        setPlaintextCharacterSets();
+        setCharacterSets();
         encodeText();
     }
     else if(!enteredPlaintext && enteredCipherText){
-        setPlaintextCharacterSets();
+        setCharacterSets();
         decodeText()
     }
-    
-    setPlaintextCharacterSets();
+
+    setCharacterSets();
 });
 //#endregion

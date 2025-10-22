@@ -1,9 +1,10 @@
-import { createKeywordCharacterSet, createUniqueCharacterSet, createShiftedCharacterSets } from "../../helperclasses/charactersethelper.js";
-import { transcodeText } from "../../helperclasses/substitutioncipherhelper.js";
+import { createAffineCharacterSets, createUniqueCharacterSets } from "../../Helperclasses/CharacterSetHelper.js";
+import { transcodeText } from "../../Helperclasses/SubstitutionCipherHelper.js";
+import { getListOfCoprimes } from "../../Helperclasses/MathAlgorithmHelper.js";
 
 const _txtCharSet = document.getElementById('txtCharSet');
-const _inpKeyword = document.getElementById('inpKeyword');
-const _inpAppendKeyword = document.getElementById('inpAppendKeyword');
+const _sltAValue = document.getElementById("sltAValue");
+const _sltBValue = document.getElementById("sltBValue");
 const _txtPlaintext = document.getElementById("txtPlaintext");
 const _txtCiphertext = document.getElementById("txtCiphertext");
 
@@ -55,20 +56,18 @@ setPlaintextCharSet();
 function setPlaintextCharSet()
 {
     const charSetString = _txtCharSet.value;
-    
-    _plaintextCharacterSet = createUniqueCharacterSet(charSetString);
+    _plaintextCharacterSet = createUniqueCharacterSets(charSetString);
 
+    populateDropdowns();
     setCiphertextCharSet();
 }
 
 function setCiphertextCharSet()
 {
-    const keyword = _inpKeyword.value;
-    const appendKeyword = _inpAppendKeyword.checked;
+    const aValue = _sltAValue.value;
+    const bValue = _sltBValue.value;
 
-    let ciphertextCharacterSet = createKeywordCharacterSet(keyword, _plaintextCharacterSet, appendKeyword);
-
-    _ciphertextCharacterSet = ciphertextCharacterSet;
+    _ciphertextCharacterSet = createAffineCharacterSets(aValue, bValue, _plaintextCharacterSet);
 }
 
 _txtCharSet.addEventListener('keyup', () => {
@@ -80,12 +79,57 @@ _txtCharSet.addEventListener('keyup', () => {
         setPlaintextCharSet();
         decodeText()
     }
-    
+
     setPlaintextCharSet();
 });
 //#endregion
 
-_inpAppendKeyword.addEventListener('change', () => {
+function populateDropdowns()
+{
+    //Empty dropdowns
+    _sltAValue.length = 0;
+    _sltBValue.length = 0;
+
+    const charSetLength = Math.max(..._plaintextCharacterSet.map(row => row.length));
+    const coprimeList = getListOfCoprimes(charSetLength);
+
+    coprimeList.forEach(value => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value;
+        _sltAValue.appendChild(option);
+
+        // Set the default value
+        if (value === 5) option.selected = true; // Mark this option as selected
+    });
+
+    // Populate sltBValue
+    for (let i = 0; i < charSetLength; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = i;
+        _sltBValue.appendChild(option);
+
+        // Set the default value
+        if (i === 8) option.selected = true; // Mark this option as selected
+    }
+}
+// #endregion
+
+_sltAValue.addEventListener('change', () => {
+    if(enteredPlaintext && !enteredCipherText){
+        setCiphertextCharSet();
+        encodeText();
+    }
+    else if(!enteredPlaintext && enteredCipherText){
+        setCiphertextCharSet();
+        decodeText()
+    }
+
+    setCiphertextCharSet();
+});
+
+_sltBValue.addEventListener('change', () => {
     if(enteredPlaintext && !enteredCipherText){
         setCiphertextCharSet();
         encodeText();
