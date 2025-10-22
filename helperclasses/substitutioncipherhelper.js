@@ -20,7 +20,7 @@ export function transcodeText(text, sourceCharacterSets, targetCharacterSets)
     return transcodedTextArray.join('');
 }
 
-function createMapForCharacterSets(sourceCharacterSets, targetCharacterSets)
+export function createMapForCharacterSets(sourceCharacterSets, targetCharacterSets)
 {
     const charSetMap = new Map();
 
