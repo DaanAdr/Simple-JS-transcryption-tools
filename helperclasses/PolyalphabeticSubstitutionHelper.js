@@ -15,45 +15,11 @@ export function transcodeVigenere(text, characterSets, keyword, decodeText=false
     let keystreamIndex = 0;
 
     textCharacters.forEach(character => {
-        let characterIndex = undefined;
-        let rowIndex = undefined;
-        let isUpperCase = true;
+        const { characterIndex, rowIndex, isUpperCase } = findCharacterIndex(character, characterSets);
 
-        characterSets.forEach((characterSet, row) => {
-            const index = characterSet.indexOf(character);
-
-            if(index > -1) {
-                characterIndex = index;
-                rowIndex = row;
-                return;
-            }
-        });
-
-        if(characterIndex == undefined) {
-            isUpperCase = character == character.toUpperCase();
-            const altCasedCharacter = isUpperCase ? character.toLowerCase() : character.toUpperCase();
-
-            characterSets.forEach((characterSet, row) => {
-                const index = characterSet.indexOf(altCasedCharacter);
-
-                if(index > -1) {
-                    characterIndex = index;
-                    rowIndex = row;
-                    return;
-                }
-            });
-        }
-
-        if(characterIndex > -1) {
-            const characterSetLength = characterSets[rowIndex].length;
-            let indexTranscodedCharacter = decodeText ? (characterIndex - keystream[keystreamIndex]) % characterSetLength: (characterIndex + keystream[keystreamIndex]) % characterSetLength;
-            indexTranscodedCharacter = indexTranscodedCharacter < 0 ? indexTranscodedCharacter += characterSetLength : indexTranscodedCharacter = indexTranscodedCharacter;
-            
+        if(characterIndex != undefined) {
+            character = getShiftedCharacter(characterIndex, characterSets, rowIndex, keystream[keystreamIndex], isUpperCase, decodeText);
             keystreamIndex++;
-            let transcodedCharacter = characterSets[rowIndex][indexTranscodedCharacter];
-            transcodedCharacter = isUpperCase ? transcodedCharacter = transcodedCharacter : transcodedCharacter = transcodedCharacter.toLowerCase();
-            
-            character = transcodedCharacter;
         }
 
         encodedText += character;
@@ -85,4 +51,45 @@ function createKeyStream(keyCharacters, text, characterSets) {
     }
 
     return keystream;
+}
+
+function findCharacterIndex(character, characterSets) {
+    let characterIndex = undefined;
+    let isUpperCase = character == character.toUpperCase();
+    let rowIndex = undefined;
+
+    characterSets.forEach((characterSet, row) => {
+        const index = characterSet.indexOf(character);
+
+        if(index > -1) {
+            characterIndex = index;
+            rowIndex = row;
+        }
+    });
+
+    if(characterIndex == undefined) {
+        const altCasedCharacter = isUpperCase ? character.toLowerCase() : character.toUpperCase();
+
+        characterSets.forEach((characterSet, row) => {
+            const index = characterSet.indexOf(altCasedCharacter);
+
+            if(index > -1) {
+                characterIndex = index;
+                rowIndex = row;
+            }
+        });
+    }
+
+    return {characterIndex, rowIndex, isUpperCase};
+}
+
+function getShiftedCharacter(characterIndex, characterSets, rowIndex, keystreamCharacter, isUpperCase, decodeText) {
+    const characterSetLength = characterSets[rowIndex].length;
+    let indexTranscodedCharacter = decodeText ? (characterIndex - keystreamCharacter) % characterSetLength: (characterIndex + keystreamCharacter) % characterSetLength;
+    indexTranscodedCharacter = indexTranscodedCharacter < 0 ? indexTranscodedCharacter += characterSetLength : indexTranscodedCharacter = indexTranscodedCharacter;
+    
+    let transcodedCharacter = characterSets[rowIndex][indexTranscodedCharacter];
+    transcodedCharacter = isUpperCase ? transcodedCharacter = transcodedCharacter : transcodedCharacter = transcodedCharacter.toLowerCase();
+    
+    return transcodedCharacter;
 }
