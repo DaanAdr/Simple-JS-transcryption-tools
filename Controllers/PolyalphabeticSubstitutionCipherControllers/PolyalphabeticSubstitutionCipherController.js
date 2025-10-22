@@ -14,6 +14,23 @@ let typingTimer;
 let enteredPlaintext = false;
 let enteredCipherText = false;
 
+function populateViewHeader() {
+    let headerText = "";
+
+    switch(_mode) {
+        case 'vg':
+            headerText = "Vigenere Cipher";
+            break;
+        case 'bf':
+            headerText = "Beaufort Cipher";
+            break;
+    };
+
+    document.getElementById('header').innerHTML = headerText;
+}
+
+populateViewHeader();
+
 //#region Encode text
 _txtPlaintext.addEventListener('input', () => {
     clearTimeout(typingTimer);
