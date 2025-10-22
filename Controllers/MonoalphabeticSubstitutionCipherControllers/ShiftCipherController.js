@@ -1,6 +1,7 @@
-import { createUniqueCharacterSets, createAtbashCharacterSets } from "../../helperclasses/charactersethelper.js";
-import { transcodeText } from "../../helperclasses/substitutioncipherhelper.js";
+import { createShiftedCharacterSets, createUniqueCharacterSets } from "../../Helperclasses/CharacterSetHelper.js";
+import { transcodeText } from "../../Helperclasses/SubstitutionCipherHelper.js";
 
+const _sltShiftKey = document.getElementById("sltShiftKey");
 const _txtCharSet = document.getElementById('txtCharSet');
 const _txtPlaintext = document.getElementById("txtPlaintext");
 const _txtCiphertext = document.getElementById("txtCiphertext");
@@ -48,30 +49,62 @@ function decodeText()
 //#endregion
 
 //#region set character sets
-setCharacterSets();
+setPlaintextCharSet();
 
-function setCharacterSets()
+function setPlaintextCharSet()
 {
     //Split at space
     const charSetString = _txtCharSet.value;
     
     _plaintextCharacterSet = createUniqueCharacterSets(charSetString);
-    _ciphertextCharacterSet = createAtbashCharacterSets(_plaintextCharacterSet);
 
-    console.log(_plaintextCharacterSet);
-    console.log(_ciphertextCharacterSet);
+    populateShiftDropdown();
+
+    setCiphertextCharSet();
+}
+
+function setCiphertextCharSet()
+{
+    _ciphertextCharacterSet = createShiftedCharacterSets(_plaintextCharacterSet, _sltShiftKey.value);
 }
 
 _txtCharSet.addEventListener('keyup', () => {
     if(enteredPlaintext && !enteredCipherText){
-        setCharacterSets();
+        setPlaintextCharSet();
         encodeText();
     }
     else if(!enteredPlaintext && enteredCipherText){
-        setCharacterSets();
+        setPlaintextCharSet();
         decodeText()
     }
-
-    setCharacterSets();
-});
+    
+    setPlaintextCharSet();
+})
 //#endregion
+
+function populateShiftDropdown()
+{
+    // Remove all options from sltShiftKey
+    _sltShiftKey.length = 0;
+
+    const charSetLength = Math.max(..._plaintextCharacterSet.map(row => row.length));
+
+    for(let i = 1; i < charSetLength; i++)
+    {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = i;
+        _sltShiftKey.appendChild(option);
+    }
+}
+
+_sltShiftKey.addEventListener('change', () => {
+    if(enteredPlaintext && !enteredCipherText){
+        setCiphertextCharSet();
+        encodeText();
+    }
+    else if(!enteredPlaintext && enteredCipherText){
+        setCiphertextCharSet();
+        decodeText()
+    }
+})

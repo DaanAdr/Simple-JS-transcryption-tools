@@ -3,20 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atbash Cipher</title>
-    <script src="../../controllers/monoalphabetic-substitution-ciphers/atbashcontroller.js" type="module" defer></script>
-    <link rel="stylesheet" href="../../stylesheets/main.css">
+    <title>Shift Cipher</title>
+    <script src="../../Controllers/MonoalphabeticSubstitutionCipherControllers/ShiftCipherController.js" type="module" defer></script>
+    <link rel="stylesheet" href="../../Stylesheets/Main.css">
 </head>
 <body>
-    <a href="../../index.html"><< Home</a>
+    <a href="../../Index.html"><< Home</a>
     <div class="container">
+        <div class="row>">
+            <div class="label">Shift value:</div>
+            <div>
+                <select id="sltShiftKey"></select>
+            </div>
+        </div>
         <details class="row">
             <summary>Optional settings</summary>
             <div class="row">
                  <div class="label">Character set to use:</div>
                 <div>
                     <textarea id="txtCharSet">ABCDEFGHIJKLMNOPQRSTUVWXYZ</textarea>
-                    <abbr title="Use space to create a second set of character on which the inversion gets applied independently.">(?)</abbr>
+                    <abbr title="Use space to create a second set of character on which the shift gets applied independently.">(?)</abbr>
                 </div>
             </div>
         </details>

@@ -24,9 +24,9 @@
             <details>
                 <summary>
                     Atbash Cipher --
-                    <a href="./views/monoalphabetic-substitution-ciphers/atbashcipher.html">Transcode Atbash Cipher</a>
+                    <a href="./Views/MonoalphabeticSubstitutionCipherViews/AtbashCipherView.html">Transcode Atbash Cipher</a>
                 </summary>
-                <img src="./img/AtbashCipher.png">
+                <img src="./Img/AtbashCipher.png">
                 <p>The Atbash cipher is a simple substitution cipher that replaces each letter of the alphabet with its reverse counterpart. In this cipher, 'A' is replaced by 'Z,' 'B' by 'Y,' 'C' by 'X,' and so on, until 'Z' is replaced by 'A.'</p>
                 <p>Because the cipheralphabet is always the same, this is very easy to crack.</p>
                 <br><br><br>
@@ -37,7 +37,7 @@
             <details>
                 <summary>
                     A1Z26/Number-to-Letter Cipher --
-                    <a href="./views/monoalphabetic-substitution-ciphers/a1z26cipher.html">Transcode A1Z16 Cipher</a>
+                    <a href="./Views/MonoalphabeticSubstitutionCipherViews/A1Z26CipherView.html">Transcode A1Z16 Cipher</a>
                 </summary>
                 <p>In this cipher, each letter of the Latin alphabet is replaced by its corresponding position in the alphabet. For example:</p>
                 <ul>
@@ -56,9 +56,9 @@
             <details>
                 <summary>
                     Shift Cipher --
-                    <a href="./views/monoalphabetic-substitution-ciphers/shiftcipher.html">Transcode Shift Cipher</a>
+                    <a href="./Views/MonoalphabeticSubstitutionCipherViews/ShiftCipherView.html">Transcode Shift Cipher</a>
                 </summary>
-                <img src="./img/ShiftCipher.png">
+                <img src="./Img/ShiftCipher.png">
                 <p>A shift cipher, also known as a Caesar cipher, is a type of substitution cipher where each letter in the plaintext is 'shifted' a certain number of places down or up the alphabet. The shift value is a key that determines how many positions each letter is moved.</p>
                 <p>For example, with a shift of 3:</p>
                 <ul>
@@ -77,9 +77,9 @@
             <details>
                 <summary>
                     Keyword Cipher --
-                    <a href="./views/monoalphabetic-substitution-ciphers/keywordcipher.html">Transcode Keyword Cipher</a>
+                    <a href="./Views/MonoalphabeticSubstitutionCipherViews/KeywordCipherView.html">Transcode Keyword Cipher</a>
                 </summary>
-                <img src="./img/KeywordCipher.png">
+                <img src="./Img/KeywordCipher.png">
                 <p>A keyword cipher is a type of substitution cipher that uses a keyword to create a unique alphabet for encoding and decoding messages. In this cipher, the keyword is written down and letters from the keyword are used to form the beginning of the cipher alphabet. Any remaining letters of the standard alphabet that are not in the keyword are then added in alphabetical order to complete the cipher alphabet.</p>
                 <p>For example, if the keyword is "CIPHER," the cipher alphabet would start with "C," "I," "P," "H," "E," and "R," followed by the letters "A," "B," "D," "F," "G," "J," "K," "L," "M," "N," "O," "Q," "S," "T," "U," "V," "W," "X," "Y," "Z" to form a complete alphabet.</p>
                 <p>To encode a message, you would replace each letter in the original message with the corresponding letter from the cipher alphabet. To decode, you would do the reverse.</p>
@@ -93,7 +93,7 @@
             <details>
                 <summary>
                     Affine Cipher --
-                    <a href="/views/monoalphabetic-substitution-ciphers/affinecipher.html">Transcode Affine Cipher</a>
+                    <a href="/Views/MonoalphabeticSubstitutionCipherViews/AffineCipherView.html">Transcode Affine Cipher</a>
                 </summary>
                 <p>The affine cipher is a type of monoalphabetic substitution cipher, where each letter in an alphabet is mapped to its numeric equivalent, encrypted using a simple mathematical function, and then converted back to a letter. The encryption function for the affine cipher can be expressed as:</p>
                 <p>E = (A * X + B) mod 26</p>
@@ -122,9 +122,9 @@
             <details>
                 <summary>
                     Vigenere & Tritermius Cipher --
-                    <a href="./views/polyalphabetic-substitution-ciphers/vigenerecipher.html">Transcode Vigenere Cipher</a>
+                    <a href="./Views/PolyalphabeticSubstitutionCipherViews/VigenereCipherView.html">Transcode Vigenere Cipher</a>
                 </summary>
-                <img src="./img/VigenereCipher.png">
+                <img src="./Img/VigenereCipher.png">
                 <p>The Vigenère cipher is a method of encrypting alphabetic text by using a simple form of polyalphabetic substitution. It employs a keyword, where each letter of the keyword corresponds to a shift in the alphabet for the plaintext letters.</p>
                 <p>The Vigenère cipher is more secure than a simple Caesar cipher because it uses multiple Caesar ciphers based on the letters of the keyword, making it harder to break without knowing the keyword. However, it can still be vulnerable to certain types of cryptanalysis, especially if the keyword is short or predictable.</p>
                 <p>If you use the alphabet as keyword, you're essentially using the Tritermius cipher.</p>

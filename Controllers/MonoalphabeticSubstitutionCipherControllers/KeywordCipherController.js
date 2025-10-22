@@ -1,11 +1,11 @@
-import {createA1Z26CharacterSet, createUniqueCharacterSet } from "../../helperclasses/charactersethelper.js";
-import { encodeTextWithSeperator, decodeTextWithSeperator } from "../../helperclasses/substitutioncipherhelper.js";
+import { createKeywordCharacterSet, createUniqueCharacterSet } from "../../Helperclasses/CharacterSetHelper.js";
+import { transcodeText } from "../../Helperclasses/SubstitutionCipherHelper.js";
 
 const _txtCharSet = document.getElementById('txtCharSet');
+const _inpKeyword = document.getElementById('inpKeyword');
+const _inpAppendKeyword = document.getElementById('inpAppendKeyword');
 const _txtPlaintext = document.getElementById("txtPlaintext");
 const _txtCiphertext = document.getElementById("txtCiphertext");
-const _inpSeperator = document.getElementById("inpSeperator");
-const _inpFirstCharValue = document.getElementById("inpFirstCharValue");
 
 let _plaintextCharacterSet = "";
 let _ciphertextCharacterSet = "";
@@ -27,7 +27,7 @@ _txtPlaintext.addEventListener('input', () => {
 
 function encodeText()
 {
-    _txtCiphertext.value = encodeTextWithSeperator(_txtPlaintext.value, _plaintextCharacterSet, _ciphertextCharacterSet, _inpSeperator.value);
+    _txtCiphertext.value = transcodeText(_txtPlaintext.value, [_plaintextCharacterSet], [_ciphertextCharacterSet]);
 }
 //#endregion
 
@@ -45,55 +45,55 @@ _txtCiphertext.addEventListener('input', () => {
 
 function decodeText()
 {
-    _txtPlaintext.value = decodeTextWithSeperator(_txtCiphertext.value, _plaintextCharacterSet, _ciphertextCharacterSet, _inpSeperator.value);
+    _txtPlaintext.value = transcodeText(_txtCiphertext.value, [_ciphertextCharacterSet], [_plaintextCharacterSet]);
 }
 //#endregion
 
 //#region set character sets
-setCharacterSets();
+setPlaintextCharSet();
 
-function setCharacterSets()
+function setPlaintextCharSet()
 {
-    let charSetString = _txtCharSet.value;
-    _plaintextCharacterSet = createUniqueCharacterSet(charSetString);
+    const charSetString = _txtCharSet.value;
     
+    _plaintextCharacterSet = createUniqueCharacterSet(charSetString);
+
     setCiphertextCharSet();
 }
 
-function setCiphertextCharSet(){
-    _ciphertextCharacterSet = createA1Z26CharacterSet(_plaintextCharacterSet, _inpFirstCharValue.value);
+function setCiphertextCharSet()
+{
+    const keyword = _inpKeyword.value;
+    const appendKeyword = _inpAppendKeyword.checked;
+
+    let ciphertextCharacterSet = createKeywordCharacterSet(keyword, _plaintextCharacterSet, appendKeyword);
+
+    _ciphertextCharacterSet = ciphertextCharacterSet;
 }
 
 _txtCharSet.addEventListener('keyup', () => {
     if(enteredPlaintext && !enteredCipherText){
-        setCharacterSets();
+        setPlaintextCharSet();
         encodeText();
     }
     else if(!enteredPlaintext && enteredCipherText){
-        setCharacterSets();
+        setPlaintextCharSet();
         decodeText()
     }
-
-    setCharacterSets();
+    
+    setPlaintextCharSet();
 });
 //#endregion
 
-_inpSeperator.addEventListener('keyup', () => {
+_inpAppendKeyword.addEventListener('change', () => {
     if(enteredPlaintext && !enteredCipherText){
+        setCiphertextCharSet();
         encodeText();
     }
     else if(!enteredPlaintext && enteredCipherText){
+        setCiphertextCharSet();
         decodeText()
     }
-});
 
-_inpFirstCharValue.addEventListener('keyup', () => {
-    if(enteredPlaintext && !enteredCipherText){
-        setCiphertextCharSet();
-        encodeText();
-    }
-    else if(!enteredPlaintext && enteredCipherText){
-        setCiphertextCharSet();
-        decodeText()
-    }
-})
+    setCiphertextCharSet();
+});
