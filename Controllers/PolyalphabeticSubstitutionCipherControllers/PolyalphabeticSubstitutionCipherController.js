@@ -70,3 +70,12 @@ _txtCharSet.addEventListener('keyup', () => {
     setPlaintextCharacterSets();
 });
 //#endregion
+
+_inpKeyword.addEventListener('keyup', () => {
+    if(enteredPlaintext && !enteredCipherText){
+        encodeText();
+    }
+    else if(!enteredPlaintext && enteredCipherText){
+        decodeText()
+    }
+});
