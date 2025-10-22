@@ -1,15 +1,14 @@
 /**
  * Transcode a text using the vigenere cipher
  * 
- * @param {string} text The text that needs to be transcoded
- * @param {array} characterSets A nested array of the character set that the text is in
- * @param {string} keyword The keyword that is used for setting up the shift
- * @param {boolean} decodeText To indicate if a text needs to be decoded instead of encoded
- * @returns the transcoded text as a string
+ * @param {string} text The text that needs to be transcoded.
+ * @param {Array<Array<string>>} characterSets - A nested array of character sets.
+ * @param {string} keyword The keyword that is used for setting up the shift.
+ * @param {boolean} decodeText To indicate if a text needs to be decoded instead of encoded.
+ * @returns {string} the transcoded text as a string.
  */
 export function transcodeVigenere(text, characterSets, keyword, decodeText=false) {
-    const keyCharacters = [...new Set(keyword.split(''))];
-    const keystream = createKeyStream(keyCharacters, text, characterSets);
+    const keystream = createKeyStream(keyword, text.length, characterSets);
     const textCharacters = [...text];
     let encodedText = "";
     let keystreamIndex = 0;
@@ -18,7 +17,7 @@ export function transcodeVigenere(text, characterSets, keyword, decodeText=false
         const { characterIndex, rowIndex, isUpperCase } = findCharacterIndex(character, characterSets);
 
         if(characterIndex != undefined) {
-            character = getShiftedCharacter(characterIndex, characterSets, rowIndex, keystream[keystreamIndex], isUpperCase, decodeText);
+            character = getShiftedCharacter(characterIndex, characterSets[rowIndex], keystream[keystreamIndex], isUpperCase, decodeText);
             keystreamIndex++;
         }
 
@@ -28,9 +27,16 @@ export function transcodeVigenere(text, characterSets, keyword, decodeText=false
     return encodedText;
 }
 
-function createKeyStream(keyCharacters, text, characterSets) {
-    const spacelessText = text.replace(/\s/g, '');
-    const keystreamLength = spacelessText.length;
+/**
+ * Create a list of the indexes for each character in the keyword, and repeat said list for a given length
+ * 
+ * @param {string} keyword The keyword for which all indexes need to be used to create the keystream.
+ * @param {number} keystreamLength The length the keystream should be. Normally the length of the text that needs to be transcoded.
+ * @param {Array<Array<string>>} characterSets - A nested array of character sets.
+ * @returns {Array<number>} an array of indexes that are to be used as shift values.
+ */
+function createKeyStream(keyword, keystreamLength, characterSets) {
+    const keyCharacters = [...new Set(keyword.split(''))];
     const keyCharacterIndexes = [];
     const keystream = [];
 
@@ -53,6 +59,17 @@ function createKeyStream(keyCharacters, text, characterSets) {
     return keystream;
 }
 
+/**
+ * Find the index of a character in the given character sets
+ * 
+ * @param {char} character The character for which the index needs to be found.
+ * @param {Array<Array<string>>} characterSets - A nested array of character sets.
+ * @returns {{ characterIndex: number, rowIndex: number, isUpperCase: boolean }} 
+ * An object containing:
+ * - characterIndex: The index of the character within its respective character set.
+ * - rowIndex: The index of the character set in which the character was found.
+ * - isUpperCase: A boolean indicating if the character is uppercase.
+ */
 function findCharacterIndex(character, characterSets) {
     let characterIndex = undefined;
     let isUpperCase = character == character.toUpperCase();
@@ -83,12 +100,22 @@ function findCharacterIndex(character, characterSets) {
     return {characterIndex, rowIndex, isUpperCase};
 }
 
-function getShiftedCharacter(characterIndex, characterSets, rowIndex, keystreamCharacter, isUpperCase, decodeText) {
-    const characterSetLength = characterSets[rowIndex].length;
+/**
+ * Performs a calculation to get the encoded/decoded character for characterIndex
+ * 
+ * @param {number} characterIndex The index of the character that needs to be shifted.
+ * @param {Array<string>} characterSet The character set that the character is in.
+ * @param {number} keystreamCharacter The value that character needs to be shifted by.
+ * @param {boolean} isUpperCase Determines the casing of the shifted character.
+ * @param {boolean} decodeText Indicates if the shift needs to be positive (Encodeing) of negative (Decoding).
+ * @returns {char} the shifted character.
+ */
+function getShiftedCharacter(characterIndex, characterSet, keystreamCharacter, isUpperCase, decodeText) {
+    const characterSetLength = characterSet.length;
     let indexTranscodedCharacter = decodeText ? (characterIndex - keystreamCharacter) % characterSetLength: (characterIndex + keystreamCharacter) % characterSetLength;
     indexTranscodedCharacter = indexTranscodedCharacter < 0 ? indexTranscodedCharacter += characterSetLength : indexTranscodedCharacter = indexTranscodedCharacter;
     
-    let transcodedCharacter = characterSets[rowIndex][indexTranscodedCharacter];
+    let transcodedCharacter = characterSet[indexTranscodedCharacter];
     transcodedCharacter = isUpperCase ? transcodedCharacter = transcodedCharacter : transcodedCharacter = transcodedCharacter.toLowerCase();
     
     return transcodedCharacter;
