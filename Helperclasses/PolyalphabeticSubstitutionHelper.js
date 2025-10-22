@@ -22,7 +22,7 @@ export function transcodeText(text, characterSets, keyword, cipherMode, decodeTe
             transcodedText = transcodeVigenere(textCharacters, characterSets, keystream, decodeText);
             break;
         case _cipherMode.BEAUFORT:
-            console.log("beaufort");
+            transcodedText = transcodeBeaufort(textCharacters, characterSets, keystream);
             break;
     };
 
@@ -135,6 +135,48 @@ function getShiftedCharacterForVigenereCipher(characterIndex, characterSet, keys
     const characterSetLength = characterSet.length;
 
     let indexTranscodedCharacter = decodeText ? (characterIndex - keystreamCharacter) % characterSetLength: (characterIndex + keystreamCharacter) % characterSetLength;
+    indexTranscodedCharacter = indexTranscodedCharacter < 0 ? indexTranscodedCharacter += characterSetLength : indexTranscodedCharacter = indexTranscodedCharacter;
+    
+    let transcodedCharacter = characterSet[indexTranscodedCharacter];
+    transcodedCharacter = isUpperCase ? transcodedCharacter = transcodedCharacter : transcodedCharacter = transcodedCharacter.toLowerCase();
+    
+    return transcodedCharacter;
+}
+
+//#endregion
+
+//#region Beaufort Cipher 
+function transcodeBeaufort(textCharacters, characterSets, keystream) {
+    let encodedText = "";
+    let keystreamIndex = 0;
+
+    textCharacters.forEach(character => {
+        const { characterIndex, rowIndex, isUpperCase } = findCharacterIndex(character, characterSets);
+
+        if(characterIndex != undefined) {
+            character = getShiftedCharacterForBeaufortCipher(characterIndex, characterSets[rowIndex], keystream[keystreamIndex], isUpperCase);
+            keystreamIndex++;
+        }
+
+        encodedText += character;
+    });
+
+    return encodedText;
+}
+
+/**
+ * Performs a calculation to get the encoded/decoded character for characterIndex
+ * 
+ * @param {number} characterIndex The index of the character that needs to be shifted.
+ * @param {Array<string>} characterSet The character set that the character is in.
+ * @param {number} keystreamCharacter The value that character needs to be shifted by.
+ * @param {boolean} isUpperCase Determines the casing of the shifted character.
+ * @returns {char} the shifted character.
+ */
+function getShiftedCharacterForBeaufortCipher(characterIndex, characterSet, keystreamCharacter, isUpperCase) {
+    const characterSetLength = characterSet.length;
+          
+    let indexTranscodedCharacter = (keystreamCharacter - characterIndex + characterSetLength) % characterSetLength;
     indexTranscodedCharacter = indexTranscodedCharacter < 0 ? indexTranscodedCharacter += characterSetLength : indexTranscodedCharacter = indexTranscodedCharacter;
     
     let transcodedCharacter = characterSet[indexTranscodedCharacter];
