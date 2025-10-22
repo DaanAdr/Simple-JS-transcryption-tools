@@ -1,6 +1,9 @@
 import { createUniqueCharacterSets } from "../../Helperclasses/CharacterSetHelper.js";
 import { transcodeVigenere } from "../../Helperclasses/PolyalphabeticSubstitutionHelper.js";
 
+const urlParams = new URLSearchParams(window.location.search);
+const _mode = urlParams.get('mode');
+
 const _txtCharSet = document.getElementById('txtCharSet');
 const _inpKeyword = document.getElementById('inpKeyword');
 const _txtPlaintext = document.getElementById("txtPlaintext");
@@ -24,7 +27,7 @@ _txtPlaintext.addEventListener('input', () => {
 });
 
 function encodeText() {
-    _txtCiphertext.value = transcodeVigenere(_txtPlaintext.value, _plaintextCharacterSet, _inpKeyword.value);
+    _txtCiphertext.value = transcodeVigenere(_txtPlaintext.value, _plaintextCharacterSet, _inpKeyword.value, _mode);
 }
 //#endregion
 
@@ -41,7 +44,7 @@ _txtCiphertext.addEventListener('input', () => {
 });
 
 function decodeText() {
-    _txtPlaintext.value = transcodeVigenere(_txtCiphertext.value, _plaintextCharacterSet, _inpKeyword.value, true);
+    _txtPlaintext.value = transcodeVigenere(_txtCiphertext.value, _plaintextCharacterSet, _inpKeyword.value, _mode, true);
 }
 //#endregion
 
