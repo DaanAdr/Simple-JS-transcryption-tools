@@ -1,5 +1,8 @@
 import { createUniqueCharacterSets } from "../../Helperclasses/CharacterSetHelper.js";
-import { transcodeVigenere } from "../../Helperclasses/PolyalphabeticSubstitutionHelper.js";
+import { transcodeText } from "../../Helperclasses/PolyalphabeticSubstitutionHelper.js";
+
+const urlParams = new URLSearchParams(window.location.search);
+const _mode = urlParams.get('mode');
 
 const _txtCharSet = document.getElementById('txtCharSet');
 const _inpKeyword = document.getElementById('inpKeyword');
@@ -10,6 +13,23 @@ let _plaintextCharacterSet = "";
 let typingTimer;
 let enteredPlaintext = false;
 let enteredCipherText = false;
+
+function populateViewHeader() {
+    let headerText = "";
+
+    switch(_mode) {
+        case 'vg':
+            headerText = "Vigenere Cipher";
+            break;
+        case 'bf':
+            headerText = "Beaufort Cipher";
+            break;
+    };
+
+    document.getElementById('header').innerHTML = headerText;
+}
+
+populateViewHeader();
 
 //#region Encode text
 _txtPlaintext.addEventListener('input', () => {
@@ -24,7 +44,7 @@ _txtPlaintext.addEventListener('input', () => {
 });
 
 function encodeText() {
-    _txtCiphertext.value = transcodeVigenere(_txtPlaintext.value, _plaintextCharacterSet, _inpKeyword.value);
+    _txtCiphertext.value = transcodeText(_txtPlaintext.value, _plaintextCharacterSet, _inpKeyword.value, _mode);
 }
 //#endregion
 
@@ -41,7 +61,7 @@ _txtCiphertext.addEventListener('input', () => {
 });
 
 function decodeText() {
-    _txtPlaintext.value = transcodeVigenere(_txtCiphertext.value, _plaintextCharacterSet, _inpKeyword.value, true);
+    _txtPlaintext.value = transcodeText(_txtCiphertext.value, _plaintextCharacterSet, _inpKeyword.value, _mode, true);
 }
 //#endregion
 
@@ -67,3 +87,12 @@ _txtCharSet.addEventListener('keyup', () => {
     setPlaintextCharacterSets();
 });
 //#endregion
+
+_inpKeyword.addEventListener('keyup', () => {
+    if(enteredPlaintext && !enteredCipherText){
+        encodeText();
+    }
+    else if(!enteredPlaintext && enteredCipherText){
+        decodeText()
+    }
+});
