@@ -12,24 +12,21 @@ const _cipherMode = {
  * @param {boolean} decodeText To indicate if a text needs to be decoded instead of encoded.
  * @returns {string} the transcoded text as a string.
  */
-export function transcodeVigenere(text, characterSets, keyword, cipherMode, decodeText=false) {
+export function transcodeText(text, characterSets, keyword, cipherMode, decodeText=false) {
     const keystream = createKeyStream(keyword, text.length, characterSets);
     const textCharacters = [...text];
-    let encodedText = "";
-    let keystreamIndex = 0;
-
-    textCharacters.forEach(character => {
-        const { characterIndex, rowIndex, isUpperCase } = findCharacterIndex(character, characterSets);
-
-        if(characterIndex != undefined) {
-            character = getShiftedCharacter(characterIndex, characterSets[rowIndex], keystream[keystreamIndex], isUpperCase, cipherMode, decodeText);
-            keystreamIndex++;
-        }
-
-        encodedText += character;
-    });
+    let transcodedText = "";
     
-    return encodedText;
+    switch(cipherMode) {
+        case _cipherMode.VIGENERE:
+            transcodedText = transcodeVigenere(textCharacters, characterSets, keystream, decodeText);
+            break;
+        case _cipherMode.BEAUFORT:
+            console.log("beaufort");
+            break;
+    };
+
+    return transcodedText;
 }
 
 /**
@@ -105,6 +102,25 @@ function findCharacterIndex(character, characterSets) {
     return {characterIndex, rowIndex, isUpperCase};
 }
 
+//#region Vigenere Cipher 
+function transcodeVigenere(textCharacters, characterSets, keystream, decodeText) {
+    let encodedText = "";
+    let keystreamIndex = 0;
+
+    textCharacters.forEach(character => {
+        const { characterIndex, rowIndex, isUpperCase } = findCharacterIndex(character, characterSets);
+
+        if(characterIndex != undefined) {
+            character = getShiftedCharacterForVigenereCipher(characterIndex, characterSets[rowIndex], keystream[keystreamIndex], isUpperCase, decodeText);
+            keystreamIndex++;
+        }
+
+        encodedText += character;
+    });
+
+    return encodedText;
+}
+
 /**
  * Performs a calculation to get the encoded/decoded character for characterIndex
  * 
@@ -115,26 +131,16 @@ function findCharacterIndex(character, characterSets) {
  * @param {boolean} decodeText Indicates if the shift needs to be positive (Encodeing) of negative (Decoding).
  * @returns {char} the shifted character.
  */
-function getShiftedCharacter(characterIndex, characterSet, keystreamCharacter, isUpperCase, cipherMode, decodeText) {
+function getShiftedCharacterForVigenereCipher(characterIndex, characterSet, keystreamCharacter, isUpperCase, decodeText) {
     const characterSetLength = characterSet.length;
 
-    switch(cipherMode) {
-        case _cipherMode.VIGENERE:
-            console.log('Vigenere');
-            break;
-        case _cipherMode.BEAUFORT:
-            console.log("beaufort");
-            break;
-    };
-
-
-    // let indexTranscodedCharacter = decodeText ? (characterIndex - keystreamCharacter) % characterSetLength: (characterIndex + keystreamCharacter) % characterSetLength;
-    // indexTranscodedCharacter = indexTranscodedCharacter < 0 ? indexTranscodedCharacter += characterSetLength : indexTranscodedCharacter = indexTranscodedCharacter;
+    let indexTranscodedCharacter = decodeText ? (characterIndex - keystreamCharacter) % characterSetLength: (characterIndex + keystreamCharacter) % characterSetLength;
+    indexTranscodedCharacter = indexTranscodedCharacter < 0 ? indexTranscodedCharacter += characterSetLength : indexTranscodedCharacter = indexTranscodedCharacter;
     
-    // let transcodedCharacter = characterSet[indexTranscodedCharacter];
-    // transcodedCharacter = isUpperCase ? transcodedCharacter = transcodedCharacter : transcodedCharacter = transcodedCharacter.toLowerCase();
+    let transcodedCharacter = characterSet[indexTranscodedCharacter];
+    transcodedCharacter = isUpperCase ? transcodedCharacter = transcodedCharacter : transcodedCharacter = transcodedCharacter.toLowerCase();
     
-    // return transcodedCharacter;
-
-    return 'A';
+    return transcodedCharacter;
 }
+
+//#endregion

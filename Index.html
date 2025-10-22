@@ -122,7 +122,7 @@
             <details>
                 <summary>
                     Vigenere & Tritermius Cipher --
-                    <a id="btnVigenere" href="#"">Transcode Vigenere Cipher</a>
+                    <a href="Views/PolyalphabeticSubstitutionCipherViews/VigenereCipherView.html?mode=vg">Transcode Vigenere Cipher</a>
                 </summary>
                 <img src="./Img/VigenereCipher.png">
                 <p>The Vigenère cipher is a method of encrypting alphabetic text by using a simple form of polyalphabetic substitution. It employs a keyword, where each letter of the keyword corresponds to a shift in the alphabet for the plaintext letters.</p>
@@ -136,7 +136,7 @@
             <details>
                 <summary>
                     Beaufort Cipher --
-                    <a id="btnBeaufort" href="#">Transcode Beaufort Cipher</a>
+                    <a href="Views/PolyalphabeticSubstitutionCipherViews/VigenereCipherView.html?mode=bf">Transcode Beaufort Cipher</a>
                 </summary>
                 <!-- <img src="./img/VigenereCipher.png"> -->
                 <p>The Beaufort cipher is a polyalphabetic substitution cipher that is similar to the Vigenère cipher. It uses a keyword to encrypt and decrypt messages, but it uses a different calculation to determine the shited character.</p>
@@ -148,27 +148,3 @@
     <h2>Transposition Ciphers</h2>
 </body>
 </html>
-
-<script>
-    document.getElementById("btnVigenere").onclick = function() {
-    // Define a variable to pass
-    const myVariable = "vg";
-    
-    // Create the URL with the variable as a query parameter
-    const url = `./Views/PolyalphabeticSubstitutionCipherViews/VigenereCipherView.html?mode=${encodeURIComponent(myVariable)}`;
-    
-    // Redirect to the new page
-    window.location.href = url;
-};
-
-document.getElementById("btnBeaufort").onclick = function() {
-    // Define a variable to pass
-    const myVariable = "bf";
-    
-    // Create the URL with the variable as a query parameter
-    const url = `./Views/PolyalphabeticSubstitutionCipherViews/VigenereCipherView.html?mode=${encodeURIComponent(myVariable)}`;
-    
-    // Redirect to the new page
-    window.location.href = url;
-};
-</script>
