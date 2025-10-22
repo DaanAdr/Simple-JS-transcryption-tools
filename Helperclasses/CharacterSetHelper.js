@@ -68,7 +68,9 @@ export function createShiftedCharacterSets(characterSets, shift)
 
         characterSubSet.forEach((character, index) => {
             const shiftedIndex = (Number(index) + Number(shift)) % Number(characterSubSet.length);
-            shiftedCharacterSets[rowIndex][shiftedIndex] = character;
+            const shiftedCharacter = characterSubSet[shiftedIndex];
+            
+            shiftedCharacterSets[rowIndex][index] = shiftedCharacter;
         });
     });
 
