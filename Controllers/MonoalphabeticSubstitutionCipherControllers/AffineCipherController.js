@@ -2,6 +2,9 @@ import { createAffineCharacterSets, createUniqueCharacterSets } from "../../Help
 import { transcodeText } from "../../Helperclasses/SubstitutionCipherHelper.js";
 import { getListOfCoprimes } from "../../Helperclasses/MathAlgorithmHelper.js";
 
+const urlParams = new URLSearchParams(window.location.search);
+const _mode = urlParams.get('mode');
+
 const _txtCharSet = document.getElementById('txtCharSet');
 const _sltAValue = document.getElementById("sltAValue");
 const _sltBValue = document.getElementById("sltBValue");
@@ -13,6 +16,23 @@ let _ciphertextCharacterSet = "";
 let typingTimer;
 let enteredPlaintext = false;
 let enteredCipherText = false;
+
+function populateViewHeader() {
+    let headerText = "";
+
+    switch(_mode) {
+        case 'mp':
+            headerText = "Multiplicative Cipher";
+            break;
+        case 'ac':
+            headerText = "Affine Cipher";
+            break;
+    };
+
+    document.getElementById('header').innerHTML = headerText;
+}
+
+populateViewHeader();
 
 //#region Encode text
 _txtPlaintext.addEventListener('input', () => {
@@ -100,7 +120,7 @@ function populateDropdowns()
         _sltAValue.appendChild(option);
 
         // Set the default value
-        if (value === 5) option.selected = true; // Mark this option as selected
+        if (value === 5) option.selected = true;
     });
 
     // Populate sltBValue
@@ -111,7 +131,11 @@ function populateDropdowns()
         _sltBValue.appendChild(option);
 
         // Set the default value
-        if (i === 8) option.selected = true; // Mark this option as selected
+        if (_mode == "mp" && i===0) {
+            option.selected = true;
+            _sltBValue.disabled = true;
+        }
+        else if (i === 8 && _mode != "mp") option.selected = true; 
     }
 }
 // #endregion

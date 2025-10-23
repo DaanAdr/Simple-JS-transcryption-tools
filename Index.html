@@ -104,7 +104,7 @@
             <details>
                 <summary>
                     Affine Cipher --
-                    <a href="/Views/MonoalphabeticSubstitutionCipherViews/AffineCipherView.html">Transcode Affine Cipher</a>
+                    <a href="/Views/MonoalphabeticSubstitutionCipherViews/AffineCipherView.html?mode=ac">Transcode Affine Cipher</a>
                 </summary>
                 <p>The affine cipher is a type of monoalphabetic substitution cipher, where each letter in an alphabet is mapped to its numeric equivalent, encrypted using a simple mathematical function, and then converted back to a letter. The encryption function for the affine cipher can be expressed as:</p>
                 <p>E = (A * X + B) mod 26</p>
@@ -124,6 +124,20 @@
                 <p>Due to the requirements set for the A and B values, only a select amount of possible cipheralphabets are possible. As such brute forcing these remains a real possibility.</p>
                 <br><br><br>
             </details> 
+            <ul>
+                <!-- Multiplicative Cipher -->
+                <li>
+                    <details>
+                        <summary>
+                            Multiplicative Cipher --
+                            <a href="/Views/MonoalphabeticSubstitutionCipherViews/AffineCipherView.html?mode=mp">Transcode Multiplicative Cipher</a>
+                        </summary>
+                        <p>Essentially just an Affine cipher, but the B value is always 0.</p>
+
+                        <br><br><br>
+                    </details> 
+                </li>
+            </ul>
         </li>
     </ul>
     <h3>Polyalphabetic Substitution Ciphers</h3>
@@ -149,7 +163,6 @@
                     Beaufort Cipher --
                     <a href="Views/PolyalphabeticSubstitutionCipherViews/PolyalphabeticSubstitutionCipherView.html?mode=bf">Transcode Beaufort Cipher</a>
                 </summary>
-                <!-- <img src="./img/VigenereCipher.png"> -->
                 <p>The Beaufort cipher is a polyalphabetic substitution cipher that is similar to the Vigenère cipher. It uses a keyword to encrypt and decrypt messages, but it uses a different calculation to determine the shited character.</p>
                 <br><br><br>
             </details> 
@@ -161,7 +174,6 @@
                     Autokey/Autoclave Cipher --
                     <a href="Views/PolyalphabeticSubstitutionCipherViews/PolyalphabeticSubstitutionCipherView.html?mode=ak">Transcode Autokey/Autoclave Cipher</a>
                 </summary>
-                <!-- <img src="./img/VigenereCipher.png"> -->
                 <p>The Autokey cipher is a polyalphabetic substitution cipher that is similar to the Vigenère cipher. It uses a keyword to encrypt and decrypt messages, but instead of repeating the keyword to create a keystream, it appends to message to the end of the key, in order to create the keystream.</p>
                 <br><br><br>
             </details> 
