@@ -44,9 +44,12 @@ _txtPlaintext.addEventListener('keyup', () => {
     encodeText();
 });
 
-function encodeText()
-{
-    _txtCiphertext.value = encodeTextWithSeperator(_txtPlaintext.value, _plaintextCharacterSet, _ciphertextCharacterSet, _inpSeperator.value, _isAlphabeticalRanks);
+function encodeText() {
+    _txtCiphertext.value = encodeTextWithSeperator(
+        _txtPlaintext.value, _plaintextCharacterSet, 
+        _ciphertextCharacterSet, 
+        _inpSeperator.value, 
+        _isAlphabeticalRanks);
 }
 //#endregion
 
@@ -57,26 +60,51 @@ _txtCiphertext.addEventListener('keyup', () => {
     decodeText();
 });
 
-function decodeText()
-{
-    _txtPlaintext.value = decodeTextWithSeperator(_txtCiphertext.value, _plaintextCharacterSet, _ciphertextCharacterSet, _inpSeperator.value, _isAlphabeticalRanks);
+function decodeText() {
+    _txtPlaintext.value = decodeTextWithSeperator(
+        _txtCiphertext.value, 
+        _plaintextCharacterSet, 
+        _ciphertextCharacterSet, 
+        _inpSeperator.value, 
+        _isAlphabeticalRanks);
 }
 //#endregion
 
-//#region set character sets
+//#region Character sets
 setCharacterSets();
 
-function setCharacterSets()
-{
+function setCharacterSets() {
     let charSetString = _txtCharSet.value;
     _plaintextCharacterSet = createUniqueCharacterSet(charSetString);
     
-    setCiphertextCharSet();
+    setCiphertextCharacterSet();
 }
 
-function setCiphertextCharSet(){
+function setCiphertextCharacterSet() {
     _ciphertextCharacterSet = createA1Z26CharacterSet(_plaintextCharacterSet, _inpFirstCharValue.value);
 }
+//#endregion
+
+//#region Handle setting changes
+_inpSeperator.addEventListener('keyup', () => {
+    if(_enteredPlaintext && !_enteredCipherText){
+        encodeText();
+    }
+    else if(!_enteredPlaintext && _enteredCipherText){
+        decodeText()
+    }
+});
+
+_inpFirstCharValue.addEventListener('keyup', () => {
+    if(_enteredPlaintext && !_enteredCipherText){
+        setCiphertextCharacterSet();
+        encodeText();
+    }
+    else if(!_enteredPlaintext && _enteredCipherText){
+        setCiphertextCharacterSet();
+        decodeText()
+    }
+});
 
 _txtCharSet.addEventListener('keyup', () => {
     if(_enteredPlaintext && !_enteredCipherText){
@@ -91,23 +119,3 @@ _txtCharSet.addEventListener('keyup', () => {
     setCharacterSets();
 });
 //#endregion
-
-_inpSeperator.addEventListener('keyup', () => {
-    if(_enteredPlaintext && !_enteredCipherText){
-        encodeText();
-    }
-    else if(!_enteredPlaintext && _enteredCipherText){
-        decodeText()
-    }
-});
-
-_inpFirstCharValue.addEventListener('keyup', () => {
-    if(_enteredPlaintext && !_enteredCipherText){
-        setCiphertextCharSet();
-        encodeText();
-    }
-    else if(!_enteredPlaintext && _enteredCipherText){
-        setCiphertextCharSet();
-        decodeText()
-    }
-})

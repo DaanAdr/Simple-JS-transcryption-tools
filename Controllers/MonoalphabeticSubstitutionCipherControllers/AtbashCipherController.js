@@ -17,9 +17,11 @@ _txtPlaintext.addEventListener('keyup', () => {
     encodeText();
 });
 
-function encodeText()
-{
-    _txtCiphertext.value = transcodeText(_txtPlaintext.value, _plaintextCharacterSet, _ciphertextCharacterSet);
+function encodeText() {
+    _txtCiphertext.value = transcodeText(
+        _txtPlaintext.value, 
+        _plaintextCharacterSet, 
+        _ciphertextCharacterSet);
 }
 //#endregion
 
@@ -30,21 +32,21 @@ _txtCiphertext.addEventListener('keyup', () => {
     decodeText();
 });
 
-function decodeText()
-{
-    _txtPlaintext.value = transcodeText(_txtCiphertext.value, _ciphertextCharacterSet, _plaintextCharacterSet);
+function decodeText() {
+    _txtPlaintext.value = transcodeText(
+        _txtCiphertext.value, 
+        _ciphertextCharacterSet, 
+        _plaintextCharacterSet);
 }
 //#endregion
 
-//#region set character sets
+//#region Character sets
 setCharacterSets();
 
-function setCharacterSets()
-{
-    //Split at space
-    const charSetString = _txtCharSet.value;
+function setCharacterSets() {
+    const characterSetString = _txtCharSet.value;
     
-    _plaintextCharacterSet = createUniqueCharacterSets(charSetString);
+    _plaintextCharacterSet = createUniqueCharacterSets(characterSetString);
     _ciphertextCharacterSet = createAtbashCharacterSets(_plaintextCharacterSet);
 }
 
