@@ -1,6 +1,13 @@
 import {createA1Z26CharacterSet, createUniqueCharacterSet } from "../../Helperclasses/CharacterSetHelper.js";
 import { encodeTextWithSeperator, decodeTextWithSeperator } from "../../Helperclasses/SubstitutionCipherHelper.js";
 
+const urlParams = new URLSearchParams(window.location.search);
+const _mode = urlParams.get('mode');
+const _cipherMode = {
+    A1Z26: 'az',
+    ALHABETICALRANKS: 'ar',
+};
+
 const _txtCharSet = document.getElementById('txtCharSet');
 const _txtPlaintext = document.getElementById("txtPlaintext");
 const _txtCiphertext = document.getElementById("txtCiphertext");
@@ -12,6 +19,24 @@ let _ciphertextCharacterSet = "";
 let typingTimer;
 let enteredPlaintext = false;
 let enteredCipherText = false;
+let _isAlphabeticalRanks = false;
+
+function populateViewHeader() {
+    let headerText = "";
+
+    switch(_mode) {
+        case _cipherMode.A1Z26:
+            headerText = "A1Z26 Cipher";
+            break;
+        case _cipherMode.ALHABETICALRANKS:
+            headerText = "Added Alphabetical Rank A1Z26 Cipher";
+            _isAlphabeticalRanks = true;
+            break;
+    };
+
+    document.getElementById('header').innerHTML = headerText;
+}
+populateViewHeader();
 
 //#region Encode text
 _txtPlaintext.addEventListener('input', () => {
@@ -27,7 +52,7 @@ _txtPlaintext.addEventListener('input', () => {
 
 function encodeText()
 {
-    _txtCiphertext.value = encodeTextWithSeperator(_txtPlaintext.value, _plaintextCharacterSet, _ciphertextCharacterSet, _inpSeperator.value);
+    _txtCiphertext.value = encodeTextWithSeperator(_txtPlaintext.value, _plaintextCharacterSet, _ciphertextCharacterSet, _inpSeperator.value, _isAlphabeticalRanks);
 }
 //#endregion
 
@@ -45,7 +70,7 @@ _txtCiphertext.addEventListener('input', () => {
 
 function decodeText()
 {
-    _txtPlaintext.value = decodeTextWithSeperator(_txtCiphertext.value, _plaintextCharacterSet, _ciphertextCharacterSet, _inpSeperator.value);
+    _txtPlaintext.value = decodeTextWithSeperator(_txtCiphertext.value, _plaintextCharacterSet, _ciphertextCharacterSet, _inpSeperator.value, _isAlphabeticalRanks);
 }
 //#endregion
 
