@@ -27,7 +27,7 @@ _txtPlaintext.addEventListener('input', () => {
 
 function encodeText()
 {
-    _txtCiphertext.value = encodeTextWithSeperator(_txtPlaintext.value, _plaintextCharacterSet, _ciphertextCharacterSet, _inpSeperator.value);
+    _txtCiphertext.value = encodeTextWithSeperator(_txtPlaintext.value, _plaintextCharacterSet, _ciphertextCharacterSet, _inpSeperator.value, true);
 }
 //#endregion
 

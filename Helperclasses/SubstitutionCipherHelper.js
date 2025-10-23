@@ -59,10 +59,11 @@ export function createMapForCharacterSets(sourceCharacterSets, targetCharacterSe
  * @param {char} seperator A character that is inserted between words in the substituted text
  * @returns a string of the substituted text
  */
-export function encodeTextWithSeperator(text, plaintextCharacterSet, ciphertextCharacterSet, seperator="0")
+export function encodeTextWithSeperator(text, plaintextCharacterSet, ciphertextCharacterSet, seperator="0", isAlphabeticalRanks=false)
 {
     const textArray = [...text];
     let encodedText = "";
+    let previousValue = 0;
 
     textArray.forEach(character => {
         if(character == " "){
@@ -73,7 +74,13 @@ export function encodeTextWithSeperator(text, plaintextCharacterSet, ciphertextC
         const index = getCharacterIndex(character, plaintextCharacterSet);
 
         if(index > -1) {
-            const encodedCharacter = ciphertextCharacterSet[index];
+            let encodedCharacter = ciphertextCharacterSet[index];
+
+            if(isAlphabeticalRanks) {
+                encodedCharacter = Number(encodedCharacter) + Number(previousValue);
+                previousValue = encodedCharacter;
+            }
+
             encodedText += encodedCharacter + " ";
             return;
         }
