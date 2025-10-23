@@ -49,17 +49,41 @@ function createKeyStream(keyword, keystreamLength, characterSets) {
     const keyCharacterIndexes = [];
     const keystream = [];
 
+    if(keyword.length < 1) {
+        return [];
+    }
+
     keyCharacters.forEach(character => {
+        let characterFound = false;
 
         characterSets.forEach(characterSet => {
             const index = characterSet.indexOf(character);
 
             if(index > -1) {
                 keyCharacterIndexes.push(index);
+                characterFound = true;
                 return;
             }
         });
+
+        if(!characterFound) {
+            const isUpperCase = character == character.toUpperCase();
+            const altCasedCharacter = isUpperCase ? character.toLowerCase() : character.toUpperCase();
+
+            characterSets.forEach(characterSet => {
+                const index = characterSet.indexOf(altCasedCharacter);
+
+                if(index > -1) {
+                    keyCharacterIndexes.push(index);
+                    return;
+                }
+            });
+        }
     });
+
+    if(keyCharacterIndexes.length < 1) {
+        alert("Keyword character not in the character sets");
+    }
 
     while(keystream.length < keystreamLength) {
         keystream.push(...keyCharacterIndexes);
@@ -208,7 +232,7 @@ function transcodeAutokey(textCharacters, characterSets, keystream, decodeText) 
             keystream.push(characterIndex);
         }
 
-        if(characterIndex > -1) {
+        if(characterIndex != undefined) {
             const { transcodedCharacter, indexTranscodedCharacter } = getShiftedCharacterForVigenereCipher(characterIndex, characterSets[rowIndex], keystream[keystreamIndex], isUpperCase, decodeText);
             character = transcodedCharacter;
 
