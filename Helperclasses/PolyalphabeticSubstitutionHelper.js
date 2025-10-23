@@ -148,7 +148,6 @@ function getShiftedCharacterForVigenereCipher(characterIndex, characterSet, keys
     let transcodedCharacter = characterSet[indexTranscodedCharacter];
     transcodedCharacter = isUpperCase ? transcodedCharacter = transcodedCharacter : transcodedCharacter = transcodedCharacter.toLowerCase();
     
-    //TODO: Return index transcode char
     return {transcodedCharacter, indexTranscodedCharacter};
 }
 
@@ -198,17 +197,18 @@ function getShiftedCharacterForBeaufortCipher(characterIndex, characterSet, keys
 
 //#region Autokey Cipher
 function transcodeAutokey(textCharacters, characterSets, keystream, decodeText) {
+    //TODO: Something it wrong with the keystream
     let encodedText = "";
     let keystreamIndex = 0;
 
     textCharacters.forEach(character => {
         const { characterIndex, rowIndex, isUpperCase } = findCharacterIndex(character, characterSets);
 
-        if(!decodeText) {
+        if(!decodeText && characterIndex > -1) {
             keystream.push(characterIndex);
         }
 
-        if(characterIndex != undefined) {
+        if(characterIndex > -1) {
             const { transcodedCharacter, indexTranscodedCharacter } = getShiftedCharacterForVigenereCipher(characterIndex, characterSets[rowIndex], keystream[keystreamIndex], isUpperCase, decodeText);
             character = transcodedCharacter;
 
