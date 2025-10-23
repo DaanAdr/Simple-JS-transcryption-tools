@@ -7,20 +7,14 @@ const _txtCiphertext = document.getElementById("txtCiphertext");
 
 let _plaintextCharacterSet = "";
 let _ciphertextCharacterSet = "";
-let typingTimer;
-let enteredPlaintext = false;
-let enteredCipherText = false;
+let _enteredPlaintext = false;
+let _enteredCipherText = false;
 
 //#region Encode text
-_txtPlaintext.addEventListener('input', () => {
-    clearTimeout(typingTimer);
-    typingTimer = setTimeout(() => {
-        
-        enteredPlaintext = true;
-        enteredCipherText = false;
-        encodeText();
-
-    }, 500); // 1000 milliseconds = 1 second
+_txtPlaintext.addEventListener('keyup', () => {
+    _enteredPlaintext = true;
+    _enteredCipherText = false;
+    encodeText();
 });
 
 function encodeText()
@@ -30,15 +24,10 @@ function encodeText()
 //#endregion
 
 //#region Decode text
-_txtCiphertext.addEventListener('input', () => {
-    clearTimeout(typingTimer);
-    typingTimer = setTimeout(() => {
-        
-        enteredPlaintext = false;
-        enteredCipherText = true;
-        decodeText();
-
-    }, 500); // 1000 milliseconds = 1 second
+_txtCiphertext.addEventListener('keyup', () => {
+    _enteredPlaintext = false;
+    _enteredCipherText = true;
+    decodeText();
 });
 
 function decodeText()
@@ -60,11 +49,11 @@ function setCharacterSets()
 }
 
 _txtCharSet.addEventListener('keyup', () => {
-    if(enteredPlaintext && !enteredCipherText){
+    if(_enteredPlaintext && !_enteredCipherText){
         setCharacterSets();
         encodeText();
     }
-    else if(!enteredPlaintext && enteredCipherText){
+    else if(!_enteredPlaintext && _enteredCipherText){
         setCharacterSets();
         decodeText()
     }

@@ -10,9 +10,8 @@ const _txtPlaintext = document.getElementById("txtPlaintext");
 const _txtCiphertext = document.getElementById("txtCiphertext");
 
 let _plaintextCharacterSet = "";
-let typingTimer;
-let enteredPlaintext = false;
-let enteredCipherText = false;
+let _enteredPlaintext = false;
+let _enteredCipherText = false;
 
 function populateViewHeader() {
     let headerText = "";
@@ -35,15 +34,10 @@ function populateViewHeader() {
 populateViewHeader();
 
 //#region Encode text
-_txtPlaintext.addEventListener('input', () => {
-    clearTimeout(typingTimer);
-    typingTimer = setTimeout(() => {
-        
-        enteredPlaintext = true;
-        enteredCipherText = false;
-        encodeText();
-
-    }, 500); // 1000 milliseconds = 1 second
+_txtPlaintext.addEventListener('keyup', () => {
+    _enteredPlaintext = true;
+    _enteredCipherText = false;
+    encodeText();
 });
 
 function encodeText() {
@@ -52,15 +46,10 @@ function encodeText() {
 //#endregion
 
 //#region Decode text
-_txtCiphertext.addEventListener('input', () => {
-    clearTimeout(typingTimer);
-    typingTimer = setTimeout(() => {
-        
-        enteredPlaintext = false;
-        enteredCipherText = true;
-        decodeText();
-
-    }, 500); // 1000 milliseconds = 1 second
+_txtCiphertext.addEventListener('keyup', () => {
+    _enteredPlaintext = false;
+    _enteredCipherText = true;
+    decodeText();
 });
 
 function decodeText() {
@@ -78,11 +67,11 @@ function setPlaintextCharacterSets() {
 }
 
 _txtCharSet.addEventListener('keyup', () => {
-    if(enteredPlaintext && !enteredCipherText){
+    if(_enteredPlaintext && !_enteredCipherText){
         setPlaintextCharacterSets();
         encodeText();
     }
-    else if(!enteredPlaintext && enteredCipherText){
+    else if(!_enteredPlaintext && _enteredCipherText){
         setPlaintextCharacterSets();
         decodeText()
     }
@@ -92,10 +81,10 @@ _txtCharSet.addEventListener('keyup', () => {
 //#endregion
 
 _inpKeyword.addEventListener('keyup', () => {
-    if(enteredPlaintext && !enteredCipherText){
+    if(_enteredPlaintext && !_enteredCipherText){
         encodeText();
     }
-    else if(!enteredPlaintext && enteredCipherText){
+    else if(!_enteredPlaintext && _enteredCipherText){
         decodeText()
     }
 });

@@ -4,6 +4,10 @@ import { getListOfCoprimes } from "../../Helperclasses/MathAlgorithmHelper.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const _mode = urlParams.get('mode');
+const _cipherMode = {
+    AFFINE: "ac",
+    MULTIPLICATIVE: "mp",
+};
 
 const _txtCharSet = document.getElementById('txtCharSet');
 const _sltAValue = document.getElementById("sltAValue");
@@ -13,18 +17,17 @@ const _txtCiphertext = document.getElementById("txtCiphertext");
 
 let _plaintextCharacterSet = "";
 let _ciphertextCharacterSet = "";
-let typingTimer;
-let enteredPlaintext = false;
-let enteredCipherText = false;
+let _enteredPlaintext = false;
+let _enteredCipherText = false;
 
 function populateViewHeader() {
     let headerText = "";
 
     switch(_mode) {
-        case 'mp':
+        case _cipherMode.MULTIPLICATIVE:
             headerText = "Multiplicative Cipher";
             break;
-        case 'ac':
+        case _cipherMode.AFFINE:
             headerText = "Affine Cipher";
             break;
     };
@@ -35,15 +38,10 @@ function populateViewHeader() {
 populateViewHeader();
 
 //#region Encode text
-_txtPlaintext.addEventListener('input', () => {
-    clearTimeout(typingTimer);
-    typingTimer = setTimeout(() => {
-        
-        enteredPlaintext = true;
-        enteredCipherText = false;
-        encodeText();
-
-    }, 500); // 1000 milliseconds = 1 second
+_txtPlaintext.addEventListener('keyup', () => {
+    _enteredPlaintext = true;
+    _enteredCipherText = false;
+    encodeText();
 });
 
 function encodeText()
@@ -53,15 +51,10 @@ function encodeText()
 //#endregion
 
 //#region Decode text
-_txtCiphertext.addEventListener('input', () => {
-    clearTimeout(typingTimer);
-    typingTimer = setTimeout(() => {
-        
-        enteredPlaintext = false;
-        enteredCipherText = true;
-        decodeText();
-
-    }, 500); // 1000 milliseconds = 1 second
+_txtCiphertext.addEventListener('keyup', () => {
+    _enteredPlaintext = false;
+    _enteredCipherText = true;
+    decodeText();
 });
 
 function decodeText()
@@ -91,11 +84,11 @@ function setCiphertextCharSet()
 }
 
 _txtCharSet.addEventListener('keyup', () => {
-    if(enteredPlaintext && !enteredCipherText){
+    if(_enteredPlaintext && !_enteredCipherText){
         setPlaintextCharSet();
         encodeText();
     }
-    else if(!enteredPlaintext && enteredCipherText){
+    else if(!_enteredPlaintext && _enteredCipherText){
         setPlaintextCharSet();
         decodeText()
     }
@@ -131,21 +124,21 @@ function populateDropdowns()
         _sltBValue.appendChild(option);
 
         // Set the default value
-        if (_mode == "mp" && i===0) {
+        if (_mode == _cipherMode.MULTIPLICATIVE && i===0) {
             option.selected = true;
             _sltBValue.disabled = true;
         }
-        else if (i === 8 && _mode != "mp") option.selected = true; 
+        else if (i === 8 && _mode == _cipherMode.AFFINE) option.selected = true; 
     }
 }
 // #endregion
 
 _sltAValue.addEventListener('change', () => {
-    if(enteredPlaintext && !enteredCipherText){
+    if(_enteredPlaintext && !_enteredCipherText){
         setCiphertextCharSet();
         encodeText();
     }
-    else if(!enteredPlaintext && enteredCipherText){
+    else if(!_enteredPlaintext && _enteredCipherText){
         setCiphertextCharSet();
         decodeText()
     }
@@ -154,11 +147,11 @@ _sltAValue.addEventListener('change', () => {
 });
 
 _sltBValue.addEventListener('change', () => {
-    if(enteredPlaintext && !enteredCipherText){
+    if(_enteredPlaintext && !_enteredCipherText){
         setCiphertextCharSet();
         encodeText();
     }
-    else if(!enteredPlaintext && enteredCipherText){
+    else if(!_enteredPlaintext && _enteredCipherText){
         setCiphertextCharSet();
         decodeText()
     }

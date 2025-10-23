@@ -85,7 +85,7 @@
                     <a href="./Views/MonoalphabeticSubstitutionCipherViews/ShiftCipherView.html">Transcode Shift Cipher</a>
                 </summary>
                 <img src="./Img/ShiftCipher.png">
-                <p>A shift cipher, also known as a Caesar cipher, is a type of substitution cipher where each letter in the plaintext is 'shifted' a certain number of places down or up the alphabet. The shift value is a key that determines how many positions each letter is moved.</p>
+                <p>A shift cipher, also known as a Caesar cipher, is a type of substitution cipher where each letter in the plaintext is 'shifted' a certain number of places down or up the plaintext character set. The shift value is a number that determines how many positions each letter is moved.</p>
                 <p>For example, with a shift of 3:</p>
                 <ul>
                     <li>A becomes D</li>
@@ -94,7 +94,7 @@
                     <li>Y becomes B</li>
                     <li>Z becomes C</li>
                 </ul>
-                <p>Because there is only a limited number of shifts possible, this encryption is quite easy to bruteforce.</p>
+                
                 <br><br><br>
             </details> 
         </li>
@@ -106,11 +106,16 @@
                     <a href="./Views/MonoalphabeticSubstitutionCipherViews/KeywordCipherView.html">Transcode Keyword Cipher</a>
                 </summary>
                 <img src="./Img/KeywordCipher.png">
-                <p>A keyword cipher is a type of substitution cipher that uses a keyword to create a unique alphabet for encoding and decoding messages. In this cipher, the keyword is written down and letters from the keyword are used to form the beginning of the cipher alphabet. Any remaining letters of the standard alphabet that are not in the keyword are then added in alphabetical order to complete the cipher alphabet.</p>
-                <p>For example, if the keyword is "CIPHER," the cipher alphabet would start with "C," "I," "P," "H," "E," and "R," followed by the letters "A," "B," "D," "F," "G," "J," "K," "L," "M," "N," "O," "Q," "S," "T," "U," "V," "W," "X," "Y," "Z" to form a complete alphabet.</p>
-                <p>To encode a message, you would replace each letter in the original message with the corresponding letter from the cipher alphabet. To decode, you would do the reverse.</p>
-                <br>
-                <p>Ofcourse, you can also place the keyword at the end of the remaining letters in the alphabet. This would then become a reverse keyword cipher. Furthermore, you can also apply a shift like the shift ciphers do, or invert either the plaintext or ciphertext alphabets. Nevertheless, placing the keyword in front of the remaining letters of the alphabet remains the most common application of the keyword cipher.</p>
+                <p>A keyword cipher is a type of substitution cipher that uses a keyword to create a unique character set for encoding and decoding messages. In this cipher, the keyword is written down and letters from the keyword are used to form the beginning of the ciphertext character set. Any remaining letters of the plaintext character set that are not in the keyword are then used to fill out the rest of the ciphertext character set.</p>
+                <p>For example, if the plaintext character set is the alphabet and the keyword is "CIPHER", the ciphertext character set would start with:</p>
+                <p>C I P H E R</p> 
+                <p>Followed by the letters:</p> 
+                <p>A B D F G J K L M N O Q S T U V W X Y Z</p> 
+                <p>Forming the complete ciphertext character set:</p>
+                <p>C I P H E R A B D F G J K L M N O Q S T U V W X Y Z</p>
+                <p>To encode a message, you would look at the position of the character in the plaintext character set, and then replace it the character that is in the same position in the ciphertext character set. To decode, you would do the reverse.</p>
+                <p>Ofcourse, you can also place the keyword at the end of the remaining letters in the alphabet. This would then become a reverse keyword cipher.</p>
+
                 <br><br><br>
             </details> 
         </li>
@@ -121,22 +126,21 @@
                     Affine Cipher --
                     <a href="/Views/MonoalphabeticSubstitutionCipherViews/AffineCipherView.html?mode=ac">Transcode Affine Cipher</a>
                 </summary>
-                <p>The affine cipher is a type of monoalphabetic substitution cipher, where each letter in an alphabet is mapped to its numeric equivalent, encrypted using a simple mathematical function, and then converted back to a letter. The encryption function for the affine cipher can be expressed as:</p>
-                <p>E = (A * X + B) mod 26</p>
+                <p>The affine cipher is a type of monoalphabetic substitution cipher, where each character in a character set is mapped to its numeric equivalent, encrypted using a  mathematical equation, and then converted back to a letter. The encryption function for the affine cipher can be expressed as:</p>
+                <p>E = (A * X + B) mod L</p>
                 <ul>
                     <li>X refers to the position of the character in the alphabet</li>
-                    <li>A is a coprime of 26: 1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, and 25</li>
-                    <li>B is in the range of 0-25</li>
-                    <li>E is the position of the cipherCharacter in the alphabet</li>
+                    <li>A is a coprime of that length of the character set</li>
+                    <li>B is in the range between 0 and the length of the character set</li>
+                    <li>E is the position of the encrypted character in the character set</li>
+                    <li>L is the length of the character set</li>
                 </ul>
-                <p>Decrypting an affine ciphertext can be done as follows (If you don't want to create a cipher alphabet):</p>
-                <p>((26 - A) * (Y - B)) mod 26</p>
+                <p>Decrypting an affine ciphertext can be done as follows (If you don't want to create a ciphertext character set):</p>
+                <p>((L - A) * (Y - B)) mod L</p>
                 <ul>
                     <li>Y refers to the position of the ciphercharacter in the alphabet</li>
                 </ul>
-
-                <br>
-                <p>Due to the requirements set for the A and B values, only a select amount of possible cipheralphabets are possible. As such brute forcing these remains a real possibility.</p>
+                
                 <br><br><br>
             </details> 
             <ul>
