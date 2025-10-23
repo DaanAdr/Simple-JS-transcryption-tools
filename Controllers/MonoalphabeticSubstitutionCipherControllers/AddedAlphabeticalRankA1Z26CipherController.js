@@ -45,7 +45,7 @@ _txtCiphertext.addEventListener('input', () => {
 
 function decodeText()
 {
-    _txtPlaintext.value = decodeTextWithSeperator(_txtCiphertext.value, _plaintextCharacterSet, _ciphertextCharacterSet, _inpSeperator.value);
+    _txtPlaintext.value = decodeTextWithSeperator(_txtCiphertext.value, _plaintextCharacterSet, _ciphertextCharacterSet, _inpSeperator.value, true);
 }
 //#endregion
 

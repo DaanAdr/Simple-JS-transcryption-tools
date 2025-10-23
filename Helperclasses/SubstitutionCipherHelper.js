@@ -57,6 +57,7 @@ export function createMapForCharacterSets(sourceCharacterSets, targetCharacterSe
  * @param {array} plaintextCharacterSet An array of the character set that the text is in
  * @param {array} ciphertextCharacterSet An array of the character set that the text needs to be substituted to
  * @param {char} seperator A character that is inserted between words in the substituted text
+ * @param {boolean} isAlphabeticalRanks To indicate if the function is used for the Added Alphabetical Rank A1Z26 Cipher
  * @returns a string of the substituted text
  */
 export function encodeTextWithSeperator(text, plaintextCharacterSet, ciphertextCharacterSet, seperator="0", isAlphabeticalRanks=false)
@@ -118,12 +119,14 @@ function getCharacterIndex(character, characterSet) {
  * @param {array} plaintextCharacterSet An array of the character set that the text needs to be substituted to
  * @param {array} ciphertextCharacterSet An array of the character set that the text is in
  * @param {char} seperator A character that is inserted between words in the input text
+ * @param {boolean} isAlphabeticalRanks To indicate if the function is used for the Added Alphabetical Rank A1Z26 Cipher
  * @returns a string of the substituted text
  */
-export function decodeTextWithSeperator(text, plaintextCharacterSet, ciphertextCharacterSet, seperator="0")
+export function decodeTextWithSeperator(text, plaintextCharacterSet, ciphertextCharacterSet, seperator="0", isAlphabeticalRanks=false)
 {
     let decodedText = "";
     const characters = text.split(' ');
+    let previousValue = 0;
 
     characters.forEach(character => {
         if(character == seperator){
@@ -131,7 +134,12 @@ export function decodeTextWithSeperator(text, plaintextCharacterSet, ciphertextC
             return;
         }
 
-        const index = ciphertextCharacterSet.indexOf(character);
+        if(isAlphabeticalRanks) {
+            character = character - previousValue;
+            previousValue += Number(character);
+        }
+
+        const index = ciphertextCharacterSet.indexOf(character.toString());
 
         if(index > -1) {
             const plaintextCharacter = plaintextCharacterSet[index];
