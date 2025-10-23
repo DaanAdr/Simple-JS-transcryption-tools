@@ -1,4 +1,5 @@
-import { createAffineCharacterSets, createUniqueCharacterSets } from "../../Helperclasses/CharacterSetHelper.js";
+import { createAffineCharacterSets, createUniqueCharacterSets } 
+    from "../../Helperclasses/CharacterSetHelper.js";
 import { transcodeText } from "../../Helperclasses/SubstitutionCipherHelper.js";
 import { getListOfCoprimes } from "../../Helperclasses/MathAlgorithmHelper.js";
 
@@ -130,7 +131,7 @@ function populateSelectForBValues(characterSetLength) {
 }
 // #endregion
 
-//#region Handle setting changes
+//#region Handle settings changes
 _sltAValue.addEventListener('change', () => {
     if(_enteredPlaintext && !_enteredCipherText){
         setCiphertextCharacterSets();

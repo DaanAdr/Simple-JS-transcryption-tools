@@ -1,4 +1,5 @@
-import { createKeywordCharacterSet, createUniqueCharacterSet } from "../../Helperclasses/CharacterSetHelper.js";
+import { createKeywordCharacterSet, createUniqueCharacterSet } 
+    from "../../Helperclasses/CharacterSetHelper.js";
 import { transcodeText } from "../../Helperclasses/SubstitutionCipherHelper.js";
 
 const _txtCharSet = document.getElementById('txtCharSet');
@@ -19,9 +20,11 @@ _txtPlaintext.addEventListener('keyup', () => {
     encodeText();
 });
 
-function encodeText()
-{
-    _txtCiphertext.value = transcodeText(_txtPlaintext.value, [_plaintextCharacterSet], [_ciphertextCharacterSet]);
+function encodeText() {
+    _txtCiphertext.value = transcodeText(
+        _txtPlaintext.value, 
+        [_plaintextCharacterSet], 
+        [_ciphertextCharacterSet]);
 }
 //#endregion
 
@@ -32,68 +35,68 @@ _txtCiphertext.addEventListener('keyup', () => {
     decodeText();
 });
 
-function decodeText()
-{
-    _txtPlaintext.value = transcodeText(_txtCiphertext.value, [_ciphertextCharacterSet], [_plaintextCharacterSet]);
+function decodeText() {
+    _txtPlaintext.value = transcodeText(
+        _txtCiphertext.value, 
+        [_ciphertextCharacterSet], 
+        [_plaintextCharacterSet]);
 }
 //#endregion
 
 //#region set character sets
-setPlaintextCharSet();
+setPlaintextCharacterSet();
 
-function setPlaintextCharSet()
-{
+function setPlaintextCharacterSet() {
     const charSetString = _txtCharSet.value;
-    
     _plaintextCharacterSet = createUniqueCharacterSet(charSetString);
 
-    setCiphertextCharSet();
+    setCiphertextCharacterSet();
 }
 
-function setCiphertextCharSet()
-{
+function setCiphertextCharacterSet() {
     const keyword = _inpKeyword.value;
     const appendKeyword = _inpAppendKeyword.checked;
-
     let ciphertextCharacterSet = createKeywordCharacterSet(keyword, _plaintextCharacterSet, appendKeyword);
 
     _ciphertextCharacterSet = ciphertextCharacterSet;
 }
-
-_txtCharSet.addEventListener('keyup', () => {
-    if(_enteredPlaintext && !_enteredCipherText){
-        setPlaintextCharSet();
-        encodeText();
-    }
-    else if(!_enteredPlaintext && _enteredCipherText){
-        setPlaintextCharSet();
-        decodeText()
-    }
-    
-    setPlaintextCharSet();
-});
 //#endregion
 
+//#region Handle settings changes
 _inpAppendKeyword.addEventListener('change', () => {
     if(_enteredPlaintext && !_enteredCipherText){
-        setCiphertextCharSet();
+        setCiphertextCharacterSet();
         encodeText();
     }
     else if(!_enteredPlaintext && _enteredCipherText){
-        setCiphertextCharSet();
+        setCiphertextCharacterSet();
         decodeText()
     }
 
-    setCiphertextCharSet();
+    setCiphertextCharacterSet();
 });
 
 _inpKeyword.addEventListener('keyup', () => {
     if(_enteredPlaintext && !_enteredCipherText){
-        setCiphertextCharSet();
+        setCiphertextCharacterSet();
         encodeText();
     }
     else if(!_enteredPlaintext && _enteredCipherText){
-        setCiphertextCharSet();
+        setCiphertextCharacterSet();
         decodeText()
     }
 });
+
+_txtCharSet.addEventListener('keyup', () => {
+    if(_enteredPlaintext && !_enteredCipherText){
+        setPlaintextCharacterSet();
+        encodeText();
+    }
+    else if(!_enteredPlaintext && _enteredCipherText){
+        setPlaintextCharacterSet();
+        decodeText()
+    }
+    
+    setPlaintextCharacterSet();
+});
+//#endregion

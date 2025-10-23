@@ -1,4 +1,5 @@
-import { createShiftedCharacterSets, createUniqueCharacterSets } from "../../Helperclasses/CharacterSetHelper.js";
+import { createShiftedCharacterSets, createUniqueCharacterSets } 
+    from "../../Helperclasses/CharacterSetHelper.js";
 import { transcodeText } from "../../Helperclasses/SubstitutionCipherHelper.js";
 
 const _sltShiftKey = document.getElementById("sltShiftKey");
@@ -20,7 +21,10 @@ _txtPlaintext.addEventListener('keyup', () => {
 
 function encodeText()
 {
-    _txtCiphertext.value = transcodeText(_txtPlaintext.value, _plaintextCharacterSet, _ciphertextCharacterSet);
+    _txtCiphertext.value = transcodeText(
+        _txtPlaintext.value, 
+        _plaintextCharacterSet, 
+        _ciphertextCharacterSet);
 }
 //#endregion
 
@@ -33,47 +37,34 @@ _txtCiphertext.addEventListener('keyup', () => {
 
 function decodeText()
 {
-    _txtPlaintext.value = transcodeText(_txtCiphertext.value, _ciphertextCharacterSet, _plaintextCharacterSet);
+    _txtPlaintext.value = transcodeText(
+        _txtCiphertext.value, 
+        _ciphertextCharacterSet, 
+        _plaintextCharacterSet);
 }
 //#endregion
 
 //#region set character sets
-setPlaintextCharSet();
+setPlaintextCharacterSet();
 
-function setPlaintextCharSet()
+function setPlaintextCharacterSet()
 {
-    //Split at space
     const charSetString = _txtCharSet.value;
-    
     _plaintextCharacterSet = createUniqueCharacterSets(charSetString);
 
-    populateShiftDropdown();
-
-    setCiphertextCharSet();
+    populateSelectElement();
+    setCiphertextCharacterSet();
 }
 
-function setCiphertextCharSet()
+function setCiphertextCharacterSet()
 {
     _ciphertextCharacterSet = createShiftedCharacterSets(_plaintextCharacterSet, _sltShiftKey.value);
 }
-
-_txtCharSet.addEventListener('keyup', () => {
-    if(_enteredPlaintext && !_enteredCipherText){
-        setPlaintextCharSet();
-        encodeText();
-    }
-    else if(!_enteredPlaintext && _enteredCipherText){
-        setPlaintextCharSet();
-        decodeText()
-    }
-    
-    setPlaintextCharSet();
-})
 //#endregion
 
-function populateShiftDropdown()
+function populateSelectElement()
 {
-    // Remove all options from sltShiftKey
+    const previouslySelected = parseInt(_sltShiftKey.value);
     _sltShiftKey.length = 0;
 
     const charSetLength = Math.max(..._plaintextCharacterSet.map(row => row.length));
@@ -84,16 +75,35 @@ function populateShiftDropdown()
         option.value = i;
         option.textContent = i;
         _sltShiftKey.appendChild(option);
+
+        if(previouslySelected != NaN && i === previouslySelected) {
+            option.selected = true;
+        }
     }
 }
 
+//#region Handle settings changes
 _sltShiftKey.addEventListener('change', () => {
     if(_enteredPlaintext && !_enteredCipherText){
-        setCiphertextCharSet();
+        setCiphertextCharacterSet();
         encodeText();
     }
     else if(!_enteredPlaintext && _enteredCipherText){
-        setCiphertextCharSet();
+        setCiphertextCharacterSet();
         decodeText()
     }
-})
+});
+
+_txtCharSet.addEventListener('keyup', () => {
+    if(_enteredPlaintext && !_enteredCipherText){
+        setPlaintextCharacterSet();
+        encodeText();
+    }
+    else if(!_enteredPlaintext && _enteredCipherText){
+        setPlaintextCharacterSet();
+        decodeText()
+    }
+    
+    setPlaintextCharacterSet();
+});
+//#endregion

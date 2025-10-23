@@ -1,5 +1,7 @@
-import {createA1Z26CharacterSet, createUniqueCharacterSet } from "../../Helperclasses/CharacterSetHelper.js";
-import { encodeTextWithSeperator, decodeTextWithSeperator } from "../../Helperclasses/SubstitutionCipherHelper.js";
+import {createA1Z26CharacterSet, createUniqueCharacterSet } 
+    from "../../Helperclasses/CharacterSetHelper.js";
+import { encodeTextWithSeperator, decodeTextWithSeperator } 
+    from "../../Helperclasses/SubstitutionCipherHelper.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const _mode = urlParams.get('mode');
@@ -85,7 +87,7 @@ function setCiphertextCharacterSet() {
 }
 //#endregion
 
-//#region Handle setting changes
+//#region Handle settings changes
 _inpSeperator.addEventListener('keyup', () => {
     if(_enteredPlaintext && !_enteredCipherText){
         encodeText();

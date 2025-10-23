@@ -1,4 +1,5 @@
-import { createUniqueCharacterSets, createAtbashCharacterSets } from "../../Helperclasses/CharacterSetHelper.js";
+import { createUniqueCharacterSets, createAtbashCharacterSets } 
+    from "../../Helperclasses/CharacterSetHelper.js";
 import { transcodeText } from "../../Helperclasses/SubstitutionCipherHelper.js";
 
 const _txtCharSet = document.getElementById('txtCharSet');

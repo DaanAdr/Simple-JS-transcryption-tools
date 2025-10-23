@@ -41,7 +41,11 @@ _txtPlaintext.addEventListener('keyup', () => {
 });
 
 function encodeText() {
-    _txtCiphertext.value = transcodeText(_txtPlaintext.value, _plaintextCharacterSet, _inpKeyword.value, _mode);
+    _txtCiphertext.value = transcodeText(
+        _txtPlaintext.value, 
+        _plaintextCharacterSet, 
+        _inpKeyword.value, 
+        _mode);
 }
 //#endregion
 
@@ -53,18 +57,33 @@ _txtCiphertext.addEventListener('keyup', () => {
 });
 
 function decodeText() {
-    _txtPlaintext.value = transcodeText(_txtCiphertext.value, _plaintextCharacterSet, _inpKeyword.value, _mode, true);
+    _txtPlaintext.value = transcodeText(
+        _txtCiphertext.value, 
+        _plaintextCharacterSet, 
+        _inpKeyword.value, 
+        _mode, 
+        true);
 }
 //#endregion
 
-//#region set character sets
+//#region Set character sets
 setPlaintextCharacterSets();
 
 function setPlaintextCharacterSets() {
     const characterSetString = _txtCharSet.value;
-    
     _plaintextCharacterSet = createUniqueCharacterSets(characterSetString);
 }
+//#endregion
+
+//#region Handle settings changes
+_inpKeyword.addEventListener('keyup', () => {
+    if(_enteredPlaintext && !_enteredCipherText){
+        encodeText();
+    }
+    else if(!_enteredPlaintext && _enteredCipherText){
+        decodeText()
+    }
+});
 
 _txtCharSet.addEventListener('keyup', () => {
     if(_enteredPlaintext && !_enteredCipherText){
@@ -79,12 +98,3 @@ _txtCharSet.addEventListener('keyup', () => {
     setPlaintextCharacterSets();
 });
 //#endregion
-
-_inpKeyword.addEventListener('keyup', () => {
-    if(_enteredPlaintext && !_enteredCipherText){
-        encodeText();
-    }
-    else if(!_enteredPlaintext && _enteredCipherText){
-        decodeText()
-    }
-});
