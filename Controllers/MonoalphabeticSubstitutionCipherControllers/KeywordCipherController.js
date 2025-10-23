@@ -1,4 +1,5 @@
-import { createKeywordCharacterSet, createUniqueCharacterSet } from "../../Helperclasses/CharacterSetHelper.js";
+import { createKeywordCharacterSet, createUniqueCharacterSet } 
+    from "../../Helperclasses/CharacterSetHelper.js";
 import { transcodeText } from "../../Helperclasses/SubstitutionCipherHelper.js";
 
 const _txtCharSet = document.getElementById('txtCharSet');
@@ -9,102 +10,93 @@ const _txtCiphertext = document.getElementById("txtCiphertext");
 
 let _plaintextCharacterSet = "";
 let _ciphertextCharacterSet = "";
-let typingTimer;
-let enteredPlaintext = false;
-let enteredCipherText = false;
+let _enteredPlaintext = false;
+let _enteredCipherText = false;
 
 //#region Encode text
-_txtPlaintext.addEventListener('input', () => {
-    clearTimeout(typingTimer);
-    typingTimer = setTimeout(() => {
-        
-        enteredPlaintext = true;
-        enteredCipherText = false;
-        encodeText();
-
-    }, 500); // 1000 milliseconds = 1 second
+_txtPlaintext.addEventListener('keyup', () => {
+    _enteredPlaintext = true;
+    _enteredCipherText = false;
+    encodeText();
 });
 
-function encodeText()
-{
-    _txtCiphertext.value = transcodeText(_txtPlaintext.value, [_plaintextCharacterSet], [_ciphertextCharacterSet]);
+function encodeText() {
+    _txtCiphertext.value = transcodeText(
+        _txtPlaintext.value, 
+        [_plaintextCharacterSet], 
+        [_ciphertextCharacterSet]);
 }
 //#endregion
 
 //#region Decode text
-_txtCiphertext.addEventListener('input', () => {
-    clearTimeout(typingTimer);
-    typingTimer = setTimeout(() => {
-        
-        enteredPlaintext = false;
-        enteredCipherText = true;
-        decodeText();
-
-    }, 500); // 1000 milliseconds = 1 second
+_txtCiphertext.addEventListener('keyup', () => {
+    _enteredPlaintext = false;
+    _enteredCipherText = true;
+    decodeText();
 });
 
-function decodeText()
-{
-    _txtPlaintext.value = transcodeText(_txtCiphertext.value, [_ciphertextCharacterSet], [_plaintextCharacterSet]);
+function decodeText() {
+    _txtPlaintext.value = transcodeText(
+        _txtCiphertext.value, 
+        [_ciphertextCharacterSet], 
+        [_plaintextCharacterSet]);
 }
 //#endregion
 
 //#region set character sets
-setPlaintextCharSet();
+setPlaintextCharacterSet();
 
-function setPlaintextCharSet()
-{
+function setPlaintextCharacterSet() {
     const charSetString = _txtCharSet.value;
-    
     _plaintextCharacterSet = createUniqueCharacterSet(charSetString);
 
-    setCiphertextCharSet();
+    setCiphertextCharacterSet();
 }
 
-function setCiphertextCharSet()
-{
+function setCiphertextCharacterSet() {
     const keyword = _inpKeyword.value;
     const appendKeyword = _inpAppendKeyword.checked;
-
     let ciphertextCharacterSet = createKeywordCharacterSet(keyword, _plaintextCharacterSet, appendKeyword);
 
     _ciphertextCharacterSet = ciphertextCharacterSet;
 }
-
-_txtCharSet.addEventListener('keyup', () => {
-    if(enteredPlaintext && !enteredCipherText){
-        setPlaintextCharSet();
-        encodeText();
-    }
-    else if(!enteredPlaintext && enteredCipherText){
-        setPlaintextCharSet();
-        decodeText()
-    }
-    
-    setPlaintextCharSet();
-});
 //#endregion
 
+//#region Handle settings changes
 _inpAppendKeyword.addEventListener('change', () => {
-    if(enteredPlaintext && !enteredCipherText){
-        setCiphertextCharSet();
+    if(_enteredPlaintext && !_enteredCipherText){
+        setCiphertextCharacterSet();
         encodeText();
     }
-    else if(!enteredPlaintext && enteredCipherText){
-        setCiphertextCharSet();
+    else if(!_enteredPlaintext && _enteredCipherText){
+        setCiphertextCharacterSet();
         decodeText()
     }
 
-    setCiphertextCharSet();
+    setCiphertextCharacterSet();
 });
 
 _inpKeyword.addEventListener('keyup', () => {
-    if(enteredPlaintext && !enteredCipherText){
-        setCiphertextCharSet();
+    if(_enteredPlaintext && !_enteredCipherText){
+        setCiphertextCharacterSet();
         encodeText();
     }
-    else if(!enteredPlaintext && enteredCipherText){
-        setCiphertextCharSet();
+    else if(!_enteredPlaintext && _enteredCipherText){
+        setCiphertextCharacterSet();
         decodeText()
     }
 });
+
+_txtCharSet.addEventListener('keyup', () => {
+    if(_enteredPlaintext && !_enteredCipherText){
+        setPlaintextCharacterSet();
+        encodeText();
+    }
+    else if(!_enteredPlaintext && _enteredCipherText){
+        setPlaintextCharacterSet();
+        decodeText()
+    }
+    
+    setPlaintextCharacterSet();
+});
+//#endregion

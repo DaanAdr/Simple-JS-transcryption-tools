@@ -42,8 +42,7 @@ function isUnique(char, usedCharacters) {
  * @param {string} characterSetString A string representing the plaintext character set
  * @returns an array of unique character sets
  */
-export function createUniqueCharacterSet(characterSetString)
-{
+export function createUniqueCharacterSet(characterSetString) {
     characterSetString = characterSetString.replace(/\s/g, '');
     const charSetArray = [...characterSetString];
     return [...new Set(charSetArray)];
@@ -59,8 +58,7 @@ export function createUniqueCharacterSet(characterSetString)
  * @param {number} shift The number of positions each character in the character sets have to shift
  * @returns a nested array of the character sets with the shift applied
  */
-export function createShiftedCharacterSets(characterSets, shift)
-{
+export function createShiftedCharacterSets(characterSets, shift) {
     let shiftedCharacterSets = new Array(characterSets.length);
 
     characterSets.forEach((characterSubSet, rowIndex) => {
@@ -82,11 +80,11 @@ export function createShiftedCharacterSets(characterSets, shift)
  * 
  * @param {string} keyword The keyword that needs to be used when creating the character set
  * @param {array} characterSetArray An array of character set that need to be modified
- * @param {boolean} keywordAtEnd A boolean to indicate if the letters in the keyword need to be added to the back of front of the character set
+ * @param {boolean} keywordAtEnd A boolean to indicate if the letters in the keyword need to be added 
+ * to the back of front of the character set
  * @returns an array of the keyword and the remaining letters in the characterSetArray
  */
-export function createKeywordCharacterSet(keyword, characterSetArray, keywordAtEnd=false)
-{
+export function createKeywordCharacterSet(keyword, characterSetArray, keywordAtEnd=false) {
     let keyCharacters = [...new Set(keyword)];
     const characterSet = new Array(...characterSetArray);
 
@@ -102,11 +100,11 @@ export function createKeywordCharacterSet(keyword, characterSetArray, keywordAtE
  * 
  * @param {number} aValue Value A for the affine algorithm
  * @param {number} bValue Value B for the affine algorithm
- * @param {array} characterSets A nested array of character sets that need to be rearranged using the affine algorithm
+ * @param {array} characterSets A nested array of character sets that need to be rearranged using the 
+ * affine algorithm
  * @returns a nested array of the character sets rearranged using the affine algorithm
  */
-export function createAffineCharacterSets(aValue, bValue, characterSets)
-{
+export function createAffineCharacterSets(aValue, bValue, characterSets) {
     let cipherCharacterSets = new Array(characterSets.length);
 
     characterSets.forEach((characterSet, rowIndex) => {
@@ -114,11 +112,14 @@ export function createAffineCharacterSets(aValue, bValue, characterSets)
         cipherCharacterSets[rowIndex] = new Array(subSetLength);
 
         characterSet.forEach((character, index) => {
-            // Perform the formula (a * x + b) mod 26, in which x refers to the position of the character in the alphabet
-            const cipherCharacterIndex = (Number(aValue) * Number(index) + Number(bValue)) % (subSetLength);
+            // Perform the formula (a * x + b) mod 26, 
+            // in which x refers to the position of the character in the alphabet
+            const cipherCharacterIndex = 
+                (Number(aValue) * Number(index) + Number(bValue)) % (subSetLength);
 
             //For manual decoding, if I didn't create a cipherAlphabet to perform simple substitutions
-            // Perform (26 - a) * (y - b) mod 26, in which y refers to the position of the character in the alphabet
+            // Perform (26 - a) * (y - b) mod 26, 
+            // in which y refers to the position of the character in the alphabet
             
             const cipherCharacter = characterSet[cipherCharacterIndex];
             cipherCharacterSets[rowIndex][index] = cipherCharacter;
@@ -134,8 +135,7 @@ export function createAffineCharacterSets(aValue, bValue, characterSets)
  * @param {array} characterSets A nested array of character sets that need to be reversed
  * @returns a nested array of the reversed character sets
  */
-export function createAtbashCharacterSets(characterSets)
-{
+export function createAtbashCharacterSets(characterSets) {
     let cipherCharacterSets = new Array(characterSets.length);
 
     characterSets.forEach((characterSet, rowIndex) => {
@@ -150,10 +150,11 @@ export function createAtbashCharacterSets(characterSets)
  * Create a character set in which each character is replaced by its index + the additionalValue
  * 
  * @param {array} characterSet An array of character set that need to be modified
- * @param {number} additionalValue An additional value each character gets on top of its index. Defaults to 1 so A=1, B=2 as is the standard in the A1Z26 cipher
+ * @param {number} additionalValue An additional value each character gets on top of its index. 
+ * Defaults to 1 so A=1, B=2 as is the standard in the A1Z26 cipher
  * @returns an array of numbers for each character in the character set
  */
-export function createA1Z26CharacterSet(characterSet, additionalValue=1){
+export function createA1Z26CharacterSet(characterSet, additionalValue=1) {
     const characterSetLength = characterSet.length;
     let cipherCharacterSet = new Array(characterSetLength);
 

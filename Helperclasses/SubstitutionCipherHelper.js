@@ -3,11 +3,11 @@
  * 
  * @param {string} text The text to transcode
  * @param {array} sourceCharacterSets A nested array of the character set that the text is in
- * @param {array} targetCharacterSets A nested array of the character set that the text needs to be substituted to
+ * @param {array} targetCharacterSets A nested array of the character set 
+ * that the text needs to be substituted to
  * @returns a string of the substituted text
  */
-export function transcodeText(text, sourceCharacterSets, targetCharacterSets)
-{
+export function transcodeText(text, sourceCharacterSets, targetCharacterSets) {
     const transcodedTextArray = [];
 
     const characterMap = createMapForCharacterSets(sourceCharacterSets, targetCharacterSets);
@@ -20,8 +20,7 @@ export function transcodeText(text, sourceCharacterSets, targetCharacterSets)
     return transcodedTextArray.join('');
 }
 
-export function createMapForCharacterSets(sourceCharacterSets, targetCharacterSets)
-{
+export function createMapForCharacterSets(sourceCharacterSets, targetCharacterSets) {
     const charSetMap = new Map();
 
     //Loop through each nested char set
@@ -37,8 +36,11 @@ export function createMapForCharacterSets(sourceCharacterSets, targetCharacterSe
             const altCasedCharExists = sourceCharacterSets.flat().includes(altCasedChar);
 
             if(!altCasedCharExists){
-                charSetMap.set(character.toLowerCase(), targetCharacterSets[rowIndex][index].toLowerCase());
-                charSetMap.set(character.toUpperCase(), targetCharacterSets[rowIndex][index].toUpperCase());
+                charSetMap.set(character.toLowerCase(), 
+                    targetCharacterSets[rowIndex][index].toLowerCase());
+
+                charSetMap.set(character.toUpperCase(), 
+                    targetCharacterSets[rowIndex][index].toUpperCase());
 
                 return;
             }
@@ -55,12 +57,19 @@ export function createMapForCharacterSets(sourceCharacterSets, targetCharacterSe
  * 
  * @param {string} text A text to encode
  * @param {array} plaintextCharacterSet An array of the character set that the text is in
- * @param {array} ciphertextCharacterSet An array of the character set that the text needs to be substituted to
+ * @param {array} ciphertextCharacterSet An array of the character set 
+ * that the text needs to be substituted to
  * @param {char} seperator A character that is inserted between words in the substituted text
- * @param {boolean} isAlphabeticalRanks To indicate if the function is used for the Added Alphabetical Rank A1Z26 Cipher
+ * @param {boolean} isAlphabeticalRanks To indicate if the function is used for 
+ * the Added Alphabetical Rank A1Z26 Cipher
  * @returns a string of the substituted text
  */
-export function encodeTextWithSeperator(text, plaintextCharacterSet, ciphertextCharacterSet, seperator="0", isAlphabeticalRanks=false)
+export function encodeTextWithSeperator(
+    text, 
+    plaintextCharacterSet, 
+    ciphertextCharacterSet, 
+    seperator="0", 
+    isAlphabeticalRanks=false)
 {
     const textArray = [...text];
     let encodedText = "";
@@ -93,7 +102,8 @@ export function encodeTextWithSeperator(text, plaintextCharacterSet, ciphertextC
 }
 
 /**
- * Get the index of a character for the given character set. This also checks the alternate casing of the character
+ * Get the index of a character for the given character set. 
+ * This also checks the alternate casing of the character
  * 
  * @param {char} character 
  * @param {array} characterSet 
@@ -116,13 +126,20 @@ function getCharacterIndex(character, characterSet) {
  * Decode a text from the ciphertext character set to the plaintext character set
  * 
  * @param {string} text A text to decode
- * @param {array} plaintextCharacterSet An array of the character set that the text needs to be substituted to
+ * @param {array} plaintextCharacterSet An array of the character set 
+ * that the text needs to be substituted to
  * @param {array} ciphertextCharacterSet An array of the character set that the text is in
  * @param {char} seperator A character that is inserted between words in the input text
- * @param {boolean} isAlphabeticalRanks To indicate if the function is used for the Added Alphabetical Rank A1Z26 Cipher
+ * @param {boolean} isAlphabeticalRanks To indicate if the function is used for 
+ * the Added Alphabetical Rank A1Z26 Cipher
  * @returns a string of the substituted text
  */
-export function decodeTextWithSeperator(text, plaintextCharacterSet, ciphertextCharacterSet, seperator="0", isAlphabeticalRanks=false)
+export function decodeTextWithSeperator(
+    text, 
+    plaintextCharacterSet, 
+    ciphertextCharacterSet, 
+    seperator="0", 
+    isAlphabeticalRanks=false)
 {
     let decodedText = "";
     const characters = text.split(' ');
