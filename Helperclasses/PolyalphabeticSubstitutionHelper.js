@@ -1,6 +1,7 @@
 const _cipherMode = {
     VIGENERE: `vg`,
     BEAUFORT: `bf`,
+    AUTOKEY: `ak`,
 };
 
 /**
@@ -13,16 +14,22 @@ const _cipherMode = {
  * @returns {string} the transcoded text as a string.
  */
 export function transcodeText(text, characterSets, keyword, cipherMode, decodeText=false) {
-    const keystream = createKeyStream(keyword, text.length, characterSets);
+    let keystream = "";
     const textCharacters = [...text];
     let transcodedText = "";
     
     switch(cipherMode) {
         case _cipherMode.VIGENERE:
+            keystream = createKeyStream(keyword, text.length, characterSets);
             transcodedText = transcodeVigenere(textCharacters, characterSets, keystream, decodeText);
             break;
         case _cipherMode.BEAUFORT:
+            keystream = createKeyStream(keyword, text.length, characterSets);
             transcodedText = transcodeBeaufort(textCharacters, characterSets, keystream);
+            break;
+        case _cipherMode.AUTOKEY:
+            keystream = createKeyStream(keyword, keyword.length, characterSets);
+            transcodedText = transcodeAutokey(textCharacters, characterSets, keystream, decodeText);
             break;
     };
 
@@ -111,8 +118,9 @@ function transcodeVigenere(textCharacters, characterSets, keystream, decodeText)
         const { characterIndex, rowIndex, isUpperCase } = findCharacterIndex(character, characterSets);
 
         if(characterIndex != undefined) {
-            character = getShiftedCharacterForVigenereCipher(characterIndex, characterSets[rowIndex], keystream[keystreamIndex], isUpperCase, decodeText);
+            const {transcodedCharacter, indexTranscodedCharacter} = getShiftedCharacterForVigenereCipher(characterIndex, characterSets[rowIndex], keystream[keystreamIndex], isUpperCase, decodeText);
             keystreamIndex++;
+            character = transcodedCharacter;
         }
 
         encodedText += character;
@@ -129,18 +137,19 @@ function transcodeVigenere(textCharacters, characterSets, keystream, decodeText)
  * @param {number} keystreamCharacter The value that character needs to be shifted by.
  * @param {boolean} isUpperCase Determines the casing of the shifted character.
  * @param {boolean} decodeText Indicates if the shift needs to be positive (Encodeing) of negative (Decoding).
- * @returns {char} the shifted character.
+ * @returns {{transcodedCharacter, indexTranscodedCharacter}} the shifted character.
  */
 function getShiftedCharacterForVigenereCipher(characterIndex, characterSet, keystreamCharacter, isUpperCase, decodeText) {
     const characterSetLength = characterSet.length;
 
     let indexTranscodedCharacter = decodeText ? (characterIndex - keystreamCharacter) % characterSetLength: (characterIndex + keystreamCharacter) % characterSetLength;
     indexTranscodedCharacter = indexTranscodedCharacter < 0 ? indexTranscodedCharacter += characterSetLength : indexTranscodedCharacter = indexTranscodedCharacter;
-    
+
     let transcodedCharacter = characterSet[indexTranscodedCharacter];
     transcodedCharacter = isUpperCase ? transcodedCharacter = transcodedCharacter : transcodedCharacter = transcodedCharacter.toLowerCase();
     
-    return transcodedCharacter;
+    //TODO: Return index transcode char
+    return {transcodedCharacter, indexTranscodedCharacter};
 }
 
 //#endregion
@@ -183,6 +192,37 @@ function getShiftedCharacterForBeaufortCipher(characterIndex, characterSet, keys
     transcodedCharacter = isUpperCase ? transcodedCharacter = transcodedCharacter : transcodedCharacter = transcodedCharacter.toLowerCase();
     
     return transcodedCharacter;
+}
+
+//#endregion
+
+//#region Autokey Cipher
+function transcodeAutokey(textCharacters, characterSets, keystream, decodeText) {
+    let encodedText = "";
+    let keystreamIndex = 0;
+
+    textCharacters.forEach(character => {
+        const { characterIndex, rowIndex, isUpperCase } = findCharacterIndex(character, characterSets);
+
+        if(!decodeText) {
+            keystream.push(characterIndex);
+        }
+
+        if(characterIndex != undefined) {
+            const { transcodedCharacter, indexTranscodedCharacter } = getShiftedCharacterForVigenereCipher(characterIndex, characterSets[rowIndex], keystream[keystreamIndex], isUpperCase, decodeText);
+            character = transcodedCharacter;
+
+            if(decodeText) {
+                keystream.push(indexTranscodedCharacter);
+            }
+            
+            keystreamIndex++;
+        }
+
+        encodedText += character;
+    });
+
+    return encodedText;
 }
 
 //#endregion

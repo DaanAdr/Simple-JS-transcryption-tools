@@ -24,6 +24,9 @@ function populateViewHeader() {
         case 'bf':
             headerText = "Beaufort Cipher";
             break;
+        case 'ak':
+            headerText = "Autokey Cipher";
+            break;
     };
 
     document.getElementById('header').innerHTML = headerText;
