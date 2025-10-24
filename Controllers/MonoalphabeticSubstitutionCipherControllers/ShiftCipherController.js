@@ -49,8 +49,8 @@ setPlaintextCharacterSet();
 
 function setPlaintextCharacterSet()
 {
-    const charSetString = _txtCharSet.value;
-    _plaintextCharacterSet = createUniqueCharacterSets(charSetString);
+    const characterSetString = _txtCharSet.value;
+    _plaintextCharacterSet = createUniqueCharacterSets(characterSetString);
 
     populateSelectElement();
     setCiphertextCharacterSet();

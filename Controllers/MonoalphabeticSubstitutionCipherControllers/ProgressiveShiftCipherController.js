@@ -73,3 +73,45 @@ function setPlaintextCharacterSet()
     _plaintextCharacterSet = createUniqueCharacterSets(characterSetString);
 }
 //#endregion
+
+//#region Handle settings changes
+_txtCharSet.addEventListener('keyup', () => {
+    if(_enteredPlaintext && !_enteredCipherText){
+        setPlaintextCharacterSet();
+        encodeText();
+    }
+    else if(!_enteredPlaintext && _enteredCipherText){
+        setPlaintextCharacterSet();
+        decodeText()
+    }
+    
+    setPlaintextCharacterSet();
+});
+
+_inpInitShiftValue.addEventListener('input', () => {
+    if(_enteredPlaintext && !_enteredCipherText){
+        encodeText();
+    }
+    else if(!_enteredPlaintext && _enteredCipherText){
+        decodeText()
+    }
+});
+
+_inpIncrementShiftValue.addEventListener('input', () => {
+    if(_enteredPlaintext && !_enteredCipherText){
+        encodeText();
+    }
+    else if(!_enteredPlaintext && _enteredCipherText){
+        decodeText()
+    }
+});
+
+_chbApplyIncrementAtN0.addEventListener('change', () => {
+    if(_enteredPlaintext && !_enteredCipherText){
+        encodeText();
+    }
+    else if(!_enteredPlaintext && _enteredCipherText){
+        decodeText()
+    }
+});
+//#endregion
