@@ -108,11 +108,11 @@ function setPlaintextCharacterSet()
 _txtCharSet.addEventListener('keyup', () => {
     if(_enteredPlaintext && !_enteredCipherText){
         setPlaintextCharacterSet();
-        encodeText();
+        transcodeText();
     }
     else if(!_enteredPlaintext && _enteredCipherText){
         setPlaintextCharacterSet();
-        decodeText()
+        transcodeText()
     }
     
     setPlaintextCharacterSet();
@@ -120,28 +120,52 @@ _txtCharSet.addEventListener('keyup', () => {
 
 _inpInitShiftValue.addEventListener('input', () => {
     if(_enteredPlaintext && !_enteredCipherText){
-        encodeText();
+        transcodeText();
     }
     else if(!_enteredPlaintext && _enteredCipherText){
-        decodeText()
+        transcodeText()
     }
 });
 
 _inpIncrementShiftValue.addEventListener('input', () => {
     if(_enteredPlaintext && !_enteredCipherText){
-        encodeText();
+        transcodeText();
     }
     else if(!_enteredPlaintext && _enteredCipherText){
-        decodeText()
+        transcodeText()
     }
 });
 
 _chbApplyIncrementAtN0.addEventListener('change', () => {
     if(_enteredPlaintext && !_enteredCipherText){
-        encodeText();
+        transcodeText();
     }
     else if(!_enteredPlaintext && _enteredCipherText){
-        decodeText()
+        transcodeText()
+    }
+});
+
+document.querySelectorAll('input[name="shiftChangeOption"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+        if(_enteredPlaintext && !_enteredCipherText){
+            transcodeText();
+        }
+        else if(!_enteredPlaintext && _enteredCipherText){
+            transcodeText()
+        }
+    });
+});
+
+_inpCharRange.addEventListener('input', () => {
+    const shiftChangeOption = document.querySelector('input[name="shiftChangeOption"]:checked').value;
+
+    if(shiftChangeOption == _changeOfShift.RANGEOFCHARACTERS) {
+        if(_enteredPlaintext && !_enteredCipherText){
+            transcodeText();
+        }
+        else if(!_enteredPlaintext && _enteredCipherText){
+            transcodeText()
+        }
     }
 });
 //#endregion
