@@ -26,7 +26,7 @@ function populateViewHeader() {
 
     switch(_mode) {
         case _cipherMode.VIGENERE:
-            headerText = "Vigenere Cipher";
+            headerText = "Vigenère Cipher";
             break;
         case _cipherMode.BEAUFORT:
             headerText = "Beaufort Cipher";
@@ -37,6 +37,7 @@ function populateViewHeader() {
     };
 
     document.getElementById('header').innerHTML = headerText;
+    document.title = headerText;
 }
 
 populateViewHeader();

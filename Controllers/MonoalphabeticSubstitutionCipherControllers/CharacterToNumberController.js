@@ -36,6 +36,7 @@ function populateViewHeader() {
     };
 
     document.getElementById('header').innerHTML = headerText;
+    document.title = headerText;
 }
 populateViewHeader();
 
