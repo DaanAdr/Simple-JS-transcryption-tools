@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progressive Shift Cipher</title>
+    <script src="../../Controllers/MonoalphabeticSubstitutionCipherControllers/ProgressiveShiftCipherController.js" type="module" defer></script>
+    <link rel="stylesheet" href="../../Stylesheets/Main.css">
+</head>
+<body>
+    <h1>Progressive Shift Cipher</h1>
+    <a href="../../Index.html"><< Home</a>
+    <div class="container">
+        <div class="row">
+            <div class="label">Initial shift value:</div>
+            <div>
+                <input type="number" id="inpInitShiftValue" value="3">
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Increment shift value by:</div>
+            <div>
+                <input type="number" id="inpIncrementShiftValue" value="4">
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Apply increment to first shift:</div>
+            <div>
+                <input type="checkbox" id="chbApplyIncrementAtN0">
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Change of shift</div>
+            <div>
+                <div>
+                    <label>
+                        <input type="radio" name="shiftChangeOption" value="char" checked>
+                        Every character
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input type="radio" name="shiftChangeOption" value="word">
+                        Every word
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input type="radio" name="shiftChangeOption" value="charRange">
+                        Every x number of characters
+                        <input type="number" min="0" id="inpCharRange" value="3">
+                    </label>
+                </div>
+            </div>
+        </div>
+        <details class="row">
+            <summary>Optional settings</summary>
+            <div class="row">
+                 <div class="label">Character set to use:</div>
+                <div>
+                    <textarea id="txtCharSet">ABCDEFGHIJKLMNOPQRSTUVWXYZ</textarea>
+                    <abbr title="Use space to create a second set of character on which the shift gets applied independently.">(?)</abbr>
+                </div>
+            </div>
+        </details>
+        <div class="row">
+            <div class="label">Plaintext:</div>
+            <div>
+                <textarea id="txtPlaintext"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Encrypted:</div>
+            <div>
+                <textarea id="txtCiphertext"></textarea>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
