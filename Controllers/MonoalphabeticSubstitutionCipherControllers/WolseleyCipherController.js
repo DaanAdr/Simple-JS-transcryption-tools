@@ -1,4 +1,4 @@
-import { createKeywordCharacterSet, createUniqueCharacterSet } 
+import { createKeywordCharacterSet, createUniqueCharacterSet, createAtbashCharacterSets } 
     from "../../Helperclasses/CharacterSetHelper.js";
 import { transcodeText } from "../../Helperclasses/SubstitutionCipherHelper.js";
 
@@ -44,32 +44,29 @@ function decodeText() {
 //#endregion
 
 //#region set character sets
-setPlaintextCharacterSet();
+setCharacterSets();
 
-function setPlaintextCharacterSet() {
-    const characterSetString = _txtCharSet.value;
-    _plaintextCharacterSet = createUniqueCharacterSet(characterSetString);
+function setCharacterSets() {
+    const plaintextCharacterSet = createUniqueCharacterSet(_txtCharSet.value);
 
-    setCiphertextCharacterSet();
-}
+    _plaintextCharacterSet = createKeywordCharacterSet(
+        _inpKeyword.value, 
+        plaintextCharacterSet, 
+        _inpAppendKeyword.checked);
 
-function setCiphertextCharacterSet() {
-    const keyword = _inpKeyword.value;
-    const appendKeyword = _inpAppendKeyword.checked;
-    let ciphertextCharacterSet = createKeywordCharacterSet(keyword, _plaintextCharacterSet, appendKeyword);
-
-    _ciphertextCharacterSet = ciphertextCharacterSet;
+    const ciphertextCharacterSets = createAtbashCharacterSets([_plaintextCharacterSet]);
+    _ciphertextCharacterSet = ciphertextCharacterSets[0];
 }
 //#endregion
 
 //#region Handle settings changes
 _inpAppendKeyword.addEventListener('change', () => {
     if(_enteredPlaintext && !_enteredCipherText){
-        setCiphertextCharacterSet();
+        setCharacterSets();
         encodeText();
     }
     else if(!_enteredPlaintext && _enteredCipherText){
-        setCiphertextCharacterSet();
+        setCharacterSets();
         decodeText()
     }
 
@@ -78,25 +75,25 @@ _inpAppendKeyword.addEventListener('change', () => {
 
 _inpKeyword.addEventListener('keyup', () => {
     if(_enteredPlaintext && !_enteredCipherText){
-        setCiphertextCharacterSet();
+        setCharacterSets();
         encodeText();
     }
     else if(!_enteredPlaintext && _enteredCipherText){
-        setCiphertextCharacterSet();
+        setCharacterSets();
         decodeText()
     }
 });
 
 _txtCharSet.addEventListener('keyup', () => {
     if(_enteredPlaintext && !_enteredCipherText){
-        setPlaintextCharacterSet();
+        setCharacterSets();
         encodeText();
     }
     else if(!_enteredPlaintext && _enteredCipherText){
-        setPlaintextCharacterSet();
+        setCharacterSets();
         decodeText()
     }
     
-    setPlaintextCharacterSet();
+    setCharacterSets();
 });
 //#endregion
