@@ -52,6 +52,12 @@ function encodeText()
             
             break;
         case _changeOfShift.EVERYWORD:
+            encodedText = encodeEveryWord(
+                _txtPlaintext.value,
+                _plaintextCharacterSet,
+                initialShiftValue,
+                shiftIncrement);
+            
             break;
         case _changeOfShift.RANGEOFCHARACTERS:
             keystream = createKeystreamForRange(
@@ -65,11 +71,6 @@ function encodeText()
             break;
     }
 
-
-    // _txtCiphertext.value = transcodeText(
-    //     _txtPlaintext.value, 
-    //     _plaintextCharacterSet, 
-    //     _ciphertextCharacterSet);
     _txtCiphertext.value = encodedText;
 }
 //#endregion
@@ -125,3 +126,21 @@ _chbApplyIncrementAtN0.addEventListener('change', () => {
     }
 });
 //#endregion
+
+function encodeEveryWord(text, characterSet, initialShiftValue, shiftIncrement) {
+    const words = text.split(' ');
+    let shiftValue = Number(initialShiftValue);
+    const encodedWords = [];
+
+    words.forEach((word) => {
+        const keystream = new Array(word.length).fill(Number(shiftValue));
+
+        //Encode
+        const encodedWord = transcodeVigenere([...word], characterSet, keystream, false);
+        encodedWords.push(encodedWord);
+
+        shiftValue += Number(shiftIncrement);
+    });
+
+    return encodedWords.join(' ');
+}
