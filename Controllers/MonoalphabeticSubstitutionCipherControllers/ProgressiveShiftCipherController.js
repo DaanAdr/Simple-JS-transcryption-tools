@@ -1,5 +1,6 @@
 import { createProgressiveKeystream } from "../../Helperclasses/KeystreamHelper.js";
 import { createUniqueCharacterSets } from "../../Helperclasses/CharacterSetHelper.js";
+import { transcodeVigenere } from "../../Helperclasses/PolyalphabeticSubstitutionHelper.js";
 
 const _txtCharSet = document.getElementById('txtCharSet');
 const _txtPlaintext = document.getElementById("txtPlaintext");
@@ -29,8 +30,10 @@ _txtPlaintext.addEventListener('keyup', () => {
 
 function encodeText()
 {
+    let encodedText = "";
     const shiftChangeOption = document.querySelector('input[name="shiftChangeOption"]:checked').value;
     const shiftIncrement = _inpIncrementShiftValue.value;
+    const textCharacters = [..._txtPlaintext.value];
 
     let initialShiftValue = _inpInitShiftValue.value;
     initialShiftValue = _chbApplyIncrementAtN0.checked ? 
@@ -42,6 +45,8 @@ function encodeText()
                 initialShiftValue, 
                 shiftIncrement, 
                 _txtPlaintext.value.length);
+
+            encodedText = transcodeVigenere(textCharacters, _plaintextCharacterSet, keystream, false);
             
             break;
         case _changeOfShift.EVERYWORD:
@@ -55,6 +60,7 @@ function encodeText()
     //     _txtPlaintext.value, 
     //     _plaintextCharacterSet, 
     //     _ciphertextCharacterSet);
+    _txtCiphertext.value = encodedText;
 }
 //#endregion
 

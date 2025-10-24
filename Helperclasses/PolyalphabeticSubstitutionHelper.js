@@ -136,7 +136,7 @@ function findCharacterIndex(character, characterSets) {
 }
 
 //#region Vigenere Cipher 
-function transcodeVigenere(textCharacters, characterSets, keystream, decodeText) {
+export function transcodeVigenere(textCharacters, characterSets, keystream, decodeText) {
     let encodedText = "";
     let keystreamIndex = 0;
 
