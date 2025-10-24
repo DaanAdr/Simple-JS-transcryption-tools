@@ -281,3 +281,23 @@ function transcodeAutokey(textCharacters, characterSets, keystream, decodeText) 
 }
 
 //#endregion
+
+//#region Progressive Shift Cipher
+export function transcodeEveryWord(text, characterSet, initialShiftValue, shiftIncrement, decodeText) {
+    const words = text.split(' ');
+    let shiftValue = Number(initialShiftValue);
+    const encodedWords = [];
+
+    words.forEach((word) => {
+        const keystream = new Array(word.length).fill(Number(shiftValue));
+
+        //Encode
+        const encodedWord = transcodeVigenere([...word], characterSet, keystream, decodeText);
+        encodedWords.push(encodedWord);
+
+        shiftValue += Number(shiftIncrement);
+    });
+
+    return encodedWords.join(' ');
+}
+//#endregion

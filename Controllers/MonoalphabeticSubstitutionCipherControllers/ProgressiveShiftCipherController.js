@@ -1,6 +1,6 @@
-import { createProgressiveKeystream, createKeystreamForRange } from "../../Helperclasses/KeystreamHelper.js";
+import { createKeystreamForRange } from "../../Helperclasses/KeystreamHelper.js";
 import { createUniqueCharacterSets } from "../../Helperclasses/CharacterSetHelper.js";
-import { transcodeVigenere } from "../../Helperclasses/PolyalphabeticSubstitutionHelper.js";
+import { transcodeVigenere, transcodeEveryWord } from "../../Helperclasses/PolyalphabeticSubstitutionHelper.js";
 
 const _txtCharSet = document.getElementById('txtCharSet');
 const _txtPlaintext = document.getElementById("txtPlaintext");
@@ -21,18 +21,26 @@ let _enteredPlaintext = false;
 let _enteredCipherText = false;
 let _decodeText = false;
 
-//#region Encode text
+//#region Transcode text
 _txtPlaintext.addEventListener('keyup', () => {
     _enteredPlaintext = true;
     _enteredCipherText = false;
     _decodeText = false;
 
-    encodeText();
+    transcodeText();
 });
 
-function encodeText()
+_txtCiphertext.addEventListener('keyup', () => {
+    _enteredPlaintext = false;
+    _enteredCipherText = true;
+    _decodeText = true;
+
+    transcodeText();
+});
+
+function transcodeText()
 {
-    let encodedText = "";
+    let transcodedText = "";
     const shiftChangeOption = document.querySelector('input[name="shiftChangeOption"]:checked').value;
     const shiftIncrement = _inpIncrementShiftValue.value;
     const textCharacters = _decodeText ? [..._txtCiphertext.value] : [..._txtPlaintext.value];
@@ -45,18 +53,19 @@ function encodeText()
 
     switch(shiftChangeOption) {
         case _changeOfShift.EVERYCHARACTER:
-            keystream = createProgressiveKeystream(
+            keystream = createKeystreamForRange(
                 initialShiftValue, 
                 shiftIncrement, 
+                1,
                 keystreamLength);
 
-            encodedText = transcodeVigenere(textCharacters, _plaintextCharacterSet, keystream, _decodeText);
+            transcodedText = transcodeVigenere(textCharacters, _plaintextCharacterSet, keystream, _decodeText);
             
             break;
         case _changeOfShift.EVERYWORD:
             const text = _decodeText ? _txtCiphertext.value : _txtPlaintext.value;
 
-            encodedText = encodeEveryWord(
+            transcodedText = transcodeEveryWord(
                 text,
                 _plaintextCharacterSet,
                 initialShiftValue,
@@ -72,26 +81,18 @@ function encodeText()
                 keystreamLength
             )
 
-            encodedText = transcodeVigenere(textCharacters, _plaintextCharacterSet, keystream, _decodeText);
+            transcodedText = transcodeVigenere(textCharacters, _plaintextCharacterSet, keystream, _decodeText);
             break;
     }
 
     if(_decodeText) {
-        _txtPlaintext.value = encodedText;
+        _txtPlaintext.value = transcodedText;
     }
     else {
-        _txtCiphertext.value = encodedText;
+        _txtCiphertext.value = transcodedText;
     }
 }
 //#endregion
-
-_txtCiphertext.addEventListener('keyup', () => {
-    _enteredPlaintext = false;
-    _enteredCipherText = true;
-    _decodeText = true;
-
-    encodeText();
-});
 
 //#region set character sets
 setPlaintextCharacterSet();
@@ -144,21 +145,3 @@ _chbApplyIncrementAtN0.addEventListener('change', () => {
     }
 });
 //#endregion
-
-function encodeEveryWord(text, characterSet, initialShiftValue, shiftIncrement, decodeText) {
-    const words = text.split(' ');
-    let shiftValue = Number(initialShiftValue);
-    const encodedWords = [];
-
-    words.forEach((word) => {
-        const keystream = new Array(word.length).fill(Number(shiftValue));
-
-        //Encode
-        const encodedWord = transcodeVigenere([...word], characterSet, keystream, decodeText);
-        encodedWords.push(encodedWord);
-
-        shiftValue += Number(shiftIncrement);
-    });
-
-    return encodedWords.join(' ');
-}
