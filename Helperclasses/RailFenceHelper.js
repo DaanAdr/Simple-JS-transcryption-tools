@@ -7,16 +7,11 @@ export function encodeRailFence(text, fenceStartingPoint, offset, rails) {
 }
 
 export function decodeRailFence(text, fenceStartingPoint, offset, rails) {
-    console.clear();
-
     let textArray = [...text];
-    let fence = createEmptyFence(textArray, offset, rails);
-
-    console.log("Created fence for text");
-    console.log(JSON.parse(JSON.stringify(fence)));  
+    const fenceLength = Number(textArray.length) + Number(offset);
+    let fence = new Array(Number(rails)).fill(null).map(() => new Array(fenceLength).fill(null));
 
     fence = populateFenceWithMockData(fence, fenceStartingPoint, rails, offset);
-
     fence - populateFenceByRowsAsc(fence, textArray);
     
     return readFenceByColumnAsc(fence);
@@ -61,16 +56,11 @@ function populateFenceWithPlaintext(textArray, fence, fenceStartingPoint, rails)
             }
         }
     });
-
-    console.log("Created fence with markings for text");
-    console.log(JSON.parse(JSON.stringify(fence)));
     
     return fence;
 }
 
 function populateFenceWithMockData(fence, fenceStartingPoint, rails, offset) {
-    //TODO: Fix issue with offset
-    const tmpFence = fence;
     let rowIndex = (fenceStartingPoint == "BOTTOM") ? Number(rails) - 1 : 0;
     let incrementRow = (fenceStartingPoint != "BOTTOM");
 
@@ -84,13 +74,13 @@ function populateFenceWithMockData(fence, fenceStartingPoint, rails, offset) {
     {
         if(offset > 0 && firstElement && offsetCount <= offset)
         {
-            tmpFence[rowIndex][i] = undefined;
+            fence[rowIndex][i] = undefined;
             firstElement = false;
             offsetCount++;
         }
         else
         {
-            tmpFence[rowIndex][i] = '_';
+            fence[rowIndex][i] = '_';
         }
 
         // Update row index
@@ -111,15 +101,11 @@ function populateFenceWithMockData(fence, fenceStartingPoint, rails, offset) {
         }
     }
 
-    console.log("Created fence with markings for text");
-    console.log(JSON.parse(JSON.stringify(tmpFence)));   // Makes a copy of the current state of the array for display
-
-    return tmpFence;
+    return fence;
 }
 
 function populateFenceByRowsAsc(fence, textArray) {
     let textIndex = 0;
-    console.log(textArray);
 
     // Loop through each row in cipherArray
     fence.forEach((row, rowIndex) => {
@@ -135,8 +121,6 @@ function populateFenceByRowsAsc(fence, textArray) {
         });
     });
 
-    console.log("Filled fence with text");
-    console.log(JSON.parse(JSON.stringify(fence))); 
     return fence;
 }
 //#endregion
