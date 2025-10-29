@@ -6,6 +6,23 @@ export function encodeRailFence(text, fenceStartingPoint, offset, rails) {
     return readFenceByRowsAsc(fence);
 }
 
+export function decodeRailFence(text, fenceStartingPoint, offset, rails) {
+    console.clear();
+
+    let textArray = [...text];
+    let fence = createEmptyFence(textArray, offset, rails);
+
+    console.log("Created fence for text");
+    console.log(JSON.parse(JSON.stringify(fence)));  
+
+    fence = populateFenceWithMockData(fence, fenceStartingPoint, rails, offset);
+
+    fence - populateFenceByRowsAsc(fence, textArray);
+    
+    return readFenceByColumnAsc(fence);
+}
+
+//region Create fence
 function createEmptyFence(textArray, offset, rails) {
     if(Number(offset) > 0)
     {
@@ -18,7 +35,9 @@ function createEmptyFence(textArray, offset, rails) {
 
     return fence;
 }
+//endregion
 
+//#region Populate fence
 function populateFenceWithPlaintext(textArray, fence, fenceStartingPoint, rails) {
     let rowIndex = (fenceStartingPoint == "BOTTOM") ? Number(rails) - 1 : 0;
     let incrementRow = (fenceStartingPoint != "BOTTOM");
@@ -42,38 +61,11 @@ function populateFenceWithPlaintext(textArray, fence, fenceStartingPoint, rails)
             }
         }
     });
+
+    console.log("Created fence with markings for text");
+    console.log(JSON.parse(JSON.stringify(fence)));
     
     return fence;
-}
-
-function readFenceByRowsAsc(fence) {
-    const text = [];
-
-    fence.forEach(row => {
-        row.forEach(element => {
-            if(element != null && element != undefined) {
-                text.push(element);
-            }
-        });
-    });
-
-    return text.join('');
-}
-
-export function decodeRailFence(text, fenceStartingPoint, offset, rails) {
-    console.clear();
-
-    let textArray = [...text];
-    let fence = createEmptyFence(textArray, offset, rails);
-
-    console.log("Created fence for text");
-    console.log(JSON.parse(JSON.stringify(fence)));  
-
-    fence = populateFenceWithMockData(fence, fenceStartingPoint, rails, offset);
-
-    fence - populateFenceByRowsAsc(fence, textArray);
-    
-    return readFenceByColumnAsc(fence);
 }
 
 function populateFenceWithMockData(fence, fenceStartingPoint, rails, offset) {
@@ -147,6 +139,22 @@ function populateFenceByRowsAsc(fence, textArray) {
     console.log(JSON.parse(JSON.stringify(fence))); 
     return fence;
 }
+//#endregion
+
+//#region Read Fence
+function readFenceByRowsAsc(fence) {
+    const text = [];
+
+    fence.forEach(row => {
+        row.forEach(element => {
+            if(element != null && element != undefined) {
+                text.push(element);
+            }
+        });
+    });
+
+    return text.join('');
+}
 
 function readFenceByColumnAsc(fence) {
     const fenceLength = fence[0].length;
@@ -166,3 +174,4 @@ function readFenceByColumnAsc(fence) {
 
     return text.join('');
 }
+//#endregion

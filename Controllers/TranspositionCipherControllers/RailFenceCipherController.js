@@ -47,18 +47,32 @@ function decodeText()
 //#endregion
 
 //#region Handle settings changes
+_inpRails.addEventListener('change', () => {
+    if(_enteredPlaintext && !_enteredCipherText){
+        encodeText();
+    }
+    else if(!_enteredPlaintext && _enteredCipherText){
+        decodeText()
+    }
+});
 
+_inpOffset.addEventListener('change', () => {
+    if(_enteredPlaintext && !_enteredCipherText){
+        encodeText();
+    }
+    else if(!_enteredPlaintext && _enteredCipherText){
+        decodeText()
+    }
+});
 
-// _txtCharSet.addEventListener('keyup', () => {
-//     if(_enteredPlaintext && !_enteredCipherText){
-//         setPlaintextCharacterSet();
-//         encodeText();
-//     }
-//     else if(!_enteredPlaintext && _enteredCipherText){
-//         setPlaintextCharacterSet();
-//         decodeText()
-//     }
-    
-//     setPlaintextCharacterSet();
-// });
+document.querySelectorAll('input[name="FenceStartingPoint"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+        if(_enteredPlaintext && !_enteredCipherText){
+            encodeText();
+        }
+        else if(!_enteredPlaintext && _enteredCipherText){
+            decodeText();
+        }
+    });
+});
 //#endregion
