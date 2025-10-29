@@ -1,4 +1,4 @@
-import { encodeRailFence } from "../../Helperclasses/RailFenceHelper.js";
+import { encodeRailFence, decodeRailFence } from "../../Helperclasses/RailFenceHelper.js";
 
 const _txtPlaintext = document.getElementById("txtPlaintext");
 const _txtCiphertext = document.getElementById("txtCiphertext");
@@ -28,18 +28,21 @@ function encodeText()
 //#endregion
 
 //#region Decode text
-// _txtCiphertext.addEventListener('keyup', () => {
-//     _enteredPlaintext = false;
-//     _enteredCipherText = true;
-//     decodeText();
-// });
+_txtCiphertext.addEventListener('keyup', () => {
+    _enteredPlaintext = false;
+    _enteredCipherText = true;
+    decodeText();
+});
 
 function decodeText()
 {
-    _txtPlaintext.value = transcodeText(
+    const fenceStartingPoint = document.querySelector('input[name="FenceStartingPoint"]:checked').value;
+
+    _txtPlaintext.value = decodeRailFence(
         _txtCiphertext.value, 
-        _ciphertextCharacterSet, 
-        _plaintextCharacterSet);
+        fenceStartingPoint, 
+        _inpOffset.value,
+        _inpRails.value);
 }
 //#endregion
 
