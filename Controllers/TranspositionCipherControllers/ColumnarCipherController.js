@@ -38,12 +38,11 @@ function encodeText()
             grid = organizeGridByKeyword(keyword, grid);
             text = readGridByColumn(grid);
             break;
-        // case _gridModes.WRITEROWSREADROWS:
-        //     grid = createGridByRow(text, rowLength);
-        //     grid = organizeGridColumnsByKeyword(grid, keyword, rowLength);
-
-        //     cipherText = readFromGridByRowInKeywordOrder(grid, keyword);
-        //     break;
+        case _gridModes.WRITEROWSREADROWS:
+            grid = writeGridByRow(keyword, characters);
+            grid = organizeGridByKeyword(keyword, grid);
+            text = readGridByRow(grid);
+            break;
         // case _gridModes.WRITECOLUMNSREADCOLUMNS:
         //     grid = createGridByColumnForKeyword(text, rowLength, keyword);
         //     cipherText = readFromGridByColumn(grid, rowLength);

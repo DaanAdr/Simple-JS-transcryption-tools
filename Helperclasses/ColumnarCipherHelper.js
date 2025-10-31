@@ -1,4 +1,4 @@
-const _placeholderCharacter = '_';
+const _placeholderCharacter = ' ';
 
 //#region Write grids
 export function writeGridByRow(keyword, characters) {
