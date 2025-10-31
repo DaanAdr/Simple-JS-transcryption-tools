@@ -1,4 +1,6 @@
-import { writeGridByRow, organizeGridByKeyword, readGridByColumn } from "../../Helperclasses/ColumnarCipherHelper.js";
+import { writeGridByRow, writeGridByColumn, 
+    organizeGridByKeyword, recreateOriginalGridByKeyword, 
+    readGridByColumn } from "../../Helperclasses/ColumnarCipherHelper.js";
 
 const _txtPlaintext = document.getElementById("txtPlaintext");
 const _txtCiphertext = document.getElementById("txtCiphertext");
@@ -33,7 +35,7 @@ function encodeText()
     switch(gridMode) {
         case _gridModes.WRITEROWSREADCOLUMNS:
             grid = writeGridByRow(keyword, characters);
-            grid = organizeGridByKeyword([...keyword], grid);
+            grid = organizeGridByKeyword(keyword, grid);
             text = readGridByColumn(grid);
             break;
         // case _gridModes.WRITEROWSREADROWS:
@@ -58,22 +60,43 @@ function encodeText()
 //#endregion
 
 //#region Decode text
-// _txtCiphertext.addEventListener('keyup', () => {
-//     _enteredPlaintext = false;
-//     _enteredCipherText = true;
-//     decodeText();
-// });
+_txtCiphertext.addEventListener('keyup', () => {
+    _enteredPlaintext = false;
+    _enteredCipherText = true;
+    decodeText();
+});
 
-// function decodeText()
-// {
-//     const fenceStartingPoint = document.querySelector('input[name="FenceStartingPoint"]:checked').value;
+function decodeText()
+{
+    const gridMode = _sltGridMode.value;
+    const keyword = _inpKeyword.value;
+    const characters = [..._txtCiphertext.value];
+    let grid = [];
 
-//     _txtPlaintext.value = decodeRailFence(
-//         _txtCiphertext.value, 
-//         fenceStartingPoint, 
-//         _inpOffset.value,
-//         _inpRails.value);
-// }
+    switch(gridMode) {
+        case _gridModes.WRITEROWSREADCOLUMNS:
+            grid = writeGridByColumn(keyword, characters);
+            grid = recreateOriginalGridByKeyword(grid, keyword);
+            break;
+        // case _gridModes.WRITEROWSREADROWS:
+        //     grid = createGridByRow(text, rowLength);
+        //     grid = organizeGridColumnsByKeyword(grid, keyword, rowLength);
+
+        //     cipherText = readFromGridByRowInKeywordOrder(grid, keyword);
+        //     break;
+        // case _gridModes.WRITECOLUMNSREADCOLUMNS:
+        //     grid = createGridByColumnForKeyword(text, rowLength, keyword);
+        //     cipherText = readFromGridByColumn(grid, rowLength);
+        //     break;
+        // case _gridModes.WRITECOLUMNSREADROWS:
+        //     grid = createGridByColumnForKeyword(text, rowLength, keyword);
+        //     cipherText = readFromGridByRow(grid);
+        //     break;
+        
+    }
+
+    //_txtPlaintext.value = //
+}
 //#endregion
 
 //#region Handle settings changes
