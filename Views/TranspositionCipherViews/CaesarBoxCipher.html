@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Columnar Transposition Cipher</title>
+    <script src="../../Controllers/TranspositionCipherControllers/CaesarBoxCipherController.js" type="module" defer></script>
+    <link rel="stylesheet" href="../../Stylesheets/Main.css">
+</head>
+<body>
+    <a href="../../Index.html"><< Home</a>
+    <div class="container">
+        <div class="row">
+            <div class="label">Number of columns in grid:</div>
+            <div>
+                <input type="number" id="inpColumns" value="3" min="2">
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Plaintext:</div>
+            <div>
+                <textarea id="txtPlaintext"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Encrypted:</div>
+            <div>
+                <textarea id="txtCiphertext"></textarea>
+            </div>
+        </div>
+    </div> 
+</body>
+</html>

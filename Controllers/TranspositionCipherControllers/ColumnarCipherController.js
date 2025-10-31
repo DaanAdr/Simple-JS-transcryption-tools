@@ -34,22 +34,22 @@ function encodeText()
 
     switch(gridMode) {
         case _gridModes.WRITEROWSREADCOLUMNS:
-            grid = writeGridByRow(keyword, characters);
+            grid = writeGridByRow(keyword.length, characters);
             grid = organizeGridByKeyword(keyword, grid);
             text = readGridByColumn(grid);
             break;
         case _gridModes.WRITEROWSREADROWS:
-            grid = writeGridByRow(keyword, characters);
+            grid = writeGridByRow(keyword.length, characters);
             grid = organizeGridByKeyword(keyword, grid);
             text = readGridByRow(grid);
             break;
         case _gridModes.WRITECOLUMNSREADCOLUMNS:
-            grid = writeGridByColumn(keyword, characters);
+            grid = writeGridByColumn(keyword.length, characters);
             grid = organizeGridByKeyword(keyword, grid);
             text = readGridByColumn(grid);
             break;
         case _gridModes.WRITECOLUMNSREADROWS:
-            grid = writeGridByColumn(keyword, characters);
+            grid = writeGridByColumn(keyword.length, characters);
             grid = organizeGridByKeyword(keyword, grid);
             text = readGridByRow(grid);
             break;
@@ -76,22 +76,22 @@ function decodeText()
 
     switch(gridMode) {
         case _gridModes.WRITEROWSREADCOLUMNS:
-            grid = writeGridByColumn(keyword, characters);
+            grid = writeGridByColumn(keyword.length, characters);
             grid = recreateOriginalGridByKeyword(grid, keyword);
             text = readGridByRow(grid);
             break;
         case _gridModes.WRITEROWSREADROWS:
-            grid = writeGridByRow(keyword, characters);
+            grid = writeGridByRow(keyword.length, characters);
             grid = recreateOriginalGridByKeyword(grid, keyword);
             text = readGridByRow(grid);
             break;
         case _gridModes.WRITECOLUMNSREADCOLUMNS:
-            grid = writeGridByColumn(keyword, characters);
+            grid = writeGridByColumn(keyword.length, characters);
             grid = recreateOriginalGridByKeyword(grid, keyword);
             text = readGridByColumn(grid);
             break;
         case _gridModes.WRITECOLUMNSREADROWS:
-            grid = writeGridByRow(keyword, characters);
+            grid = writeGridByRow(keyword.length, characters);
             grid = recreateOriginalGridByKeyword(grid, keyword);
             text = readGridByColumn(grid);
             break;
