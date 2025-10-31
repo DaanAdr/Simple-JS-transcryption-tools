@@ -48,11 +48,11 @@ function encodeText()
             grid = organizeGridByKeyword(keyword, grid);
             text = readGridByColumn(grid);
             break;
-        // case _gridModes.WRITECOLUMNSREADROWS:
-        //     grid = createGridByColumnForKeyword(text, rowLength, keyword);
-        //     cipherText = readFromGridByRow(grid);
-        //     break;
-        
+        case _gridModes.WRITECOLUMNSREADROWS:
+            grid = writeGridByColumn(keyword, characters);
+            grid = organizeGridByKeyword(keyword, grid);
+            text = readGridByRow(grid);
+            break;
     }
 
     _txtCiphertext.value = text;
@@ -90,11 +90,11 @@ function decodeText()
             grid = recreateOriginalGridByKeyword(grid, keyword);
             text = readGridByColumn(grid);
             break;
-        // case _gridModes.WRITECOLUMNSREADROWS:
-        //     grid = createGridByColumnForKeyword(text, rowLength, keyword);
-        //     cipherText = readFromGridByRow(grid);
-        //     break;
-        
+        case _gridModes.WRITECOLUMNSREADROWS:
+            grid = writeGridByRow(keyword, characters);
+            grid = recreateOriginalGridByKeyword(grid, keyword);
+            text = readGridByColumn(grid);
+            break;
     }
 
     _txtPlaintext.value = text;
