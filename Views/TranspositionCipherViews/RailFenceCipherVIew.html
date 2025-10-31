@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rail Fence/Zigzag Cipher</title>
+    <script src="../../Controllers/TranspositionCipherControllers/RailFenceCipherController.js" type="module" defer></script>
+    <link rel="stylesheet" href="../../Stylesheets/Main.css">
+</head>
+<body>
+    <a href="../../Index.html"><< Home</a>
+    <div class="container">
+        <div class="row">
+            <div class="label">Rails</div>
+            <div>
+                <input type="number" min="2" max="7" value="2" id="inpRails">
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Start top left</div>
+            <div>
+                <input type="radio" name="FenceStartingPoint" value="TOP" checked>
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Start bottom left</div>
+            <div>
+                <input type="radio" name="FenceStartingPoint" value="BOTTOM">
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Offset for first character</div>
+            <div>
+                <input type="number" id="inpOffset" min="0" max="12" value="0">
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Plaintext:</div>
+            <div>
+                <textarea id="txtPlaintext"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Encrypted:</div>
+            <div>
+                <textarea id="txtCiphertext"></textarea>
+            </div>
+        </div>
+    </div> 
+</body>
+</html>
