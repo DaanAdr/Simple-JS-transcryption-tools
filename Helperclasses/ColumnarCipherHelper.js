@@ -1,8 +1,7 @@
 const _placeholderCharacter = ' ';
 
 //#region Write grids
-export function writeGridByRow(keyword, characters) {
-    const rowLength = keyword.length;
+export function writeGridByRow(rowLength, characters) {
     const textLength = characters.length;
     const additionalWhitespacesForGrid = rowLength - (textLength % rowLength);
     const grid = [];
@@ -13,16 +12,15 @@ export function writeGridByRow(keyword, characters) {
     }
 
     // Create grid
-    for(let i = 0; i < textLength; i += rowLength) {
-        const row = characters.slice(i, i + rowLength);
+    for(let i = 0; i < textLength; i += Number(rowLength)) {
+        const row = characters.slice(i, i + Number(rowLength));
         grid.push(row);
     }
 
     return grid;
 }
 
-export function writeGridByColumn(keyword, characters) {
-    const rowLength = keyword.length;
+export function writeGridByColumn(rowLength, characters) {
     const textLength = characters.length;
     const columnLength = Math.ceil(textLength / rowLength);
     const grid = new Array(columnLength).fill(null).map(() => new Array(rowLength).fill(null));
