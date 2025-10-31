@@ -59,7 +59,7 @@ export function populateFenceWithPlaintext(textArray, fence, fenceStartingPoint,
     return fence;
 }
 
-function populateFenceWithMockData(fence, fenceStartingPoint, rails, offset) {
+export function populateFenceWithMockData(fence, fenceStartingPoint, rails, offset) {
     let rowIndex = (fenceStartingPoint == "BOTTOM") ? Number(rails) - 1 : 0;
     let incrementRow = (fenceStartingPoint != "BOTTOM");
 
@@ -103,7 +103,7 @@ function populateFenceWithMockData(fence, fenceStartingPoint, rails, offset) {
     return fence;
 }
 
-function populateFenceByRowsAsc(fence, textArray) {
+export function populateFenceByRowsAsc(fence, textArray) {
     let textIndex = 0;
 
     // Loop through each row in cipherArray
