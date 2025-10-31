@@ -120,4 +120,14 @@ export function readGridByColumn(grid) {
 
     return text.join('');
 }
+
+export function readGridByRow(grid) {
+    const text = [];
+
+    grid.forEach((row) => {
+        text.push(...row);
+    });
+
+    return text.join('');
+}
 //#endregion
