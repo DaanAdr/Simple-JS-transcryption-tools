@@ -1,4 +1,4 @@
-import { writeGridByRow, organizeGridByKeyword } from "../../Helperclasses/ColumnarCipherHelper.js";
+import { writeGridByRow, organizeGridByKeyword, readGridByColumn } from "../../Helperclasses/ColumnarCipherHelper.js";
 
 const _txtPlaintext = document.getElementById("txtPlaintext");
 const _txtCiphertext = document.getElementById("txtCiphertext");
@@ -28,13 +28,13 @@ function encodeText()
     const keyword = _inpKeyword.value;
     const characters = [..._txtPlaintext.value];
     let grid = [];
+    let text = '';
 
     switch(gridMode) {
         case _gridModes.WRITEROWSREADCOLUMNS:
             grid = writeGridByRow(keyword, characters);
             grid = organizeGridByKeyword([...keyword], grid);
-
-            // cipherText = readFromGridByColumn(grid, rowLength);
+            text = readGridByColumn(grid);
             break;
         // case _gridModes.WRITEROWSREADROWS:
         //     grid = createGridByRow(text, rowLength);
@@ -52,6 +52,8 @@ function encodeText()
         //     break;
         
     }
+
+    _txtCiphertext.value = text;
 }
 //#endregion
 

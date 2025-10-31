@@ -45,9 +45,30 @@ export function organizeGridByKeyword(keywordCharacters, grid) {
         }
     }
 
-    console.log("Organized grid based on keyword");
-    console.log(organizedGrid);
-
     return organizedGrid
+}
+//#endregion
+
+//#region Read from grids
+export function readGridByColumn(grid) {
+    const text = [];
+    const rowLength = grid[0].length;
+
+    // Loop through all columns
+    for(let i = 0; i < rowLength; i++)
+    {
+        // Loop through all rows for column
+        grid.forEach(row => {
+            let character = row[i];
+
+            if(character == _placeholderCharacter) {
+                character = ' ';
+            }
+
+            text.push(character);
+        });
+    }
+
+    return text.join('');
 }
 //#endregion
