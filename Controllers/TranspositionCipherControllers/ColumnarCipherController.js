@@ -102,12 +102,21 @@ function decodeText()
 //#endregion
 
 //#region Handle settings changes
-// _inpRails.addEventListener('change', () => {
-//     if(_enteredPlaintext && !_enteredCipherText){
-//         encodeText();
-//     }
-//     else if(!_enteredPlaintext && _enteredCipherText){
-//         decodeText()
-//     }
-// });
+_inpKeyword.addEventListener('keyup', () => {
+    if(_enteredPlaintext && !_enteredCipherText){
+        encodeText();
+    }
+    else if(!_enteredPlaintext && _enteredCipherText){
+        decodeText()
+    }
+});
+
+_sltGridMode.addEventListener('change', () => {
+    if(_enteredPlaintext && !_enteredCipherText){
+        encodeText();
+    }
+    else if(!_enteredPlaintext && _enteredCipherText){
+        decodeText()
+    }
+});
 //#endregion
