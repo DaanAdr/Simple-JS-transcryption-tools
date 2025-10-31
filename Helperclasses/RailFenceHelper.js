@@ -8,8 +8,7 @@ export function encodeRailFence(text, fenceStartingPoint, offset, rails) {
 
 export function decodeRailFence(text, fenceStartingPoint, offset, rails) {
     let textArray = [...text];
-    const fenceLength = Number(textArray.length) + Number(offset);
-    let fence = new Array(Number(rails)).fill(null).map(() => new Array(fenceLength).fill(null));
+    let fence = new Array(Number(rails)).fill(null).map(() => new Array(Number(textArray.length) + Number(offset)).fill(null));
 
     fence = populateFenceWithMockData(fence, fenceStartingPoint, rails, offset);
     fence - populateFenceByRowsAsc(fence, textArray);
