@@ -1,6 +1,6 @@
 import { createEmptyFence, populateFenceWithPlaintext, populateFenceWithMockData,
-    organizeFenceRailsByKeyword,
-    readFenceByRowsAsc, 
+    organizeFenceRailsByKeyword, recreateOriginalFence,
+    readFenceByRowsAsc, readFenceByColumnAsc, 
     populateFenceByRowsAsc} from "../../Helperclasses/RailFenceHelper.js";
 
 const _txtPlaintext = document.getElementById("txtPlaintext");
@@ -40,15 +40,15 @@ function decodeText()
 {
     const characters = [..._txtCiphertext.value];
     const rails = _inpKeyword.value.length;
+    const keyword = _inpKeyword.value;
 
     let fence = createEmptyFence(characters, 0, rails);
     fence = populateFenceWithMockData(fence, "TOP", rails, 0);
-    fence = organizeFenceRailsByKeyword(fence, _inpKeyword.value);
+    fence = organizeFenceRailsByKeyword(fence, keyword);
     fence = populateFenceByRowsAsc(fence, characters);
+    fence = recreateOriginalFence(fence, keyword);
 
-    console.log(fence);
-
-    _txtPlaintext.value = 'lol';
+    _txtPlaintext.value = readFenceByColumnAsc(fence);
 }
 //#endregion
 

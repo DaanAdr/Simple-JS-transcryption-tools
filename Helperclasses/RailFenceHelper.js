@@ -139,7 +139,7 @@ export function readFenceByRowsAsc(fence) {
     return text.join('');
 }
 
-function readFenceByColumnAsc(fence) {
+export function readFenceByColumnAsc(fence) {
     const fenceLength = fence[0].length;
     const text = [];
 
@@ -183,4 +183,19 @@ function getOrderedKeyword(keyword) {
     keywordAsc.sort((a, b) => a.character.localeCompare(b.character));
 
     return keywordAsc;
+}
+
+export function recreateOriginalFence(fence, keyword) {
+    const keywordAsc = getOrderedKeyword(keyword);
+
+    const originalFence = new Array(keyword.length)
+        .fill(null).map(() => new Array(fence[0].length).fill(null));
+
+    // Loop through ordered keyword
+    keywordAsc.forEach((keywordCharacter, index) => {
+        //organizedGrid[index] = fence[keywordCharacter.rowIndex];
+        originalFence[keywordCharacter.rowIndex] = fence[index];
+    });
+
+    return originalFence;
 }
