@@ -1,4 +1,4 @@
-import { writeGridByRow } from "../../Helperclasses/ColumnarCipherHelper.js";
+import { writeGridByRow, organizeGridByKeyword } from "../../Helperclasses/ColumnarCipherHelper.js";
 
 const _txtPlaintext = document.getElementById("txtPlaintext");
 const _txtCiphertext = document.getElementById("txtCiphertext");
@@ -32,7 +32,7 @@ function encodeText()
     switch(gridMode) {
         case _gridModes.WRITEROWSREADCOLUMNS:
             grid = writeGridByRow(keyword, characters);
-            // grid = organizeGridColumnsByKeyword(grid, keyword, rowLength);
+            grid = organizeGridByKeyword([...keyword], grid);
 
             // cipherText = readFromGridByColumn(grid, rowLength);
             break;
@@ -52,16 +52,6 @@ function encodeText()
         //     break;
         
     }
-
-
-
-
-
-    _txtCiphertext.value = encodeRailFence(
-        _txtPlaintext.value, 
-        fenceStartingPoint, 
-        _inpOffset.value,
-        _inpRails.value);
 }
 //#endregion
 
