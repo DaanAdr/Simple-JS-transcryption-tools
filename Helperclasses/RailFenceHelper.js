@@ -17,7 +17,7 @@ export function decodeRailFence(text, fenceStartingPoint, offset, rails) {
 }
 
 //region Create fence
-function createEmptyFence(textArray, offset, rails) {
+export function createEmptyFence(textArray, offset, rails) {
     if(Number(offset) > 0)
     {
         const offsetArray = new Array(Number(offset)).fill(undefined);
@@ -32,7 +32,7 @@ function createEmptyFence(textArray, offset, rails) {
 //endregion
 
 //#region Populate fence
-function populateFenceWithPlaintext(textArray, fence, fenceStartingPoint, rails) {
+export function populateFenceWithPlaintext(textArray, fence, fenceStartingPoint, rails) {
     let rowIndex = (fenceStartingPoint == "BOTTOM") ? Number(rails) - 1 : 0;
     let incrementRow = (fenceStartingPoint != "BOTTOM");
     
@@ -125,7 +125,7 @@ function populateFenceByRowsAsc(fence, textArray) {
 //#endregion
 
 //#region Read Fence
-function readFenceByRowsAsc(fence) {
+export function readFenceByRowsAsc(fence) {
     const text = [];
 
     fence.forEach(row => {
@@ -158,3 +158,29 @@ function readFenceByColumnAsc(fence) {
     return text.join('');
 }
 //#endregion
+
+export function organizeFenceRailsByKeyword(fence, keyword) {
+    const keywordAsc = getOrderedKeyword(keyword);
+
+    const organizedGrid = new Array(keyword.length)
+        .fill(null).map(() => new Array(fence[0].length).fill(null));
+
+    // Loop through ordered keyword
+    keywordAsc.forEach((keywordCharacter, index) => {
+        organizedGrid[index] = fence[keywordCharacter.rowIndex];
+    });
+
+    return organizedGrid;
+}
+
+function getOrderedKeyword(keyword) {
+    const keywordCharacters = [...keyword];
+
+    const keywordAsc = keywordCharacters.map((character, index) => ({
+        character: character,
+        rowIndex: index
+    }));
+    keywordAsc.sort((a, b) => a.character.localeCompare(b.character));
+
+    return keywordAsc;
+}
