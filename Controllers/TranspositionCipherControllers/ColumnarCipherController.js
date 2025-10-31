@@ -1,0 +1,122 @@
+import { writeGridByRow, writeGridByColumn, 
+    organizeGridByKeyword, recreateOriginalGridByKeyword, 
+    readGridByColumn, readGridByRow } from "../../Helperclasses/ColumnarCipherHelper.js";
+
+const _txtPlaintext = document.getElementById("txtPlaintext");
+const _txtCiphertext = document.getElementById("txtCiphertext");
+const _inpKeyword = document.getElementById('inpKeyword');
+const _sltGridMode = document.getElementById('sltGridMode');
+
+const _gridModes = {
+    WRITEROWSREADCOLUMNS: "wrrc",
+    WRITEROWSREADROWS: "wrrr",
+    WRITECOLUMNSREADCOLUMNS: "wcrc",
+    WRITECOLUMNSREADROWS: "wcrr"
+};
+
+let _enteredPlaintext = false;
+let _enteredCipherText = false;
+
+//#region Encode text
+_txtPlaintext.addEventListener('keyup', () => {
+    _enteredPlaintext = true;
+    _enteredCipherText = false;
+    encodeText();
+});
+
+function encodeText()
+{
+    const gridMode = _sltGridMode.value;
+    const keyword = _inpKeyword.value;
+    const characters = [..._txtPlaintext.value];
+    let grid = [];
+    let text = '';
+
+    switch(gridMode) {
+        case _gridModes.WRITEROWSREADCOLUMNS:
+            grid = writeGridByRow(keyword, characters);
+            grid = organizeGridByKeyword(keyword, grid);
+            text = readGridByColumn(grid);
+            break;
+        case _gridModes.WRITEROWSREADROWS:
+            grid = writeGridByRow(keyword, characters);
+            grid = organizeGridByKeyword(keyword, grid);
+            text = readGridByRow(grid);
+            break;
+        case _gridModes.WRITECOLUMNSREADCOLUMNS:
+            grid = writeGridByColumn(keyword, characters);
+            grid = organizeGridByKeyword(keyword, grid);
+            text = readGridByColumn(grid);
+            break;
+        case _gridModes.WRITECOLUMNSREADROWS:
+            grid = writeGridByColumn(keyword, characters);
+            grid = organizeGridByKeyword(keyword, grid);
+            text = readGridByRow(grid);
+            break;
+    }
+
+    _txtCiphertext.value = text;
+}
+//#endregion
+
+//#region Decode text
+_txtCiphertext.addEventListener('keyup', () => {
+    _enteredPlaintext = false;
+    _enteredCipherText = true;
+    decodeText();
+});
+
+function decodeText()
+{
+    const gridMode = _sltGridMode.value;
+    const keyword = _inpKeyword.value;
+    const characters = [..._txtCiphertext.value];
+    let grid = [];
+    let text = "";
+
+    switch(gridMode) {
+        case _gridModes.WRITEROWSREADCOLUMNS:
+            grid = writeGridByColumn(keyword, characters);
+            grid = recreateOriginalGridByKeyword(grid, keyword);
+            text = readGridByRow(grid);
+            break;
+        case _gridModes.WRITEROWSREADROWS:
+            grid = writeGridByRow(keyword, characters);
+            grid = recreateOriginalGridByKeyword(grid, keyword);
+            text = readGridByRow(grid);
+            break;
+        case _gridModes.WRITECOLUMNSREADCOLUMNS:
+            grid = writeGridByColumn(keyword, characters);
+            grid = recreateOriginalGridByKeyword(grid, keyword);
+            text = readGridByColumn(grid);
+            break;
+        case _gridModes.WRITECOLUMNSREADROWS:
+            grid = writeGridByRow(keyword, characters);
+            grid = recreateOriginalGridByKeyword(grid, keyword);
+            text = readGridByColumn(grid);
+            break;
+    }
+
+    _txtPlaintext.value = text;
+}
+//#endregion
+
+//#region Handle settings changes
+_inpKeyword.addEventListener('keyup', () => {
+    if(_enteredPlaintext && !_enteredCipherText){
+        encodeText();
+    }
+    else if(!_enteredPlaintext && _enteredCipherText){
+        decodeText()
+    }
+});
+
+_sltGridMode.addEventListener('change', () => {
+    if(_enteredPlaintext && !_enteredCipherText){
+        encodeText();
+    }
+    else if(!_enteredPlaintext && _enteredCipherText){
+        decodeText()
+    }
+});
+//#endregion

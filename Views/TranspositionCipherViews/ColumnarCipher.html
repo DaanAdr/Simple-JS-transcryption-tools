@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Columnar Transposition Cipher</title>
+    <script src="../../Controllers/TranspositionCipherControllers/ColumnarCipherController.js" type="module" defer></script>
+    <link rel="stylesheet" href="../../Stylesheets/Main.css">
+</head>
+<body>
+    <a href="../../Index.html"><< Home</a>
+    <div class="container">
+        <div class="row">
+            <div class="label">Keyword:</div>
+            <div>
+                <input type="text" id="inpKeyword" value="KEY">
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Grid mode:</div>
+            <div>
+                <select id="sltGridMode">
+                    <option value="wrrc">Write by rows, read by columns</option>
+                    <option value="wrrr">Write by rows, read by rows</option>
+                    <option value="wcrc">Write by columns, read by columns</option>
+                    <option value="wcrr">Write by columns, read by rows</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Plaintext:</div>
+            <div>
+                <textarea id="txtPlaintext"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Encrypted:</div>
+            <div>
+                <textarea id="txtCiphertext"></textarea>
+            </div>
+        </div>
+    </div> 
+</body>
+</html>
