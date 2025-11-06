@@ -7,17 +7,15 @@ export function encodeChaoText(text, plaintextCharacterSettring, ciphertextChara
     const transcodedTextArray = [];
     const characters = [...text];
 
-    characters.forEach((character, index) => {
-        const {transcodedCharacter, isTranscoded} = transcodeCharacter(character, 
+    characters.forEach((character) => {
+        const {transcodedCharacter, isTranscoded, index} = transcodeCharacter(character, 
             plaintextCharacterSet, ciphertextCharacterSet);
 
         transcodedTextArray.push(transcodedCharacter);
 
-        // Permutes every time which shouldn't be the case
         if(isTranscoded) {
-            console.log('permuting')
             plaintextCharacterSet = permuteCharacterSet(plaintextCharacterSet, index + 1, false);
-            ciphertextCharacterSet = permuteCharacterSet(ciphertextCharacterSet, index, false);
+            ciphertextCharacterSet = permuteCharacterSet(ciphertextCharacterSet, index, true);
         }
     });
 
