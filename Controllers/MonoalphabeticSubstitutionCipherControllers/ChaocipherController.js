@@ -1,4 +1,4 @@
-import { encodeChaoText } from "../../Helperclasses/ChaoCipherHelper.js";
+import {transcodeText } from "../../Helperclasses/ChaoCipherHelper.js";
 
 const _txtPlaintextCharacterSet = document.getElementById('txtPlaintextCharacterSet');
 const _txtCipherTextCharacterSet = document.getElementById('txtCipherTextCharacterSet');
@@ -19,10 +19,11 @@ _txtPlaintext.addEventListener('keyup', () => {
 
 function encodeText()
 {
-    _txtCiphertext.value = encodeChaoText(
+    _txtCiphertext.value = transcodeText(
         _txtPlaintext.value, 
         _plaintextCharacterSetString, 
-        _ciphertextCharacterSetString);
+        _ciphertextCharacterSetString,
+        false);
 }
 //#endregion
 
@@ -33,13 +34,14 @@ _txtCiphertext.addEventListener('keyup', () => {
     decodeText();
 });
 
-// function decodeText()
-// {
-//     _txtPlaintext.value = transcodeText(
-//         _txtCiphertext.value, 
-//         _ciphertextCharacterSet, 
-//         _plaintextCharacterSet);
-// }
+function decodeText()
+{
+    _txtPlaintext.value = transcodeText(
+        _txtCiphertext.value, 
+        _plaintextCharacterSetString,
+        _ciphertextCharacterSetString,
+        true);
+}
 //#endregion
 
 //#region set character sets

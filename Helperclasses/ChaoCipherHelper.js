@@ -1,15 +1,24 @@
 import { createUniqueCharacterSet } from "./CharacterSetHelper.js";
 import { transcodeCharacter } from "./SubstitutionCipherHelper.js";
 
-export function encodeChaoText(text, plaintextCharacterSettring, ciphertextCharacterSettring) {
+export function transcodeText(
+    text, 
+    plaintextCharacterSettring, 
+    ciphertextCharacterSettring, 
+    decodeMode) 
+{
     let plaintextCharacterSet = createUniqueCharacterSet(plaintextCharacterSettring);
     let ciphertextCharacterSet = createUniqueCharacterSet(ciphertextCharacterSettring);
     const transcodedTextArray = [];
     const characters = [...text];
 
     characters.forEach((character) => {
+        const sourceCharacterSet = decodeMode? ciphertextCharacterSet : plaintextCharacterSet;
+        const targetCharacterSets = decodeMode ? plaintextCharacterSet : ciphertextCharacterSet;
+
         const {transcodedCharacter, isTranscoded, index} = transcodeCharacter(character, 
-            plaintextCharacterSet, ciphertextCharacterSet);
+            sourceCharacterSet,
+            targetCharacterSets);
 
         transcodedTextArray.push(transcodedCharacter);
 
