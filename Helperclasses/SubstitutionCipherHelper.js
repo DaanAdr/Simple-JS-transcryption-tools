@@ -20,6 +20,25 @@ export function transcodeText(text, sourceCharacterSets, targetCharacterSets) {
     return transcodedTextArray.join('');
 }
 
+export function transcodeCharacter(character, sourceCharacterSets, targetCharacterSets) {
+    const characterMap = createMapForCharacterSets([sourceCharacterSets], [targetCharacterSets]);
+    let isTranscoded = true;
+    let index = NaN;
+
+    let transcodedCharacter = characterMap.get(character);// || character;
+
+    if(transcodedCharacter == undefined) {
+        transcodedCharacter = character;
+        isTranscoded = false;
+    }
+    else {
+        index = transcodedCharacter.index;
+        transcodedCharacter = transcodedCharacter.target;
+    }
+
+    return {transcodedCharacter, isTranscoded, index};
+}
+
 export function createMapForCharacterSets(sourceCharacterSets, targetCharacterSets) {
     const charSetMap = new Map();
 
@@ -36,22 +55,31 @@ export function createMapForCharacterSets(sourceCharacterSets, targetCharacterSe
             const altCasedCharExists = sourceCharacterSets.flat().includes(altCasedChar);
 
             if(!altCasedCharExists){
-                charSetMap.set(character.toLowerCase(), 
-                    targetCharacterSets[rowIndex][index].toLowerCase());
+                charSetMap.set(character.toLowerCase(), {
+                    target: targetCharacterSets[rowIndex][index].toLowerCase(),
+                    index: index
+                }); 
+                    
 
-                charSetMap.set(character.toUpperCase(), 
-                    targetCharacterSets[rowIndex][index].toUpperCase());
+                charSetMap.set(character.toUpperCase(), {
+                    target: targetCharacterSets[rowIndex][index].toUpperCase(),
+                    index: index
+                });
 
                 return;
             }
 
-            charSetMap.set(character, targetCharacterSets[rowIndex][index]);
+            charSetMap.set(character, {
+                target: targetCharacterSets[rowIndex][index],
+                index: index
+            });
         });
     });
 
     return charSetMap;
 }
 
+//#region Transcode with seperator
 /**
  * Encode a text from the plaintext character set to the ciphertext character set
  * 
@@ -169,3 +197,4 @@ export function decodeTextWithSeperator(
 
     return decodedText;
 }
+//#endregion

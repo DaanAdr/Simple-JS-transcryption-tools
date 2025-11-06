@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shift Cipher</title>
+    <script src="../../Controllers/MonoalphabeticSubstitutionCipherControllers/ChaocipherController.js" type="module" defer></script>
+    <link rel="stylesheet" href="../../Stylesheets/Main.css">
+</head>
+<body>
+    <h1>Chaocipher</h1>
+    <a href="../../Index.html"><< Home</a>
+    <div class="container">
+        <details class="row">
+            <summary>Optional settings</summary>
+            <div class="row">
+                 <div class="label">Character set to use for plain text:</div>
+                <div>
+                    <textarea id="txtPlaintextCharacterSet">CIPHERABDFGJKLMNOQSTUVWXYZ</textarea>
+                </div>
+            </div>
+            <div class="row">
+                 <div class="label">Character set to use for cipher text:</div>
+                <div>
+                    <textarea id="txtCipherTextCharacterSet">CHAOBDEFGIJKLMNPQRSTUVWXYZ</textarea>
+                </div>
+            </div>
+        </details>
+        <div class="row">
+            <div class="label">Plaintext:</div>
+            <div>
+                <textarea id="txtPlaintext"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Encrypted:</div>
+            <div>
+                <textarea id="txtCiphertext"></textarea>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
