@@ -1,29 +1,40 @@
-import { createUniqueCharacterSets } from "./CharacterSetHelper.js";
+import { createUniqueCharacterSet } from "./CharacterSetHelper.js";
 import { transcodeCharacter } from "./SubstitutionCipherHelper.js";
 
-export function encodeText(text, plaintextCharacterSetString, cipherTextCharacterSetString) {
-    const plaintextCharacterSets = createUniqueCharacterSets(plaintextCharacterSetString);
-    const ciphertextCharacterSets = createUniqueCharacterSets(cipherTextCharacterSetString);
+export function encodeChaoText(text, plaintextCharacterSettring, ciphertextCharacterSettring) {
+    let plaintextCharacterSet = createUniqueCharacterSet(plaintextCharacterSettring);
+    let ciphertextCharacterSet = createUniqueCharacterSet(ciphertextCharacterSettring);
     const transcodedTextArray = [];
+    const characters = [...text];
 
-    for (const character of text) {
-        const transcodedCharacter = transcodeCharacter(character, 
-            plaintextCharacterSets, ciphertextCharacterSets);
+    characters.forEach((character, index) => {
+        const {transcodedCharacter, isTranscoded} = transcodeCharacter(character, 
+            plaintextCharacterSet, ciphertextCharacterSet);
 
         transcodedTextArray.push(transcodedCharacter);
 
-        if(transcodedCharacter == character) {
-            //Permute the character sets
+        // Permutes every time which shouldn't be the case
+        if(isTranscoded) {
+            console.log('permuting')
+            plaintextCharacterSet = permuteCharacterSet(plaintextCharacterSet, index + 1, false);
+            ciphertextCharacterSet = permuteCharacterSet(ciphertextCharacterSet, index, false);
         }
-    }
+    });
 
     return transcodedTextArray.join('');
 }
 
-function permuteCharacterSets(characterSets, characterIndex) {
-    characterSets.forEach(characterSet => {
-        const nadir = characterSet.length / 2;
+function permuteCharacterSet(characterSet, characterIndex, isCiphertextCharacterSet) {
+    const permutedCharacterSetEnd = characterSet.slice(0, characterIndex);
+    const permutedCharacterSetStart = characterSet.slice(characterIndex);
 
-        //IMPORTANT: This might not work with multiple character sets
-    });
+    const permutedCharacterSet = [...permutedCharacterSetStart];
+    permutedCharacterSet.push(...permutedCharacterSetEnd);
+
+    const indexN = isCiphertextCharacterSet ? 1 : 2;
+    const newNadirCharacter = permutedCharacterSet.splice(indexN, 1);
+    const nadir = characterSet.length / 2;
+    permutedCharacterSet.splice(nadir, 0, ...newNadirCharacter);
+
+    return permutedCharacterSet;
 }

@@ -21,10 +21,20 @@ export function transcodeText(text, sourceCharacterSets, targetCharacterSets) {
 }
 
 export function transcodeCharacter(character, sourceCharacterSets, targetCharacterSets) {
-    const characterMap = createMapForCharacterSets(sourceCharacterSets, targetCharacterSets);
-    const transcodedCharacter = characterMap.get(character) || character;
+    const characterMap = createMapForCharacterSets([sourceCharacterSets], [targetCharacterSets]);
+    let isTranscoded = true;
+    console.log(character)
+    console.log("map");
+    console.log(characterMap)
 
-    return transcodedCharacter;
+    let transcodedCharacter = characterMap.get(character);// || character;
+
+    if(transcodedCharacter == undefined) {
+        transcodedCharacter = character;
+        isTranscoded = false;
+    }
+
+    return {transcodedCharacter, isTranscoded};
 }
 
 export function createMapForCharacterSets(sourceCharacterSets, targetCharacterSets) {
@@ -59,6 +69,7 @@ export function createMapForCharacterSets(sourceCharacterSets, targetCharacterSe
     return charSetMap;
 }
 
+//#region Transcode with seperator
 /**
  * Encode a text from the plaintext character set to the ciphertext character set
  * 
@@ -176,3 +187,4 @@ export function decodeTextWithSeperator(
 
     return decodedText;
 }
+//#endregion
