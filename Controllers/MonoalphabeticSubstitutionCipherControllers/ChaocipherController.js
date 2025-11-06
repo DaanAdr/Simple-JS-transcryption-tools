@@ -46,11 +46,11 @@ function decodeText()
 
 //#region set character sets
 setPlaintextCharacterSet();
+setCiphertextCharacterSet();
 
 function setPlaintextCharacterSet()
 {
     _plaintextCharacterSetString = _txtPlaintextCharacterSet.value;
-    setCiphertextCharacterSet();
 }
 
 function setCiphertextCharacterSet()
@@ -60,12 +60,25 @@ function setCiphertextCharacterSet()
 //#endregion
 
 //#region Handle settings changes
-// _txtCharSet.addEventListener('keyup', () => {
-//     if(_enteredPlaintext && !_enteredCipherText){
-//         encodeText();
-//     }
-//     else if(!_enteredPlaintext && _enteredCipherText){
-//         decodeText()
-//     }
-// });
+_txtPlaintextCharacterSet.addEventListener('keyup', () => {
+    if(_enteredPlaintext && !_enteredCipherText) {
+        setPlaintextCharacterSet();
+        encodeText();
+    }
+    else if(!_enteredPlaintext && _enteredCipherText) {
+        setPlaintextCharacterSet();
+        decodeText()
+    }
+});
+
+_txtCipherTextCharacterSet.addEventListener('keyup', () => {
+    if(_enteredPlaintext && !_enteredCipherText) {
+        setCiphertextCharacterSet();
+        encodeText();
+    }
+    else if(!_enteredPlaintext && _enteredCipherText) {
+        setCiphertextCharacterSet();
+        decodeText()
+    }
+});
 //#endregion
