@@ -166,8 +166,7 @@ export function recreateOriginalFence(fence, keyword) {
 
     // Loop through ordered keyword
     keywordAsc.forEach((keywordCharacter, index) => {
-        //organizedGrid[index] = fence[keywordCharacter.rowIndex];
-        originalFence[keywordCharacter.rowIndex] = fence[index];
+        originalFence[keywordCharacter.columnIndex] = fence[index];
     });
 
     return originalFence;

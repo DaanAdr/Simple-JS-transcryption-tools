@@ -25,7 +25,7 @@ function encodeText()
     let fence = createEmptyFence(characters, 0, rails);
     fence = populateFenceWithPlaintext(characters, fence, "TOP", rails);
     fence = organizeFenceRailsByKeyword(fence, _inpKeyword.value);
-    
+
     _txtCiphertext.value = readFenceByRowsAsc(fence);
 }
 //#endregion
