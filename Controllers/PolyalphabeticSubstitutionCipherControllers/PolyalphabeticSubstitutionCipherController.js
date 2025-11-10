@@ -1,7 +1,7 @@
 import { createUniqueCharacterSets } from "../../Helperclasses/CharacterSetHelper.js";
 import { transcodeVigenere, transcodeBeaufort, transcodeAutokey } 
     from "../../Helperclasses/PolyalphabeticSubstitutionHelper.js";
-import { createKeyStreamForKeyword } from "../../Helperclasses/KeystreamHelper.js";
+import { createKeyStreamForKeyword } from "../../Helperclasses/KeyHelper.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 const _mode = urlParams.get('mode');
@@ -44,20 +44,28 @@ populateViewHeader();
 
 //#region Transcode text
 _txtPlaintext.addEventListener('keyup', () => {
+    encodeText();
+});
+
+function encodeText() {
     _enteredPlaintext = true;
     _enteredCipherText = false;
     _decodeText = false;
 
     transcodeText();
-});
+}
 
 _txtCiphertext.addEventListener('keyup', () => {
+    decodeText();
+});
+
+function decodeText() {
     _enteredPlaintext = false;
     _enteredCipherText = true;
     _decodeText = true;
 
     transcodeText();
-});
+}
 
 function transcodeText() {
     let keystream = "";

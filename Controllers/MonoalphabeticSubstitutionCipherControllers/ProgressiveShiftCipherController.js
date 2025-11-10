@@ -1,4 +1,4 @@
-import { createKeystreamForRange } from "../../Helperclasses/KeystreamHelper.js";
+import { createKeystreamForRange } from "../../Helperclasses/KeyHelper.js";
 import { createUniqueCharacterSets } from "../../Helperclasses/CharacterSetHelper.js";
 import { transcodeVigenere, transcodeEveryWord } from "../../Helperclasses/PolyalphabeticSubstitutionHelper.js";
 
