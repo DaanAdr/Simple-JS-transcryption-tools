@@ -1,23 +1,5 @@
 import { getOrderedKeywordAsc } from "./KeyHelper.js";
 
-export function encodeRailFence(text, fenceStartingPoint, offset, rails) {
-    const textArray = [...text];
-    let fence = createEmptyFence(textArray, offset, rails);
-    fence = populateFenceWithPlaintext(textArray, fence, fenceStartingPoint, rails);
-
-    return readFenceByRowsAsc(fence);
-}
-
-export function decodeRailFence(text, fenceStartingPoint, offset, rails) {
-    let textArray = [...text];
-    let fence = new Array(Number(rails)).fill(null).map(() => new Array(Number(textArray.length) + Number(offset)).fill(null));
-
-    fence = populateFenceWithMockData(fence, fenceStartingPoint, rails, offset);
-    fence - populateFenceByRowsAsc(fence, textArray);
-    
-    return readFenceByColumnAsc(fence);
-}
-
 //region Create fence
 export function createEmptyFence(textArray, offset, rails) {
     if(Number(offset) > 0)
@@ -162,6 +144,7 @@ export function readFenceByColumnAsc(fence) {
 }
 //#endregion
 
+//#region Rearrange fence for keyword
 export function organizeFenceRailsByKeyword(fence, keyword) {
     const keywordAsc = getOrderedKeywordAsc(keyword);
 
@@ -190,3 +173,4 @@ export function recreateOriginalFence(fence, keyword) {
 
     return originalFence;
 }
+//#endregion

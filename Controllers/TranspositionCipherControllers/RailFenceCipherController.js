@@ -1,4 +1,5 @@
-import { encodeRailFence, decodeRailFence } from "../../Helperclasses/RailFenceHelper.js";
+import { createEmptyFence, populateFenceWithPlaintext, populateFenceWithMockData, populateFenceByRowsAsc, 
+    readFenceByRowsAsc, readFenceByColumnAsc } from "../../Helperclasses/FenceHelper.js";
 
 const _txtPlaintext = document.getElementById("txtPlaintext");
 const _txtCiphertext = document.getElementById("txtCiphertext");
@@ -18,12 +19,14 @@ _txtPlaintext.addEventListener('keyup', () => {
 function encodeText()
 {
     const fenceStartingPoint = document.querySelector('input[name="FenceStartingPoint"]:checked').value;
+    const textArray = [..._txtPlaintext.value];
+    const rails = _inpRails.value;
+    const offset = _inpOffset.value;
 
-    _txtCiphertext.value = encodeRailFence(
-        _txtPlaintext.value, 
-        fenceStartingPoint, 
-        _inpOffset.value,
-        _inpRails.value);
+    let fence = createEmptyFence(textArray, offset, rails);
+    fence = populateFenceWithPlaintext(textArray, fence, fenceStartingPoint, rails);
+
+    _txtCiphertext.value = readFenceByRowsAsc(fence);
 }
 //#endregion
 
@@ -37,12 +40,15 @@ _txtCiphertext.addEventListener('keyup', () => {
 function decodeText()
 {
     const fenceStartingPoint = document.querySelector('input[name="FenceStartingPoint"]:checked').value;
+    const offset = _inpOffset.value;
+    const rails = _inpRails.value;
+    let textArray = [..._txtCiphertext.value];
+    let fence = new Array(Number(rails)).fill(null).map(() => new Array(Number(textArray.length) + Number(offset)).fill(null));
 
-    _txtPlaintext.value = decodeRailFence(
-        _txtCiphertext.value, 
-        fenceStartingPoint, 
-        _inpOffset.value,
-        _inpRails.value);
+    fence = populateFenceWithMockData(fence, fenceStartingPoint, rails, offset);
+    fence - populateFenceByRowsAsc(fence, textArray);
+    
+    _txtPlaintext.value = readFenceByColumnAsc(fence);
 }
 //#endregion
 

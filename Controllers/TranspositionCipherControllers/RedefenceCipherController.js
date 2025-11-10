@@ -1,7 +1,7 @@
 import { createEmptyFence, populateFenceWithPlaintext, populateFenceWithMockData,
     organizeFenceRailsByKeyword, recreateOriginalFence,
     readFenceByRowsAsc, readFenceByColumnAsc, 
-    populateFenceByRowsAsc} from "../../Helperclasses/RailFenceHelper.js";
+    populateFenceByRowsAsc} from "../../Helperclasses/FenceHelper.js";
 
 const _txtPlaintext = document.getElementById("txtPlaintext");
 const _txtCiphertext = document.getElementById("txtCiphertext");
