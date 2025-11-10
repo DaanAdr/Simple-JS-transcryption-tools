@@ -1,5 +1,4 @@
 # Simple-JS-transcryption-tools
-- Fix bug in rail fence helper, found when using the redefence cipher as with plaintext: Do you still love me.
 
 <br>
 

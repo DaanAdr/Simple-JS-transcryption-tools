@@ -113,7 +113,6 @@ export function readFenceByRowsAsc(fence) {
     const text = [];
 
     fence.forEach(row => {
-        //TODO: row is undefined
         row.forEach(element => {
             if(element != null && element != undefined) {
                 text.push(element);
@@ -153,7 +152,7 @@ export function organizeFenceRailsByKeyword(fence, keyword) {
 
     // Loop through ordered keyword
     keywordAsc.forEach((keywordCharacter, index) => {
-        organizedGrid[index] = fence[keywordCharacter.rowIndex];
+        organizedGrid[index] = fence[keywordCharacter.columnIndex];
     });
 
     return organizedGrid;
