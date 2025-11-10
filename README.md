@@ -1,7 +1,7 @@
 # Simple-JS-transcryption-tools
 - Change Rail Fence Helper to Fence Helper by removing the transcoding logic
-- Change Keystream helper to key helper to integrate sorting the letters in a keyword (applies to Columnar and Redefence cipher)
 - Fix all functions that use "createMapForCharacterSets" due to the new addition
+- Fix bug in rail fence helper, found when using the redefence cipher as with plaintext: Do you still love me.
 
 <br>
 

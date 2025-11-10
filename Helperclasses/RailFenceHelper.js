@@ -1,3 +1,5 @@
+import { getOrderedKeywordAsc } from "./KeyHelper.js";
+
 export function encodeRailFence(text, fenceStartingPoint, offset, rails) {
     const textArray = [...text];
     let fence = createEmptyFence(textArray, offset, rails);
@@ -129,6 +131,7 @@ export function readFenceByRowsAsc(fence) {
     const text = [];
 
     fence.forEach(row => {
+        //TODO: row is undefined
         row.forEach(element => {
             if(element != null && element != undefined) {
                 text.push(element);
@@ -160,7 +163,7 @@ export function readFenceByColumnAsc(fence) {
 //#endregion
 
 export function organizeFenceRailsByKeyword(fence, keyword) {
-    const keywordAsc = getOrderedKeyword(keyword);
+    const keywordAsc = getOrderedKeywordAsc(keyword);
 
     const organizedGrid = new Array(keyword.length)
         .fill(null).map(() => new Array(fence[0].length).fill(null));
@@ -173,20 +176,8 @@ export function organizeFenceRailsByKeyword(fence, keyword) {
     return organizedGrid;
 }
 
-function getOrderedKeyword(keyword) {
-    const keywordCharacters = [...keyword];
-
-    const keywordAsc = keywordCharacters.map((character, index) => ({
-        character: character,
-        rowIndex: index
-    }));
-    keywordAsc.sort((a, b) => a.character.localeCompare(b.character));
-
-    return keywordAsc;
-}
-
 export function recreateOriginalFence(fence, keyword) {
-    const keywordAsc = getOrderedKeyword(keyword);
+    const keywordAsc = getOrderedKeywordAsc(keyword);
 
     const originalFence = new Array(keyword.length)
         .fill(null).map(() => new Array(fence[0].length).fill(null));

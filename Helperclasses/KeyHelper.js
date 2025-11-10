@@ -83,3 +83,15 @@ export function createKeyStreamForKeyword(keyword, keystreamLength, characterSet
 
     return keystream;
 }
+
+export function getOrderedKeywordAsc(keyword) {
+    const keywordCharacters = [...keyword];
+
+    const keywordAsc = keywordCharacters.map((character, index) => ({
+        character: character,
+        columnIndex: index
+    }));
+    keywordAsc.sort((a, b) => a.character.localeCompare(b.character));
+
+    return keywordAsc;
+}

@@ -1,3 +1,4 @@
+import { getOrderedKeywordAsc } from "./KeyHelper.js";
 const _placeholderCharacter = ' ';
 
 //#region Write grids
@@ -48,7 +49,7 @@ export function organizeGridByKeyword(keyword, grid) {
     const organizedGrid = new Array(columnLength)
         .fill(null).map(() => new Array(keyword.length).fill(null));
 
-    const keywordAsc = getOrderedKeyword(keyword);
+    const keywordAsc = getOrderedKeywordAsc(keyword);
 
     // Loop through columns in ascending order of keyword
     for(let i = 0; i < keywordAsc.length; i++) {
@@ -63,7 +64,7 @@ export function organizeGridByKeyword(keyword, grid) {
 }
 
 export function recreateOriginalGridByKeyword(grid, keyword) {
-    const keywordAsc = getOrderedKeyword(keyword);
+    const keywordAsc = getOrderedKeywordAsc(keyword);
     const columnLength = grid.length;
     const rowLength = grid[0].length;
     const originalGrid = new Array(columnLength).fill(null).map(() => new Array(rowLength).fill(null));
@@ -81,18 +82,6 @@ export function recreateOriginalGridByKeyword(grid, keyword) {
     }
 
     return originalGrid;
-}
-
-function getOrderedKeyword(keyword) {
-    const keywordCharacters = [...keyword];
-
-    const keywordAsc = keywordCharacters.map((character, index) => ({
-        character: character,
-        columnIndex: index
-    }));
-    keywordAsc.sort((a, b) => a.character.localeCompare(b.character));
-
-    return keywordAsc;
 }
 //#endregion
 
