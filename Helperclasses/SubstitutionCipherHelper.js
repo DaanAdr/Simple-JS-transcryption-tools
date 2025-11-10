@@ -13,8 +13,14 @@ export function transcodeText(text, sourceCharacterSets, targetCharacterSets) {
     const characterMap = createMapForCharacterSets(sourceCharacterSets, targetCharacterSets);
 
     for (const character of text) {
-        const transcodedCharacter = characterMap.get(character) || character;
-        transcodedTextArray.push(transcodedCharacter);
+        const transcodedCharacter = characterMap.get(character);
+
+        if(transcodedCharacter == undefined) {
+            transcodedTextArray.push(character);
+        }
+        else {
+            transcodedTextArray.push(transcodedCharacter.target);
+        }
     }
 
     return transcodedTextArray.join('');
@@ -39,7 +45,7 @@ export function transcodeCharacter(character, sourceCharacterSets, targetCharact
     return {transcodedCharacter, isTranscoded, index};
 }
 
-export function createMapForCharacterSets(sourceCharacterSets, targetCharacterSets) {
+function createMapForCharacterSets(sourceCharacterSets, targetCharacterSets) {
     const charSetMap = new Map();
 
     //Loop through each nested char set
