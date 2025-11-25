@@ -8,6 +8,22 @@ let _enteredPlaintext = false;
 let _enteredCipherText = false;
 let _decodeText = false;
 
+//TODO: Might have to make this dynamic and allow for alternative grid headers
+const _gridCoordinatesMap = new Map([
+    // ['A', 0],
+    // ['D', 1],
+    // ['F', 2],
+    // ['G', 3],
+    // ['V', 4],
+    // ['X', 5]
+    [0, 'A'],
+    [1, 'D'],
+    [2, 'F'],
+    [3, 'G'],
+    [4, 'V'],
+    [5, 'X']
+]);
+
 //#region Transcode text
 _txtPlaintext.addEventListener('keyup', () => {
     encodeText();
@@ -27,13 +43,18 @@ function encodeText() {
 
     characters.forEach((character) => {
         //Search character in substitution grid
-        const tmp = grid.indexOf(character);
-        console.log(tmp);
+        const characterSetIndex = grid.indexOf(character); //TODO:Make character alt case
+        console.log(`${character}: ${characterSetIndex}`);
 
-        const row = Math.floor(tmp / 7);
-        const index = tmp % 7;
+        //Get grid coordinates
+        const rowIndex = Math.floor(characterSetIndex / 7);
+        const columnIndex = characterSetIndex % 7;
 
-        console.log(`row: ${row}, index: ${index}`);
+        console.log(`rowIndex: ${rowIndex}, columnIndex: ${columnIndex}`);
+
+        //Map coordinates to ADFGX values
+        const adfgvxValue = `${_gridCoordinatesMap.get(Number(rowIndex))}${_gridCoordinatesMap.get(Number(columnIndex))}`;
+        console.log(adfgvxValue);
     });
 
     //transcodeText();
