@@ -2,6 +2,12 @@ import { getOrderedKeywordAsc } from "./KeyHelper.js";
 const _placeholderCharacter = ' ';
 
 //#region Write grids
+/**
+ * 
+ * @param {Number} rowLength 
+ * @param {array<char>} characters 
+ * @returns 
+ */
 export function writeGridByRow(rowLength, characters) {
     const textLength = characters.length;
     const additionalWhitespacesForGrid = rowLength - (textLength % rowLength);

@@ -13,3 +13,6 @@
 - Columnar transposition cipher
     - (Optional) Organize grids by keyword desc.
     - (Optional) Use keyword for the rows instead of the columns.
+- ADFGVX cipher
+    - (Optional) Allow other columnar transpositition encryptions.
+    - (Optional) Allow for alternative header characters.

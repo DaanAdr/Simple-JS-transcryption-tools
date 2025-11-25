@@ -1,3 +1,5 @@
+import { writeGridByRow, organizeGridByKeyword, readGridByColumn } from "../../Helperclasses/ColumnarCipherHelper.js";
+
 const _substitutionGrid = document.getElementById('txtSubstitutionGrid');
 const _inpKeyword = document.getElementById('inpKeyword');
 const _txtPlaintext = document.getElementById("txtPlaintext");
@@ -36,6 +38,8 @@ function encodeText() {
 
     const text = _txtPlaintext.value;
     const characters = [...text.replace(/[^0-9A-Z]/gi, '')];
+    const keyword = _inpKeyword.value;
+    let adfgvxValues = "";
 
     console.log(characters);
 
@@ -55,9 +59,18 @@ function encodeText() {
         //Map coordinates to ADFGX values
         const adfgvxValue = `${_gridCoordinatesMap.get(Number(rowIndex))}${_gridCoordinatesMap.get(Number(columnIndex))}`;
         console.log(adfgvxValue);
+
+        adfgvxValues += adfgvxValue;
     });
 
+    //Encode via transposition
+    let transpositionGrid = writeGridByRow(keyword.length, [...adfgvxValues]);
+    transpositionGrid = organizeGridByKeyword(keyword, transpositionGrid);
+    const encodedText = readGridByColumn(transpositionGrid);
+    console.log(encodedText);
+
     //transcodeText();
+    _txtCiphertext.value = encodedText;
 }
 
 _txtCiphertext.addEventListener('keyup', () => {
