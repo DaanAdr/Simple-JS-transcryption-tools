@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADFGVX Cipher</title>
+    <!-- <script src="../../Controllers/MonoalphabeticSubstitutionCipherControllers/AffineCipherController.js" type="module" defer></script> -->
+    <link rel="Stylesheet" href="../../Stylesheets/Main.css">
+</head>
+<body>
+    <h1>ADFGVX Cipher</h1>
+    <a href="../../index.html"><< Home</a>
+    <div class="container">
+        <div class="row">
+            <div class="label">Grid for substitution:</div>
+            <div>
+                <textarea id="txtSubstitutionGrid" cols="6" rows="6"></textarea>
+                <abbr title="Use a numberical alphabet in a 6x6 grid to fill all positions">(?)</abbr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Keyword:</div>
+            <div>
+                <input id="inpKeyword" value="KEY">
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Plaintext:</div>
+            <div>
+                <textarea id="txtPlaintext"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Encrypted:</div>
+            <div>
+                <textarea id="txtCiphertext"></textarea>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
