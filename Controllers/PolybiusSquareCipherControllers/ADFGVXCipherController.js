@@ -82,33 +82,31 @@ function decodeText() {
 
     let text = _txtCiphertext.value;
     text = text.toUpperCase();
-    //const characters = [...text.replace(/[^0-9A-Z]/gi, '')];
     const characters = [...text];
     const keyword = _inpKeyword.value;
 
     //Spaces required in order for this to work
-    let transpositionGrid = writeGridByColumn(keyword.length, characters);
-    console.log(`decyphering`)
-    console.log('transposition grid in asc key order')
+    let transpositionGrid = createGridByColumnIncludingWhitespace(characters, keyword);
     console.log(transpositionGrid);
-    transpositionGrid = recreateOriginalGridByKeyword(transpositionGrid, keyword);
-    console.log('recreated og grid')
-    console.log(transpositionGrid)
     const adfgvxValues = readGridByRow(transpositionGrid);
 
-    for(let i = 0; i < (adfgvxValues.length / 2); i += 2) {
+    console.log(adfgvxValues);
+    console.log(adfgvxValues.length);
+
+    const grid = _substitutionGrid.value;
+    const decodedCharacters = [];
+
+    for(let i = 0; i < (adfgvxValues.length); i += 2) {
         const rowIndex = _gridCoordinatesMap.get(adfgvxValues[i]);
         const columnIndex = _gridCoordinatesMap.get(adfgvxValues[i + 1]);
 
-        console.log(`row: ${rowIndex}, column: ${columnIndex}`);
+        const characterSetIndex = (Number(rowIndex) * 7) + Number(columnIndex);
+        const character = grid[characterSetIndex];
 
-
-        //Calculate character set string index
-        const tmp = Number(rowIndex) * 6;
-
-        // const subArray = [firstCharacter, secondCharacter];
-        // adfgvxPairs.push(subArray);
+        decodedCharacters.push(character);
     }
+
+    _txtPlaintext.value = decodedCharacters.join('');
 }
 //#endregion
 
@@ -122,3 +120,52 @@ function decodeText() {
 //     }
 // });
 //#endregion
+
+function createGridByColumnIncludingWhitespace(characters, keyword) {
+    const keywordArray = [...keyword];
+    const keywordLength = keyword.length;
+    const textLength = characters.length;
+
+    const keywordAsc = keywordArray.map((character, index) => ({
+        character: character,
+        index: index
+    }));
+
+    // Sort the array based on the character property
+    keywordAsc.sort((a, b) => a.character.localeCompare(b.character));
+
+    const rowCount = Math.floor(textLength / keywordLength);
+    const extraCells = textLength % keywordLength;
+
+    const arrayRows = extraCells != 0 ? rowCount +1 : rowCount;
+
+    let columns = new Array(arrayRows).fill(null).map(() => new Array(keywordLength).fill(''));
+
+    // Loop through ascending keyword
+    keywordAsc.forEach(obj => {
+        const columnIndex = obj.index;
+
+        // Loop through all rows
+        for(let i = 0; i < rowCount; i++)
+        {
+            columns[i][columnIndex] = characters[0];
+
+            // Remove first character from characters
+            characters.splice(0, 1);
+        }
+
+        // If columnIndex is smaller than extraCells, populate the "hidden" row.
+        if(extraCells != 0 &&
+            arrayRows != rowCount &&
+            columnIndex < extraCells
+        )
+        {
+            columns[rowCount][columnIndex] = characters[0];
+
+            // Remove first character from inverted text
+            characters.splice(0, 1);
+        }
+    });
+
+    return columns;
+}
